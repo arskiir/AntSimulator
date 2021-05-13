@@ -1,6 +1,7 @@
 package gui;
 
 import app.Main;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,6 +31,7 @@ public class ControlBar extends HBox {
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTYELLOW, null, null)));
 		this.setAlignment(Pos.CENTER);
 		this.setSpacing(10);
+		this.setPadding(new Insets(10, 0, 10, 0));
 
 		this.numberOfAntsLabel = new Label("Ants:");
 		this.numberOfAntsLabel.setFont(new Font(font, 24));
