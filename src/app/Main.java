@@ -1,15 +1,21 @@
 package app;
 
+import gui.ControlBar;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
+	private ControlBar controlBar;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.controlBar = new ControlBar();
+		
 		VBox root = new VBox();
+		root.getChildren().addAll(this.controlBar);
 		
 		Scene scene = new Scene(root, 1500, 900);
 		
