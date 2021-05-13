@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
+	private boolean isActive = false;
+	
 	private ControlBar controlBar;
 
 	@Override
@@ -29,4 +31,13 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+	
 }
