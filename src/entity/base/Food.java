@@ -16,4 +16,20 @@ public class Food {
 				this.position.getY() - this.img.getFitHeight() / 2);
 	}
 
+	public ImageView getImg() {
+		return img;
+	}
+
+	public void setImg(ImageView img) {
+		this.img = img;
+	}
+
+	public Point getPosition() {
+		return position;
+	}
+
+	public void setPosition(Point position) {
+		this.position = position;
+	}
+	
 }
