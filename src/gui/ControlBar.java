@@ -24,6 +24,8 @@ public class ControlBar extends HBox {
 	private String font = "Consolas";
 
 	public ControlBar() {
+		super();
+		
 		this.setPrefHeight(80);
 		this.setPrefWidth(1500);
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTYELLOW, null, null)));
