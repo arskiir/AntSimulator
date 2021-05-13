@@ -26,20 +26,19 @@ public class ControlBar extends HBox {
 	public ControlBar() {
 		super();
 		
-		this.setPrefHeight(80);
-		this.setPrefWidth(1500);
+		this.setPrefWidth(Global.WIDTH);
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTYELLOW, null, null)));
 		this.setAlignment(Pos.CENTER);
 		this.setSpacing(10);
 
 		this.numberOfAntsLabel = new Label("Ants:");
-		this.numberOfAntsLabel.setFont(new Font(font, 36));
+		this.numberOfAntsLabel.setFont(new Font(font, 24));
 
 		this.numberOfAntsField = new TextField(numberOfAnts + "");
-		this.numberOfAntsField.setFont(new Font(font, 32));
+		this.numberOfAntsField.setFont(new Font(font, 24));
 
 		this.startRestartButton = new Button("Start");
-		this.startRestartButton.setFont(new Font(font, 32));
+		this.startRestartButton.setFont(new Font(font, 20));
 		this.startRestartButton.setPrefWidth(150);
 		this.startRestartButton.setStyle(buttonBaseStyle);
 
