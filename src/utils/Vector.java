@@ -20,11 +20,11 @@ public class Vector {
 		this.z = z;
 	}
 
-	/** Constructor to create a 2D vector with the given angle and length */
+	/** Constructor to create a 2D vector with the given angle in degree and length */
 	public Vector(double angle, double length) {
 		this.z = 0d;
-		this.x = Math.cos(angle) * length;
-		this.y = Math.sin(angle) * length;
+		this.x = Math.cos(angle * Math.PI / 180) * length;
+		this.y = Math.sin(angle * Math.PI / 180) * length;
 	}
 
 	/** Return the string notation of the Vector */
@@ -129,6 +129,11 @@ public class Vector {
 
 	public void setZ(double z) {
 		this.z = z;
+	}
+	
+	/** returns the angle in degree between x and y */
+	public double getAngle() {
+		return Math.atan(this.y / this.x) * 180 / Math.PI;
 	}
 
 }
