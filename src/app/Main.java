@@ -33,7 +33,7 @@ public class Main extends Application {
 		isActive = true;
 		controlBar.getStartRestartButton().setText("Stop");
 		controlBar.getNumberOfAntsField().setDisable(true);
-
+		SimulationArea.addAnts(numberOfAnts);
 	}
 
 	public static void stopSimultaion() {
