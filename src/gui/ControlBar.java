@@ -48,7 +48,7 @@ public class ControlBar extends HBox {
 
 		this.numberOfAntsField.setOnKeyTyped(e -> {
 			try {
-				final int typedInt = Integer.parseInt(this.numberOfAntsField.getText()); // may throw
+				final int typedInt = Integer.parseInt(this.numberOfAntsField.getText().strip()); // may throw
 				this.numberOfAnts = typedInt;
 			} catch (NumberFormatException e2) { // text field is left empty
 				// this.numberOfAnts is still the old value here
