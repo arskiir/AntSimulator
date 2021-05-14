@@ -7,11 +7,11 @@ import utils.Point;
 
 public class Food {
 
-	private ImageView img;
-	private Point position;
-	private static final int HEIGHT = 30;
+	protected ImageView img;
+	protected Point position;
+	protected static final int HEIGHT = 30;
 	
-	private static final Random random = new Random();
+	protected static final Random random = new Random();
 
 	public Food(final String imgPath, Point point) {
 		this.img = new ImageView(imgPath);
