@@ -20,6 +20,13 @@ public class Vector {
 		this.z = z;
 	}
 
+	/** Constructor to create a 2D vector with the given angle and length */
+	public Vector(double angle, double length) {
+		this.z = 0d;
+		this.x = Math.cos(angle) * length;
+		this.y = Math.sin(angle) * length;
+	}
+
 	/** Return the string notation of the Vector */
 	public String getCompleteStringNotation() {
 		return this.x + "i^+" + this.y + "j^+" + this.z + "k^";
@@ -98,6 +105,30 @@ public class Vector {
 		double resy = -((this.x * v.z) - (v.x * this.z));
 		double resz = (this.x * v.y) - (v.x * this.y);
 		return new Vector(resx, resy, resz);
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getZ() {
+		return z;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public void setZ(double z) {
+		this.z = z;
 	}
 
 }
