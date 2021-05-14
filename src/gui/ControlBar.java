@@ -46,6 +46,14 @@ public class ControlBar extends HBox {
 
 		this.getChildren().addAll(numberOfAntsLabel, numberOfAntsField, startRestartButton);
 
+		this.numberOfAntsField.setOnKeyTyped(e -> {
+			try {
+				final int typedInt = Integer.parseInt(this.numberOfAntsField.getText()); // may throw
+				this.numberOfAnts = typedInt;
+			} catch (NumberFormatException e2) { // text field is left empty
+				// this.numberOfAnts is still the old value here
+			}
+		});
 		this.startRestartButton.setOnMouseClicked(e -> {
 			if (Main.isActive()) {
 				Main.stopSimultaion();
