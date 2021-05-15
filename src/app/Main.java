@@ -33,7 +33,8 @@ public class Main extends Application {
 		isActive = true;
 		controlBar.getStartRestartButton().setText("Stop");
 		controlBar.getNumberOfAntsField().setDisable(true);
-		SimulationArea.addAnts(numberOfAnts);
+		simulationArea.addAnts(numberOfAnts);
+		SimulationArea.ants.forEach(ant -> new Thread(() -> ant.findFood()).start());
 	}
 
 	public static void stopSimultaion() {
@@ -48,6 +49,26 @@ public class Main extends Application {
 
 	public static boolean isActive() {
 		return isActive;
+	}
+
+	public static ControlBar getControlBar() {
+		return controlBar;
+	}
+
+	public static void setControlBar(ControlBar controlBar) {
+		Main.controlBar = controlBar;
+	}
+
+	public static SimulationArea getSimulationArea() {
+		return simulationArea;
+	}
+
+	public static void setSimulationArea(SimulationArea simulationArea) {
+		Main.simulationArea = simulationArea;
+	}
+
+	public static void setActive(boolean isActive) {
+		Main.isActive = isActive;
 	}
 
 }
