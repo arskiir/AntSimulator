@@ -56,7 +56,7 @@ public class ControlBar extends HBox {
 		});
 		this.startRestartButton.setOnMouseClicked(e -> {
 			if (Main.isActive()) {
-				Main.stopSimultaion();
+				Main.stopSimulation();
 				return;
 			}
 

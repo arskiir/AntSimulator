@@ -16,7 +16,7 @@ import utils.math.Vector;
 public class SimulationArea extends Pane {
 
 	private ImageView houseImage = new ImageView("house.png");
-	public static ArrayList<Ant> ants = new ArrayList<>();
+	private ArrayList<Ant> ants = new ArrayList<>();
 	private ArrayList<Food> foods = new ArrayList<>();
 	private ArrayList<String> foodImgPaths = new ArrayList<>() {
 		/**
@@ -44,7 +44,10 @@ public class SimulationArea extends Pane {
 
 	public SimulationArea() {
 		super();
-
+		setup();
+	}
+	
+	private void setup() {
 		this.setMinHeight(height);
 		this.setPrefWidth(width);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
@@ -70,8 +73,10 @@ public class SimulationArea extends Pane {
 		// food path changes depending on createdFoodCount
 		final String foodPath = this.foodImgPaths.get(this.createdFoodCount % this.foodImgPaths.size());
 		final Food food = new Food(foodPath, position);
+		final ImageView foodImage = food.getImg();
+		foodImage.relocate(food.getPosition().getX(), -food.getPosition().getY());
 		this.foods.add(food);
-		this.addImage(food.getImg());
+		this.addImage(foodImage);
 	}
 
 	public void addAnts(final int numberOfAnts) {
@@ -79,8 +84,17 @@ public class SimulationArea extends Pane {
 			final double startingAngle = random.nextDouble() * 360;
 			final Ant ant = new Ant(origin, startingAngle);
 			ants.add(ant);
-			new Thread(() -> ant.findFood()).start();
+			ant.getFindFoodThread().start();
 		}
+	}
+	
+	public void resetFoods() {
+		this.foods.clear();
+	}
+	
+	private void resetAnts() {
+		this.ants.forEach(ant -> ant.getFindFoodThread().interrupt());
+		this.ants.clear();
 	}
 
 	public void removeImage(ImageView img) {
@@ -89,6 +103,17 @@ public class SimulationArea extends Pane {
 
 	public void addImage(ImageView img) {
 		this.getChildren().add(img);
+	}
+
+	public void reset() {
+		resetFoods();
+		resetAnts();
+		this.getChildren().clear();
+		setup();
+	}
+
+	public Iterable<Ant> getAnts() {
+		return this.ants;
 	}
 
 }
