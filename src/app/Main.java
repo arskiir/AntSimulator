@@ -34,13 +34,18 @@ public class Main extends Application {
 		controlBar.getStartRestartButton().setText("Stop");
 		controlBar.getNumberOfAntsField().setDisable(true);
 		simulationArea.addAnts(numberOfAnts);
-		SimulationArea.ants.forEach(ant -> new Thread(() -> ant.findFood()).start());
+		try {
+			simulationArea.getAnts().forEach(ant -> ant.getFindFoodThread().start());
+		} catch (IllegalThreadStateException e) {
+			// TODO: handle exception somehow??
+		}
 	}
 
-	public static void stopSimultaion() {
+	public static void stopSimulation() {
 		isActive = false;
 		controlBar.getStartRestartButton().setText("Start");
 		controlBar.getNumberOfAntsField().setDisable(false);
+		simulationArea.reset();
 	}
 
 	public static void main(String[] args) {
