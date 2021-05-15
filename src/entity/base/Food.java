@@ -3,7 +3,7 @@ package entity.base;
 import java.util.Random;
 
 import javafx.scene.image.ImageView;
-import utils.Vector;
+import utils.math.Vector;
 
 public class Food {
 

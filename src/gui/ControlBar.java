@@ -50,7 +50,7 @@ public class ControlBar extends HBox {
 			try {
 				final int typedInt = Integer.parseInt(this.numberOfAntsField.getText().strip()); // may throw
 				this.numberOfAnts = typedInt;
-			} catch (NumberFormatException e2) { // text field is left empty
+			} catch (NumberFormatException e2) { // text field is left empty or cannot be parsed to integer
 				// this.numberOfAnts is still the old value here
 			}
 		});
