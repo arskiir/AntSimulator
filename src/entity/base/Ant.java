@@ -1,7 +1,5 @@
 package entity.base;
 
-import java.util.Random;
-
 import app.Main;
 import gui.Global;
 import gui.SimulationArea;
@@ -16,15 +14,18 @@ public class Ant {
 	protected Vector position;
 	protected double speed;
 	protected ImageView img;
+	
+	protected int id;
 
-	protected static final Random random = new Random();
+	protected static int antCount = 0;
 
-	public Ant(Vector home) {
+	public Ant(Vector home, double startingAngle) {
+		this.id = ++antCount;
 		this.origin = home; // 4th quadrant
-		this.position = home; // starts off from home
+		this.position = new Vector(home); // NOTE: home is passed in by reference D:
 		this.img = new ImageView("ant.png");
 		this.speed = 1d; // for normal ants
-		this.velocity = Vector.createVector2FromAngle(random.nextInt(360), this.speed);
+		this.velocity = Vector.createVector2FromAngle(startingAngle, this.speed);
 	}
 
 	public void findFood() {
@@ -47,7 +48,7 @@ public class Ant {
 		return false;
 	}
 
-	protected void update() {
+	public void update() {
 		// changes position
 		this.position.setX(this.position.getX() + this.velocity.getX());
 		this.position.setY(this.position.getY() + this.velocity.getY());
@@ -67,12 +68,9 @@ public class Ant {
 			this.velocity.reverseY();
 			this.position.setY(-SimulationArea.height);
 		}
-
-		System.out.println("Ant position: " + this.position.getCompleteStringNotation());
-		System.out.println("Ant angle: " + velocity.getAngle());
 	}
 
-	protected void rerender() {
+	public void rerender() {
 		final SimulationArea simulationArea = Main.getSimulationArea();
 		Platform.runLater(() -> {
 			simulationArea.removeImage(this.img);

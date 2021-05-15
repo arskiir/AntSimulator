@@ -20,6 +20,12 @@ public class Vector {
 		this.z = z;
 	}
 
+	public Vector(Vector v) {
+		this.x = v.x;
+		this.y = v.y;
+		this.z = v.z;
+	}
+
 	/**
 	 * Constructor to create a 2D vector with the given angle in degree and length
 	 */

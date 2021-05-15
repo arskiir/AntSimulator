@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import app.Main;
 import entity.base.Ant;
@@ -39,6 +40,8 @@ public class SimulationArea extends Pane {
 
 	private int dragCount = 0; // if this is a multiple of a number, then add the food, to slow down
 	private static final int dragMultiple = 4;
+	
+	public static final Random random = new Random();
 
 	public SimulationArea() {
 		super();
@@ -74,8 +77,10 @@ public class SimulationArea extends Pane {
 
 	public void addAnts(final int numberOfAnts) {
 		for (int antCount = 0; antCount < numberOfAnts; ++antCount) {
-			final Ant ant = new Ant(origin);
+			final double startingAngle = random.nextDouble() * 360;
+			final Ant ant = new Ant(origin, startingAngle);
 			ants.add(ant);
+			new Thread(() -> ant.findFood()).start();
 		}
 	}
 
