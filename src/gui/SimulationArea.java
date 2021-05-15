@@ -23,7 +23,6 @@ public class SimulationArea extends Pane {
 		 * 
 		 */
 		private static final long serialVersionUID = -3891700759148049065L;
-
 		{
 			add("food1.png");
 			add("food2.png");
@@ -40,7 +39,7 @@ public class SimulationArea extends Pane {
 
 	private int dragCount = 0; // if this is a multiple of a number, then add the food, to slow down
 	private static final int dragMultiple = 4;
-	
+
 	public static final Random random = new Random();
 
 	public SimulationArea() {
@@ -59,7 +58,7 @@ public class SimulationArea extends Pane {
 		this.setOnMouseDragged(e -> {
 			this.dragCount++;
 			if (this.dragCount % SimulationArea.dragMultiple == 0 && Main.isActive())
-				this.createFood(new Vector(-e.getX(), -e.getY(), 0));
+				this.createFood(new Vector(e.getX(), -e.getY(), 0));
 		});
 	}
 
