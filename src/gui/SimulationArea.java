@@ -46,7 +46,7 @@ public class SimulationArea extends Pane {
 		super();
 		setup();
 	}
-	
+
 	private void setup() {
 		this.setMinHeight(height);
 		this.setPrefWidth(width);
@@ -58,9 +58,14 @@ public class SimulationArea extends Pane {
 		this.houseImage.relocate((double) width / 2 - (double) houseImageWidth / 2,
 				(double) height / 2 - (double) houseImageWidth / 2);
 
+		// click or drag to generate food
 		this.setOnMouseDragged(e -> {
 			this.dragCount++;
 			if (this.dragCount % SimulationArea.dragMultiple == 0 && Main.isActive())
+				this.createFood(new Vector(e.getX(), -e.getY(), 0));
+		});
+		this.setOnMouseClicked(e -> {
+			if (Main.isActive())
 				this.createFood(new Vector(e.getX(), -e.getY(), 0));
 		});
 	}
@@ -87,11 +92,11 @@ public class SimulationArea extends Pane {
 			ant.getFindFoodThread().start();
 		}
 	}
-	
+
 	public void resetFoods() {
 		this.foods.clear();
 	}
-	
+
 	private void resetAnts() {
 		this.ants.forEach(ant -> ant.getFindFoodThread().interrupt());
 		this.ants.clear();
@@ -114,6 +119,14 @@ public class SimulationArea extends Pane {
 
 	public Iterable<Ant> getAnts() {
 		return this.ants;
+	}
+
+	public ArrayList<Food> getFoods() {
+		return foods;
+	}
+
+	public void setFoods(ArrayList<Food> foods) {
+		this.foods = foods;
 	}
 
 }
