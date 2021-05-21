@@ -69,9 +69,9 @@ public class Ant {
 							final SimulationArea simulationArea = Main.getSimulationArea();
 							Platform.runLater(() -> {
 								simulationArea.removeImage(this.foundFood.getImg());
+								simulationArea.getFoods().remove(this.foundFood);
 								this.foundFood = null;
 							});
-							simulationArea.getFoods().remove(this.foundFood);
 						}
 					}
 				}
