@@ -37,7 +37,7 @@ public class Main extends Application {
 		try {
 			simulationArea.getAnts().forEach(ant -> ant.getFindFoodThread().start());
 		} catch (IllegalThreadStateException e) {
-			// TODO: handle exception somehow??
+			// This doesn't affect the application so let's ignore it 🤣
 		}
 	}
 
