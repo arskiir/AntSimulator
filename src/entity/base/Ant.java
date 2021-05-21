@@ -54,10 +54,8 @@ public class Ant {
 				if (!this.hasFoundFood) {
 					this.foundFood = this.lookForFood();
 					if (this.foundFood != null) {
-						// TODO
 						this.hasFoundFood = true;
 						this.headToFood();
-						System.out.println("Found food! id: " + this.id);
 					}
 				} else {
 					if (this.isFoodReachable()) {
@@ -68,7 +66,12 @@ public class Ant {
 						if (this.hasReachedHome()) {
 							this.hasFoundFood = false;
 							this.hasReachedFood = false;
-							this.foundFood = null;
+							final SimulationArea simulationArea = Main.getSimulationArea();
+							Platform.runLater(() -> {
+								simulationArea.removeImage(this.foundFood.getImg());
+								this.foundFood = null;
+							});
+							simulationArea.getFoods().remove(this.foundFood);
 						}
 					}
 				}
@@ -117,12 +120,12 @@ public class Ant {
 		// return the first food in the array that is on sight
 		// return null if there's no food on sight
 
-		final double angleSpan = 90d;
+		final double visionSpan = 90d;
 		final double visionDepth = 100;
-		final Vector lower = Vector.createVector2FromAngle(this.velocity.getAngle() - angleSpan / 2, visionDepth);
-		final Vector upper = Vector.createVector2FromAngle(lower.getAngle() + angleSpan, visionDepth);
+		final Vector lower = Vector.createVector2FromAngle(this.velocity.getAngle() - visionSpan / 2, visionDepth);
+		final Vector upper = Vector.createVector2FromAngle(lower.getAngle() + visionSpan, visionDepth);
 
-		final CopyOnWriteArrayList<Food> foods = Main.getSimulationArea().getFoods();
+		final CopyOnWriteArrayList<Food> foods = (CopyOnWriteArrayList<Food>) Main.getSimulationArea().getFoods();
 		for (final Food food : foods) {
 			if (food.isFound()) // this food currently belongs to another ant
 				continue;
