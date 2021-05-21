@@ -25,6 +25,7 @@ public final class PoisonFood extends Food implements Poisonable {
 		simulationArea.getFoods().remove(this);
 		final ControlBar controlBar = Main.getControlBar();
 		controlBar.setPopulation(controlBar.getPopulation() - 1);
+		controlBar.setDeadCount(controlBar.getDeadCount() + 1);
 		if (ant instanceof FlashAnt)
 			controlBar.setFlashAntsCount(controlBar.getFlashAntsCount() - 1);
 		else

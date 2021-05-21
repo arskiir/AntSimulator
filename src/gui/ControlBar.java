@@ -21,6 +21,7 @@ public class ControlBar extends HBox implements Renderable {
 	private Text fireAntsCountText;
 	private Text flashAntsCountText;
 	private Text broughtHomeCandyCountText;
+	private Text deadCountText;
 
 	private double money;
 	private int foodCost;
@@ -31,6 +32,7 @@ public class ControlBar extends HBox implements Renderable {
 	private int fireAntsCount;
 	private int flashAntsCount;
 	private int broughtHomeCandyCount;
+	private int deadCount;
 
 	private Button startRestartButton;
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
@@ -44,7 +46,7 @@ public class ControlBar extends HBox implements Renderable {
 
 		this.baseFoodCost = 100;
 		this.foodCost = baseFoodCost;
-		this.baseMoney = foodCost * 100;
+		this.baseMoney = foodCost * 200;
 		this.money = baseMoney;
 		this.hasReachedMaxPopulation = false;
 
@@ -52,11 +54,12 @@ public class ControlBar extends HBox implements Renderable {
 		this.fireAntsCount = 0;
 		this.flashAntsCount = 0;
 		this.broughtHomeCandyCount = 0;
+		this.deadCount = 0;
 
 		this.setPrefWidth(Global.WIDTH);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		this.setAlignment(Pos.CENTER);
-		this.setSpacing(50);
+		this.setSpacing(40);
 		this.setPadding(new Insets(10, 0, 10, 0));
 
 		final Font textFont = new Font(font, 18);
@@ -75,6 +78,9 @@ public class ControlBar extends HBox implements Renderable {
 		this.broughtHomeCandyCountText = new Text("Candy: " + this.broughtHomeCandyCount);
 		this.broughtHomeCandyCountText.setFont(textFont);
 		this.broughtHomeCandyCountText.setFill(Color.YELLOW);
+		this.deadCountText = new Text("Dead: " + this.deadCount);
+		this.deadCountText.setFont(textFont);
+		this.deadCountText.setFill(Color.LIGHTGRAY);
 
 		this.startRestartButton = new Button("Start");
 		this.startRestartButton.setFont(new Font(font, 16));
@@ -82,7 +88,7 @@ public class ControlBar extends HBox implements Renderable {
 		this.startRestartButton.setStyle(buttonBaseStyle);
 
 		this.getChildren().addAll(moneyText, populationText, fireAntsCountText, flashAntsCountText,
-				broughtHomeCandyCountText, startRestartButton);
+				broughtHomeCandyCountText, deadCountText, startRestartButton);
 
 		this.startRestartButton.setOnMouseClicked(e -> {
 			if (Main.isActive()) {
@@ -95,6 +101,22 @@ public class ControlBar extends HBox implements Renderable {
 		this.startRestartButton.setOnMouseEntered(e -> this.startRestartButton.setStyle(
 				buttonBaseStyle + "-fx-background-color: darkorange;" + " -fx-color: white; -fx-text-fill: white;"));
 		this.startRestartButton.setOnMouseExited(e -> this.startRestartButton.setStyle(buttonBaseStyle));
+	}
+
+	public Text getDeadCountText() {
+		return deadCountText;
+	}
+
+	public void setDeadCountText(Text deadCountText) {
+		this.deadCountText = deadCountText;
+	}
+
+	public int getDeadCount() {
+		return deadCount;
+	}
+
+	public void setDeadCount(int deadCount) {
+		this.deadCount = deadCount;
 	}
 
 	public int getBaseFoodCost() {
@@ -124,10 +146,11 @@ public class ControlBar extends HBox implements Renderable {
 			this.fireAntsCountText.setText("Fire Ant: " + this.fireAntsCount);
 			this.flashAntsCountText.setText("Flash Ant: " + this.flashAntsCount);
 			this.broughtHomeCandyCountText.setText("Candy: " + this.broughtHomeCandyCount);
+			this.deadCountText.setText("Dead: " + this.deadCount);
 		});
 
 	}
-	
+
 	public Button getStartRestartButton() {
 		return startRestartButton;
 	}
@@ -247,7 +270,7 @@ public class ControlBar extends HBox implements Renderable {
 	public int getFoodCost() {
 		return foodCost;
 	}
-	
+
 	public int getBaseMoney() {
 		return baseMoney;
 	}
