@@ -87,7 +87,7 @@ public class SimulationArea extends Pane {
 
 		this.createdFoodCount++;
 		Food food;
-		if (random.nextDouble() < 1) {
+		if (random.nextDouble() < 0.01) {
 			// poison food
 			food = new PoisonFood("poop.png", position);
 		} else {
