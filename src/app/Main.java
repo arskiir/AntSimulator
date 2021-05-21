@@ -42,6 +42,11 @@ public class Main extends Application {
 	public static void stopSimulation() {
 		isActive = false;
 		controlBar.getStartRestartButton().setText("Start");
+		controlBar.setPopulation(0);
+		controlBar.setFireAntsCount(0);
+		controlBar.setFlashAntsCount(0);
+		controlBar.setBroughtHomeCandyCount(0);
+		controlBar.rerenderTexts();
 		simulationArea.reset();
 	}
 
