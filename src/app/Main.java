@@ -34,11 +34,7 @@ public class Main extends Application {
 		controlBar.getStartRestartButton().setText("Stop");
 		controlBar.getNumberOfAntsField().setDisable(true);
 		simulationArea.addAnts(numberOfAnts);
-		try {
-			simulationArea.getAnts().forEach(ant -> ant.getFindFoodThread().start());
-		} catch (IllegalThreadStateException e) {
-			// This doesn't affect the application so let's ignore it 🤣
-		}
+		simulationArea.getAnts().forEach(ant -> ant.getFindFoodThread().start());
 	}
 
 	public static void stopSimulation() {

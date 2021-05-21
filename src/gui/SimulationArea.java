@@ -88,10 +88,8 @@ public class SimulationArea extends Pane {
 
 	public void addAnts(final int numberOfAnts) {
 		for (int antCount = 0; antCount < numberOfAnts; ++antCount) {
-			final double startingAngle = random.nextDouble() * 360;
-			final Ant ant = new Ant(origin, startingAngle);
+			final Ant ant = new Ant(origin);
 			ants.add(ant);
-			ant.getFindFoodThread().start();
 		}
 	}
 
