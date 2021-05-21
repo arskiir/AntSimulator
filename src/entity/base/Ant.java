@@ -63,7 +63,7 @@ public class Ant {
 			try {
 				Thread.sleep(10);
 				this.move();
-				if (!this.hasFoundFood) {
+				if (!this.hasFoundFood && this.foundFood == null) {
 					this.foundFood = this.lookForFood();
 					if (this.foundFood != null) {
 						this.hasFoundFood = true;
@@ -78,8 +78,12 @@ public class Ant {
 						if (this.hasReachedHome()) {
 							final SimulationArea simulationArea = Main.getSimulationArea();
 							Platform.runLater(() -> {
-								simulationArea.removeImage(this.foundFood.getImg());
-								simulationArea.getFoods().remove(this.foundFood);
+								try {
+									simulationArea.removeImage(this.foundFood.getImg());
+									simulationArea.getFoods().remove(this.foundFood);
+								} catch (NullPointerException e) {
+									// this.foundFood is somehow null? Let's just ignore it
+								}
 								this.foundFood = null;
 								this.hasFoundFood = false;
 								this.hasReachedFood = false;
