@@ -33,7 +33,7 @@ public class Main extends Application {
 	public static void startSimulation() {
 		isActive = true;
 		controlBar.getStartRestartButton().setText("Stop");
-		final int startingAntCount = 3;
+		final int startingAntCount = 10;
 		for (int count = 0; count < startingAntCount; ++count)
 			simulationArea.addAnt(AntType.FIRE);
 		controlBar.rerender();
@@ -48,6 +48,7 @@ public class Main extends Application {
 		controlBar.setBroughtHomeCandyCount(0);
 		controlBar.setFoodCost(controlBar.getBaseFoodCost());
 		controlBar.setMoney(controlBar.getBasemoney());
+		controlBar.setHasReachedMaxPopulation(false);
 		controlBar.rerender();
 		simulationArea.reset();
 	}

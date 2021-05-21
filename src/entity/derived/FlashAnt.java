@@ -14,7 +14,7 @@ public final class FlashAnt extends Ant {
 		this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle(), this.speed);
 		this.visionSpan = 15; // see less than fire ant
 		this.visionDepth = 40;
-		this.moneyMultiplier = 1.05;
+		this.moneyMultiplier = 1.1;
 		this.img = new ImageView("flash-ant.png");
 		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
