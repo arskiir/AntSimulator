@@ -39,7 +39,7 @@ public class Ant {
 		this.origin = home; // 4th quadrant
 		this.position = new Vector(home); // NOTE: home is passed in by reference D:
 		this.img = new ImageView("ant.png");
-		this.img.setFitHeight(20);
+		this.img.setFitHeight(15);
 		this.img.setPreserveRatio(true);
 		this.speed = 1d; // for normal ants
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
@@ -150,9 +150,9 @@ public class Ant {
 
 		// random next velocity direction after some steps if hasn't found food
 		if (!hasFoundFood && this.steps % (random.nextInt(200) + 20) == 0) {
-//			final double span = 235d;
-//			final double angleOffset = random.nextDouble() * span - span / 2;
-//			this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
+			final double span = 180d;
+			final double angleOffset = random.nextDouble() * span - span / 2;
+			this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle() + angleOffset, this.speed);
 		}
 
 		// changes velocity direction if necessary
