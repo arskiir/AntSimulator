@@ -1,8 +1,7 @@
 package entity.base;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import app.Main;
 import gui.Global;
@@ -123,7 +122,7 @@ public class Ant {
 		final Vector lower = Vector.createVector2FromAngle(this.velocity.getAngle() - angleSpan / 2, visionDepth);
 		final Vector upper = Vector.createVector2FromAngle(lower.getAngle() + angleSpan, visionDepth);
 
-		final ArrayList<Food> foods = Main.getSimulationArea().getFoods();
+		final CopyOnWriteArrayList<Food> foods = Main.getSimulationArea().getFoods();
 		for (final Food food : foods) {
 			if (food.isFound()) // this food currently belongs to another ant
 				continue;

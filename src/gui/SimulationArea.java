@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import app.Main;
 import entity.base.Ant;
@@ -17,7 +18,7 @@ public class SimulationArea extends Pane {
 
 	private ImageView houseImage = new ImageView("house.png");
 	private ArrayList<Ant> ants = new ArrayList<>();
-	private ArrayList<Food> foods = new ArrayList<>();
+	private CopyOnWriteArrayList<Food> foods = new CopyOnWriteArrayList<>();
 	private ArrayList<String> foodImgPaths = new ArrayList<>() {
 		/**
 		 * 
@@ -121,11 +122,11 @@ public class SimulationArea extends Pane {
 		return this.ants;
 	}
 
-	public ArrayList<Food> getFoods() {
+	public CopyOnWriteArrayList<Food> getFoods() {
 		return foods;
 	}
 
-	public void setFoods(ArrayList<Food> foods) {
+	public void setFoods(CopyOnWriteArrayList<Food> foods) {
 		this.foods = foods;
 	}
 
