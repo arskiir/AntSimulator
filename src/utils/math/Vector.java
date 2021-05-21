@@ -20,6 +20,7 @@ public class Vector {
 		this.z = z;
 	}
 
+	/** Copy constructor */
 	public Vector(Vector v) {
 		this.x = v.x;
 		this.y = v.y;
@@ -151,7 +152,13 @@ public class Vector {
 
 	/** returns the angle in degree between x and y */
 	public double getAngle() {
-		return Math.atan(this.y / this.x) * 180 / Math.PI;
+		final double angle = Math.atan(this.y / this.x) * 180 / Math.PI;
+		if ((this.x < 0 && this.y > 0) || (this.x < 0 && this.y < 0)) {
+			// vector points in the 2nd or the 3rd quadrant
+			// NOTE: the returned angle of Math.atan is in the range -pi/2 through pi/2. 
+			return angle + 180;
+		}
+		return angle;
 	}
 
 }
