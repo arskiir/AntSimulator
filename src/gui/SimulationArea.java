@@ -21,9 +21,6 @@ public class SimulationArea extends Pane {
 	private ArrayList<Ant> ants = new ArrayList<>();
 	private CopyOnWriteArrayList<Food> foods = new CopyOnWriteArrayList<>();
 	private ArrayList<String> foodImgPaths = new ArrayList<>() {
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -3891700759148049065L;
 		{
 			add("food1.png");
@@ -90,6 +87,7 @@ public class SimulationArea extends Pane {
 		for (int antCount = 0; antCount < numberOfAnts; ++antCount) {
 			final Ant ant = new Ant(origin);
 			ants.add(ant);
+			ant.getFindFoodThread().start();
 		}
 	}
 

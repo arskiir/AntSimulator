@@ -34,7 +34,6 @@ public class Main extends Application {
 		controlBar.getStartRestartButton().setText("Stop");
 		controlBar.getNumberOfAntsField().setDisable(true);
 		simulationArea.addAnts(numberOfAnts);
-		simulationArea.getAnts().forEach(ant -> ant.getFindFoodThread().start());
 	}
 
 	public static void stopSimulation() {
