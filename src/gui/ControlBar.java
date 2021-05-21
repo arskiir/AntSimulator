@@ -16,10 +16,12 @@ public class ControlBar extends HBox {
 	private Text populationText;
 	private Text fireAntsCountText;
 	private Text flashAntsCountText;
+	private Text broughtHomeCandyCountText;
 
 	private int population;
 	private int fireAntsCount;
 	private int flashAntsCount;
+	private int broughtHomeCandyCount;
 
 	private Button startRestartButton;
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
@@ -33,6 +35,7 @@ public class ControlBar extends HBox {
 		this.population = 0;
 		this.fireAntsCount = 0;
 		this.flashAntsCount = 0;
+		this.broughtHomeCandyCount = 0;
 
 		this.setPrefWidth(Global.WIDTH);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
@@ -50,13 +53,16 @@ public class ControlBar extends HBox {
 		this.flashAntsCountText = new Text("Flash Ant: " + this.flashAntsCount);
 		this.getFlashAntsCountText().setFill(Color.ORANGE);
 		this.flashAntsCountText.setFont(textFont);
+		this.broughtHomeCandyCountText = new Text("Candy: " + this.broughtHomeCandyCount);
+		this.broughtHomeCandyCountText.setFont(textFont);
+		this.broughtHomeCandyCountText.setFill(Color.YELLOW);
 
 		this.startRestartButton = new Button("Start");
 		this.startRestartButton.setFont(new Font(font, 16));
 		this.startRestartButton.setPrefWidth(100);
 		this.startRestartButton.setStyle(buttonBaseStyle);
 
-		this.getChildren().addAll(populationText, fireAntsCountText, flashAntsCountText, startRestartButton);
+		this.getChildren().addAll(populationText, fireAntsCountText, flashAntsCountText, broughtHomeCandyCountText, startRestartButton);
 
 		this.startRestartButton.setOnMouseClicked(e -> {
 			if (Main.isActive()) {
@@ -75,6 +81,7 @@ public class ControlBar extends HBox {
 		this.populationText.setText("Population: " + this.population);
 		this.fireAntsCountText.setText("Fire Ant: " + this.fireAntsCount);
 		this.flashAntsCountText.setText("Flash Ant: " + this.flashAntsCount);
+		this.broughtHomeCandyCountText.setText("Candy: " + this.broughtHomeCandyCount);
 	}
 
 	public Button getStartRestartButton() {
@@ -131,6 +138,38 @@ public class ControlBar extends HBox {
 
 	public void setFlashAntsCount(int flashAntsCount) {
 		this.flashAntsCount = flashAntsCount;
+	}
+
+	public Text getBroughtHomeCandyCountText() {
+		return broughtHomeCandyCountText;
+	}
+
+	public void setBroughtHomeCandyCountText(Text broughtHomeCandyCountText) {
+		this.broughtHomeCandyCountText = broughtHomeCandyCountText;
+	}
+
+	public int getBroughtHomeCandyCount() {
+		return broughtHomeCandyCount;
+	}
+
+	public void setBroughtHomeCandyCount(int broughtHomeCandyCount) {
+		this.broughtHomeCandyCount = broughtHomeCandyCount;
+	}
+
+	public String getButtonBaseStyle() {
+		return buttonBaseStyle;
+	}
+
+	public void setButtonBaseStyle(String buttonBaseStyle) {
+		this.buttonBaseStyle = buttonBaseStyle;
+	}
+
+	public String getFont() {
+		return font;
+	}
+
+	public void setFont(String font) {
+		this.font = font;
 	}
 
 }

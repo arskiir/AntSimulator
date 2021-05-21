@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import app.Main;
+import gui.ControlBar;
 import gui.Global;
 import gui.SimulationArea;
 import javafx.application.Platform;
@@ -90,6 +91,9 @@ public class Ant {
 							});
 
 							++this.broughtHomeCount;
+							final ControlBar controlBar = Main.getControlBar();
+							controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
+							controlBar.rerenderTexts();
 							this.reproduce(simulationArea);
 						}
 					}
