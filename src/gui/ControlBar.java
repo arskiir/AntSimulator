@@ -23,8 +23,9 @@ public class ControlBar extends HBox implements Renderable {
 	private Text broughtHomeCandyCountText;
 
 	private int money;
-	private static int foodCost = 100;
-	private static final int baseMoney = foodCost * 200;// able to buy 200 pieces right off start
+	private int foodCost;
+	private int baseFoodCost;
+	private int baseMoney;
 
 	private int population;
 	private int fireAntsCount;
@@ -41,7 +42,10 @@ public class ControlBar extends HBox implements Renderable {
 	public ControlBar() {
 		super();
 
-		this.money = foodCost * 200;
+		this.baseFoodCost = 100;
+		this.foodCost = baseFoodCost;
+		this.baseMoney = foodCost * 200; // able to buy 200 pieces right off the start
+		this.money = baseMoney;
 		this.hasReachedMaxPopulation = false;
 
 		this.population = 0;
@@ -93,6 +97,14 @@ public class ControlBar extends HBox implements Renderable {
 		this.startRestartButton.setOnMouseExited(e -> this.startRestartButton.setStyle(buttonBaseStyle));
 	}
 
+	public int getBaseFoodCost() {
+		return baseFoodCost;
+	}
+
+	public void setBaseFoodCost(int baseFoodCost) {
+		this.baseFoodCost = baseFoodCost;
+	}
+
 	@Override
 	public void rerender() {
 		Platform.runLater(() -> {
@@ -115,7 +127,7 @@ public class ControlBar extends HBox implements Renderable {
 		});
 
 	}
-
+	
 	public Button getStartRestartButton() {
 		return startRestartButton;
 	}
@@ -132,7 +144,7 @@ public class ControlBar extends HBox implements Renderable {
 		this.startRestartButton = startRestartButton;
 	}
 
-	public static int getBasemoney() {
+	public int getBasemoney() {
 		return baseMoney;
 	}
 
@@ -234,6 +246,18 @@ public class ControlBar extends HBox implements Renderable {
 
 	public int getFoodCost() {
 		return foodCost;
+	}
+	
+	public int getBaseMoney() {
+		return baseMoney;
+	}
+
+	public void setBaseMoney(int baseMoney) {
+		this.baseMoney = baseMoney;
+	}
+
+	public void setFoodCost(int foodCost) {
+		this.foodCost = foodCost;
 	}
 
 	@Override
