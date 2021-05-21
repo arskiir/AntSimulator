@@ -12,6 +12,10 @@ import utils.math.Vector;
 
 public class Ant {
 
+	public enum AntType {
+		FIRE, FLASH, MAX_TYPES
+	}
+
 	protected Vector velocity;
 	protected Vector origin;
 	protected Vector position;
@@ -21,6 +25,10 @@ public class Ant {
 	protected boolean hasFoundFood;
 	protected boolean hasReachedFood;
 	protected Food foundFood;
+	protected int broughtHomeCount;
+	protected double antHeight;
+	protected double visionSpan;
+	protected double visionDepth;
 
 	protected Thread findFoodThread;
 
@@ -30,16 +38,20 @@ public class Ant {
 
 	protected static final Random random = new Random();
 
-	public Ant(Vector home, double startingAngle) {
+	public Ant(Vector home) {
 		this.id = ++antCount;
 		this.steps = 0;
+		this.broughtHomeCount = 0;
+		this.visionSpan = 90d;
+		this.visionDepth = 100d;
+		this.antHeight = 15;
 		this.hasFoundFood = false;
 		this.hasReachedFood = false;
 		this.foundFood = null;
 		this.origin = home; // 4th quadrant
 		this.position = new Vector(home); // NOTE: home is passed in by reference D:
 		this.img = new ImageView("ant.png");
-		this.img.setFitHeight(15);
+		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
 		this.speed = 1d; // for normal ants
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
@@ -64,14 +76,17 @@ public class Ant {
 						this.headToHome();
 
 						if (this.hasReachedHome()) {
-							this.hasFoundFood = false;
-							this.hasReachedFood = false;
 							final SimulationArea simulationArea = Main.getSimulationArea();
 							Platform.runLater(() -> {
 								simulationArea.removeImage(this.foundFood.getImg());
 								simulationArea.getFoods().remove(this.foundFood);
 								this.foundFood = null;
+								this.hasFoundFood = false;
+								this.hasReachedFood = false;
 							});
+
+							++this.broughtHomeCount;
+							this.reproduce(simulationArea);
 						}
 					}
 				}
@@ -81,6 +96,17 @@ public class Ant {
 				Platform.runLater(() -> simulationArea.removeImage(this.img));
 				break;
 			}
+		}
+	}
+
+	protected void reproduce(SimulationArea simulationArea) {
+		if (this.broughtHomeCount % 10 == 0) {
+			// get some food to reproduce
+			simulationArea.addAnt(AntType.FIRE);
+
+			if (Ant.random.nextDouble() < 0.3)
+				// chance to get flash ant
+				simulationArea.addAnt(AntType.FLASH);
 		}
 	}
 
@@ -120,10 +146,9 @@ public class Ant {
 		// return the first food in the array that is on sight
 		// return null if there's no food on sight
 
-		final double visionSpan = 90d;
-		final double visionDepth = 100;
-		final Vector lower = Vector.createVector2FromAngle(this.velocity.getAngle() - visionSpan / 2, visionDepth);
-		final Vector upper = Vector.createVector2FromAngle(lower.getAngle() + visionSpan, visionDepth);
+		final Vector lower = Vector.createVector2FromAngle(this.velocity.getAngle() - this.visionSpan / 2,
+				this.visionDepth);
+		final Vector upper = Vector.createVector2FromAngle(lower.getAngle() + this.visionSpan, this.visionDepth);
 
 		final CopyOnWriteArrayList<Food> foods = (CopyOnWriteArrayList<Food>) Main.getSimulationArea().getFoods();
 		for (final Food food : foods) {
@@ -145,19 +170,23 @@ public class Ant {
 		return null;
 	}
 
-	public void update() {
+	protected void updateSteps() {
 		// changes position
 		this.position.setX(this.position.getX() + this.velocity.getX());
 		this.position.setY(this.position.getY() + this.velocity.getY());
 		this.steps++;
+	}
 
+	protected void randomizeDirection() {
 		// random next velocity direction after some steps if hasn't found food
 		if (!hasFoundFood && this.steps % (random.nextInt(200) + 20) == 0) {
 			final double span = 180d;
 			final double angleOffset = random.nextDouble() * span - span / 2;
 			this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle() + angleOffset, this.speed);
 		}
+	}
 
+	protected void bounceWallIfNecessary() {
 		// changes velocity direction if necessary
 		if (this.position.getX() < 0) {
 			this.velocity.reverseX();
@@ -173,6 +202,12 @@ public class Ant {
 			this.velocity.reverseY();
 			this.position.setY(-SimulationArea.height);
 		}
+	}
+
+	public void update() {
+		this.updateSteps();
+		this.randomizeDirection();
+		this.bounceWallIfNecessary();
 	}
 
 	public void rerender() {
