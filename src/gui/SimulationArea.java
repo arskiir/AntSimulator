@@ -32,7 +32,7 @@ public class SimulationArea extends Pane {
 	};
 	private int createdFoodCount = 0;
 
-	private static final int houseImageWidth = 80;
+	private static final int houseImageWidth = 50;
 	private static final int width = Global.WIDTH;
 	public static final int height = 850;
 	private static final Vector origin = new Vector((double) width / 2, (double) -height / 2, 0); // in conventional x-y
