@@ -4,19 +4,22 @@ import app.Main;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class ControlBar extends HBox {
 
-	private Label numberOfAntsLabel;
-	private int numberOfAnts = 50;
-	private TextField numberOfAntsField;
+	private Text populationText;
+	private Text fireAntsCountText;
+	private Text flashAntsCountText;
+
+	private int population;
+	private int fireAntsCount;
+	private int flashAntsCount;
 
 	private Button startRestartButton;
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
@@ -26,69 +29,52 @@ public class ControlBar extends HBox {
 
 	public ControlBar() {
 		super();
-		
+
+		this.population = 0;
+		this.fireAntsCount = 0;
+		this.flashAntsCount = 0;
+
 		this.setPrefWidth(Global.WIDTH);
-		this.setBackground(new Background(new BackgroundFill(Color.LIGHTYELLOW, null, null)));
+		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		this.setAlignment(Pos.CENTER);
-		this.setSpacing(10);
+		this.setSpacing(50);
 		this.setPadding(new Insets(10, 0, 10, 0));
 
-		this.numberOfAntsLabel = new Label("Ants:");
-		this.numberOfAntsLabel.setFont(new Font(font, 24));
-
-		this.numberOfAntsField = new TextField(numberOfAnts + "");
-		this.numberOfAntsField.setFont(new Font(font, 24));
+		final Font textFont = new Font(font, 18);
+		this.populationText = new Text("Population: " + this.population);
+		this.populationText.setFill(Color.LIGHTBLUE);
+		this.populationText.setFont(textFont);
+		this.fireAntsCountText = new Text("Fire Ant: " + this.fireAntsCount);
+		this.fireAntsCountText.setFill(Color.ORANGERED);
+		this.fireAntsCountText.setFont(textFont);
+		this.flashAntsCountText = new Text("Flash Ant: " + this.flashAntsCount);
+		this.getFlashAntsCountText().setFill(Color.ORANGE);
+		this.flashAntsCountText.setFont(textFont);
 
 		this.startRestartButton = new Button("Start");
-		this.startRestartButton.setFont(new Font(font, 20));
-		this.startRestartButton.setPrefWidth(150);
+		this.startRestartButton.setFont(new Font(font, 16));
+		this.startRestartButton.setPrefWidth(100);
 		this.startRestartButton.setStyle(buttonBaseStyle);
 
-		this.getChildren().addAll(numberOfAntsLabel, numberOfAntsField, startRestartButton);
+		this.getChildren().addAll(populationText, fireAntsCountText, flashAntsCountText, startRestartButton);
 
-		this.numberOfAntsField.setOnKeyTyped(e -> {
-			try {
-				final int typedInt = Integer.parseInt(this.numberOfAntsField.getText().strip()); // may throw
-				this.numberOfAnts = typedInt;
-			} catch (NumberFormatException e2) { // text field is left empty or cannot be parsed to integer
-				// this.numberOfAnts is still the old value here
-			}
-		});
 		this.startRestartButton.setOnMouseClicked(e -> {
 			if (Main.isActive()) {
 				Main.stopSimulation();
 				return;
 			}
 
-			Main.startSimulation(this.numberOfAnts);
+			Main.startSimulation();
 		});
 		this.startRestartButton.setOnMouseEntered(e -> this.startRestartButton.setStyle(
 				buttonBaseStyle + "-fx-background-color: darkorange;" + " -fx-color: white; -fx-text-fill: white;"));
 		this.startRestartButton.setOnMouseExited(e -> this.startRestartButton.setStyle(buttonBaseStyle));
 	}
-
-	public Label getNumberOfAntsLabel() {
-		return numberOfAntsLabel;
-	}
-
-	public void setNumberOfAntsLabel(Label numberOfAntsLabel) {
-		this.numberOfAntsLabel = numberOfAntsLabel;
-	}
-
-	public int getNumberOfAnts() {
-		return numberOfAnts;
-	}
-
-	public void setNumberOfAnts(int numberOfAnts) {
-		this.numberOfAnts = numberOfAnts;
-	}
-
-	public TextField getNumberOfAntsField() {
-		return numberOfAntsField;
-	}
-
-	public void setNumberOfAntsField(TextField numberOfAntsField) {
-		this.numberOfAntsField = numberOfAntsField;
+	
+	public void rerenderTexts() {
+		this.populationText.setText("Population: " + this.population);
+		this.fireAntsCountText.setText("Fire Ant: " + this.fireAntsCount);
+		this.flashAntsCountText.setText("Flash Ant: " + this.flashAntsCount);
 	}
 
 	public Button getStartRestartButton() {
@@ -97,6 +83,54 @@ public class ControlBar extends HBox {
 
 	public void setStartRestartButton(Button startRestartButton) {
 		this.startRestartButton = startRestartButton;
+	}
+
+	public Text getPopulationText() {
+		return populationText;
+	}
+
+	public void setPopulationText(Text populationText) {
+		this.populationText = populationText;
+	}
+
+	public Text getFireAntsCountText() {
+		return fireAntsCountText;
+	}
+
+	public void setFireAntsCountText(Text fireAntsCountText) {
+		this.fireAntsCountText = fireAntsCountText;
+	}
+
+	public Text getFlashAntsCountText() {
+		return flashAntsCountText;
+	}
+
+	public void setFlashAntsCountText(Text flashAntsCountText) {
+		this.flashAntsCountText = flashAntsCountText;
+	}
+
+	public int getPopulation() {
+		return population;
+	}
+
+	public void setPopulation(int population) {
+		this.population = population;
+	}
+
+	public int getFireAntsCount() {
+		return fireAntsCount;
+	}
+
+	public void setFireAntsCount(int fireAntsCount) {
+		this.fireAntsCount = fireAntsCount;
+	}
+
+	public int getFlashAntsCount() {
+		return flashAntsCount;
+	}
+
+	public void setFlashAntsCount(int flashAntsCount) {
+		this.flashAntsCount = flashAntsCount;
 	}
 
 }

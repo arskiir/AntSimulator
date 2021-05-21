@@ -30,18 +30,18 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
-	public static void startSimulation(final int numberOfAnts) {
+	public static void startSimulation() {
 		isActive = true;
 		controlBar.getStartRestartButton().setText("Stop");
-		controlBar.getNumberOfAntsField().setDisable(true);
-		for (int count = 0; count < numberOfAnts; ++count)
+		final int startingAntCount = 3;
+		for (int count = 0; count < startingAntCount; ++count)
 			simulationArea.addAnt(AntType.FIRE);
+		controlBar.rerenderTexts();
 	}
 
 	public static void stopSimulation() {
 		isActive = false;
 		controlBar.getStartRestartButton().setText("Start");
-		controlBar.getNumberOfAntsField().setDisable(false);
 		simulationArea.reset();
 	}
 
