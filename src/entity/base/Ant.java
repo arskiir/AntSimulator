@@ -68,9 +68,10 @@ public class Ant implements Renderable {
 			try {
 				Thread.sleep(10);
 				this.move();
-				if (!this.hasFoundFood && this.foundFood == null) {
-					this.foundFood = this.lookForFood();
-					if (this.foundFood != null) {
+				if (!this.hasFoundFood) {
+					final Food foodOnSight = this.lookForFood();
+					if (foodOnSight != null) {
+						this.foundFood = foodOnSight;
 						this.hasFoundFood = true;
 						this.headToFood();
 					}
@@ -86,11 +87,8 @@ public class Ant implements Renderable {
 						if (this.hasReachedHome()) {
 							final SimulationArea simulationArea = Main.getSimulationArea();
 							Platform.runLater(() -> {
-								if (this.foundFood != null) {
-									simulationArea.removeImage(this.foundFood.getImg());
-									simulationArea.getFoods().remove(this.foundFood);
-								}
-								this.foundFood = null;
+								simulationArea.removeImage(this.foundFood.getImg());
+								simulationArea.getFoods().remove(this.foundFood);
 								this.hasFoundFood = false;
 								this.hasReachedFood = false;
 							});
@@ -98,7 +96,8 @@ public class Ant implements Renderable {
 							++this.broughtHomeCount;
 							final ControlBar controlBar = Main.getControlBar();
 							controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
-							controlBar.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * this.moneyMultiplier);
+							controlBar
+									.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * this.moneyMultiplier);
 							controlBar.rerender();
 							this.reproduce(simulationArea, controlBar);
 						}
