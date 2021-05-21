@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.management.RuntimeErrorException;
-
 import app.Main;
 import entity.base.Ant;
 import entity.base.Ant.AntType;
@@ -88,15 +86,19 @@ public class SimulationArea extends Pane {
 	}
 
 	public void addAnt(final AntType type) {
+		final ControlBar controlBar = Main.getControlBar();
+		
 		Ant ant = null;
 		if (type == AntType.FIRE) {
 			ant = new Ant(origin);
-		} else if (type == AntType.FLASH) {
+			controlBar.setFireAntsCount(controlBar.getFireAntsCount() + 1);
+		} else {
 			ant = new FlashAnt(origin);
+			controlBar.setFlashAntsCount(controlBar.getFlashAntsCount() + 1);
 		}
-
-		if (ant == null)
-			throw new RuntimeErrorException(null, "Cannot determine the type of ant being created");
+		
+		controlBar.setPopulation(controlBar.getPopulation() + 1);
+		controlBar.rerenderTexts();
 
 		ants.add(ant);
 		ant.getFindFoodThread().start();
