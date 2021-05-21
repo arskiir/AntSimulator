@@ -9,6 +9,7 @@ import app.Main;
 import entity.base.Ant;
 import entity.base.Ant.AntType;
 import entity.derived.FlashAnt;
+import entity.derived.PoisonFood;
 import entity.base.Food;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -70,7 +71,7 @@ public class SimulationArea extends Pane {
 				controlBar.rerender();
 			}
 		});
-		this.setOnMouseClicked(e -> {
+		this.setOnMousePressed(e -> {
 			ControlBar controlBar = Main.getControlBar();
 			if (Main.isActive() && controlBar.getMoney() >= controlBar.getFoodCost()) {
 				this.createFood(new Vector(e.getX(), -e.getY(), 0));
@@ -85,9 +86,17 @@ public class SimulationArea extends Pane {
 		// also show it in the area
 
 		this.createdFoodCount++;
-		// food path changes depending on createdFoodCount
-		final String foodPath = this.foodImgPaths.get(this.createdFoodCount % this.foodImgPaths.size());
-		final Food food = new Food(foodPath, position);
+		Food food;
+		if (random.nextDouble() < 1) {
+			// poison food
+			food = new PoisonFood("poop.png", position);
+		} else {
+			// normal food
+			// food path changes depending on createdFoodCount
+			final String foodPath = this.foodImgPaths.get(this.createdFoodCount % this.foodImgPaths.size());
+			food = new Food(foodPath, position);
+		}
+
 		final ImageView foodImage = food.getImg();
 		foodImage.relocate(food.getPosition().getX(), -food.getPosition().getY());
 		this.foods.add(food);
