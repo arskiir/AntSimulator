@@ -14,7 +14,7 @@ public class Food implements Renderable {
 	protected Vector position;
 	protected boolean isFound;
 
-	protected static final int HEIGHT = 30;
+	protected static final int HEIGHT = 25;
 
 	protected static final Random random = new Random();
 
