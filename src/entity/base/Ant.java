@@ -79,11 +79,9 @@ public class Ant {
 						if (this.hasReachedHome()) {
 							final SimulationArea simulationArea = Main.getSimulationArea();
 							Platform.runLater(() -> {
-								try {
+								if (this.foundFood != null) {
 									simulationArea.removeImage(this.foundFood.getImg());
 									simulationArea.getFoods().remove(this.foundFood);
-								} catch (NullPointerException e) {
-									// this.foundFood is somehow null? Let's just ignore it
 								}
 								this.foundFood = null;
 								this.hasFoundFood = false;
