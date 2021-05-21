@@ -27,9 +27,11 @@ public class Ant implements Renderable {
 	protected boolean hasReachedFood;
 	protected Food foundFood;
 	protected int broughtHomeCount;
+	protected int multipleReproduce;
 	protected double antHeight;
 	protected double visionSpan;
 	protected double visionDepth;
+	protected double moneyMultiplier; // after bringing food home, add the value of food cost * this field to money
 
 	protected Thread findFoodThread;
 
@@ -43,9 +45,11 @@ public class Ant implements Renderable {
 		this.id = ++antCount;
 		this.steps = 0;
 		this.broughtHomeCount = 0;
+		this.multipleReproduce = 10;
 		this.visionSpan = 90d;
 		this.visionDepth = 100d;
 		this.antHeight = 15;
+		this.moneyMultiplier = 1.2;
 		this.hasFoundFood = false;
 		this.hasReachedFood = false;
 		this.foundFood = null;
@@ -94,7 +98,7 @@ public class Ant implements Renderable {
 							++this.broughtHomeCount;
 							final ControlBar controlBar = Main.getControlBar();
 							controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
-							controlBar.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * 3);
+							controlBar.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * this.moneyMultiplier);
 							controlBar.rerender();
 							this.reproduce(simulationArea, controlBar);
 						}
@@ -115,9 +119,10 @@ public class Ant implements Renderable {
 			return;
 		}
 
-		if (this.broughtHomeCount % 10 == 0) {
+		if (this.broughtHomeCount % this.multipleReproduce == 0) {
 			// get some food to reproduce
 			simulationArea.addAnt(AntType.FIRE);
+			this.multipleReproduce += 10; // require more food next time, so that it is harder to reproduce
 
 			if (Ant.random.nextDouble() < 0.3)
 				// chance to get flash ant

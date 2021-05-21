@@ -1,6 +1,7 @@
 package entity.derived;
 
 import entity.base.Ant;
+import gui.ControlBar;
 import gui.SimulationArea;
 import javafx.scene.image.ImageView;
 import utils.math.Vector;
@@ -13,6 +14,7 @@ public final class FlashAnt extends Ant {
 		this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle(), this.speed);
 		this.visionSpan = 15; // see less than fire ant
 		this.visionDepth = 40;
+		this.moneyMultiplier = 1.05;
 		this.img = new ImageView("flash-ant.png");
 		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
@@ -24,7 +26,7 @@ public final class FlashAnt extends Ant {
 	}
 	
 	@Override
-	protected void reproduce(SimulationArea simulationArea) {
+	protected void reproduce(SimulationArea simulationArea, ControlBar controlBar) {
 		// flash ant cannot reproduce
 	}
 

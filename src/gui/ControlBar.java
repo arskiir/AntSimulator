@@ -22,7 +22,7 @@ public class ControlBar extends HBox implements Renderable {
 	private Text flashAntsCountText;
 	private Text broughtHomeCandyCountText;
 
-	private int money;
+	private double money;
 	private int foodCost;
 	private int baseFoodCost;
 	private int baseMoney;
@@ -44,7 +44,7 @@ public class ControlBar extends HBox implements Renderable {
 
 		this.baseFoodCost = 100;
 		this.foodCost = baseFoodCost;
-		this.baseMoney = foodCost * 200; // able to buy 200 pieces right off the start
+		this.baseMoney = foodCost * 100;
 		this.money = baseMoney;
 		this.hasReachedMaxPopulation = false;
 
@@ -208,12 +208,12 @@ public class ControlBar extends HBox implements Renderable {
 		this.moneyText = moneyText;
 	}
 
-	public int getMoney() {
+	public double getMoney() {
 		return money;
 	}
 
-	public void setMoney(int money) {
-		this.money = money;
+	public void setMoney(double d) {
+		this.money = d;
 	}
 
 	public void setBroughtHomeCandyCountText(Text broughtHomeCandyCountText) {

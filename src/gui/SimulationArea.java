@@ -107,7 +107,8 @@ public class SimulationArea extends Pane {
 		}
 
 		final int updatedPopulation = controlBar.getPopulation() + 1;
-		if (updatedPopulation >= 150) // no longer add ants after this threshold
+		final int maxPopulation = 100;
+		if (updatedPopulation >= maxPopulation) // no longer add ants after this threshold
 			controlBar.setHasReachedMaxPopulation(true);
 		controlBar.setPopulation(updatedPopulation);
 		controlBar.rerender();
