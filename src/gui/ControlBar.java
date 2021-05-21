@@ -63,24 +63,26 @@ public class ControlBar extends HBox implements Renderable {
 		this.setPadding(new Insets(10, 0, 10, 0));
 
 		final Font textFont = new Font(font, 18);
-		this.moneyText = new Text("Money: " + this.money);
+		this.moneyText = new Text();
 		this.moneyText.setFill(Color.LIGHTPINK);
 		this.moneyText.setFont(textFont);
-		this.populationText = new Text("Population: " + this.population);
+		this.populationText = new Text();
 		this.populationText.setFill(Color.LIGHTBLUE);
 		this.populationText.setFont(textFont);
-		this.fireAntsCountText = new Text("Fire Ant: " + this.fireAntsCount);
+		this.fireAntsCountText = new Text();
 		this.fireAntsCountText.setFill(Color.ORANGERED);
 		this.fireAntsCountText.setFont(textFont);
-		this.flashAntsCountText = new Text("Flash Ant: " + this.flashAntsCount);
+		this.flashAntsCountText = new Text();
 		this.flashAntsCountText.setFill(Color.ORANGE);
 		this.flashAntsCountText.setFont(textFont);
-		this.broughtHomeCandyCountText = new Text("Candy: " + this.broughtHomeCandyCount);
+		this.broughtHomeCandyCountText = new Text();
 		this.broughtHomeCandyCountText.setFont(textFont);
 		this.broughtHomeCandyCountText.setFill(Color.YELLOW);
-		this.deadCountText = new Text("Dead: " + this.deadCount);
+		this.deadCountText = new Text();
 		this.deadCountText.setFont(textFont);
 		this.deadCountText.setFill(Color.LIGHTGRAY);
+		
+		this.rerender();
 
 		this.startRestartButton = new Button("Start");
 		this.startRestartButton.setFont(new Font(font, 16));
@@ -134,7 +136,7 @@ public class ControlBar extends HBox implements Renderable {
 				this.moneyText.setText("Money: WHO CARES");
 				foodCost = 0;
 			} else {
-				this.moneyText.setText("Money: " + this.money);
+				this.moneyText.setText("Money: " + (int) this.money);
 			}
 
 			if (hasReachedMaxPopulation) {
