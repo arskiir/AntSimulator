@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.management.RuntimeErrorException;
+
 import app.Main;
 import entity.base.Ant;
+import entity.base.Ant.AntType;
+import entity.derived.FlashAnt;
 import entity.base.Food;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -83,12 +87,19 @@ public class SimulationArea extends Pane {
 		this.addImage(foodImage);
 	}
 
-	public void addAnts(final int numberOfAnts) {
-		for (int antCount = 0; antCount < numberOfAnts; ++antCount) {
-			final Ant ant = new Ant(origin);
-			ants.add(ant);
-			ant.getFindFoodThread().start();
+	public void addAnt(final AntType type) {
+		Ant ant = null;
+		if (type == AntType.FIRE) {
+			ant = new Ant(origin);
+		} else if (type == AntType.FLASH) {
+			ant = new FlashAnt(origin);
 		}
+
+		if (ant == null)
+			throw new RuntimeErrorException(null, "Cannot determine the type of ant being created");
+
+		ants.add(ant);
+		ant.getFindFoodThread().start();
 	}
 
 	public void resetFoods() {
