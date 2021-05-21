@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -122,12 +123,12 @@ public class SimulationArea extends Pane {
 		return this.ants;
 	}
 
-	public CopyOnWriteArrayList<Food> getFoods() {
+	public List<Food> getFoods() {
 		return foods;
 	}
 
-	public void setFoods(CopyOnWriteArrayList<Food> foods) {
-		this.foods = foods;
+	public void setFoods(List<Food> foods) {
+		this.foods = (CopyOnWriteArrayList<Food>) foods;
 	}
 
 }
