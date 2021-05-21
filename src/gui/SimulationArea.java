@@ -62,12 +62,21 @@ public class SimulationArea extends Pane {
 		// click or drag to generate food
 		this.setOnMouseDragged(e -> {
 			this.dragCount++;
-			if (this.dragCount % SimulationArea.dragMultiple == 0 && Main.isActive())
+			ControlBar controlBar = Main.getControlBar();
+			if (this.dragCount % SimulationArea.dragMultiple == 0 && Main.isActive()
+					&& controlBar.getMoney() >= controlBar.getFoodCost()) {
 				this.createFood(new Vector(e.getX(), -e.getY(), 0));
+				controlBar.setMoney(controlBar.getMoney() - controlBar.getFoodCost());
+				controlBar.rerender();
+			}
 		});
 		this.setOnMouseClicked(e -> {
-			if (Main.isActive())
+			ControlBar controlBar = Main.getControlBar();
+			if (Main.isActive() && controlBar.getMoney() >= controlBar.getFoodCost()) {
 				this.createFood(new Vector(e.getX(), -e.getY(), 0));
+				controlBar.setMoney(controlBar.getMoney() - controlBar.getFoodCost());
+				controlBar.rerender();
+			}
 		});
 	}
 
@@ -87,7 +96,7 @@ public class SimulationArea extends Pane {
 
 	public void addAnt(final AntType type) {
 		final ControlBar controlBar = Main.getControlBar();
-		
+
 		Ant ant = null;
 		if (type == AntType.FIRE) {
 			ant = new Ant(origin);
@@ -96,9 +105,12 @@ public class SimulationArea extends Pane {
 			ant = new FlashAnt(origin);
 			controlBar.setFlashAntsCount(controlBar.getFlashAntsCount() + 1);
 		}
-		
-		controlBar.setPopulation(controlBar.getPopulation() + 1);
-		controlBar.rerenderTexts();
+
+		final int updatedPopulation = controlBar.getPopulation() + 1;
+		if (updatedPopulation >= 150) // no longer add ants after this threshold
+			controlBar.setHasReachedMaxPopulation(true);
+		controlBar.setPopulation(updatedPopulation);
+		controlBar.rerender();
 
 		ants.add(ant);
 		ant.getFindFoodThread().start();

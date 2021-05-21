@@ -94,8 +94,9 @@ public class Ant implements Renderable {
 							++this.broughtHomeCount;
 							final ControlBar controlBar = Main.getControlBar();
 							controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
-							controlBar.rerenderTexts();
-							this.reproduce(simulationArea);
+							controlBar.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * 3);
+							controlBar.rerender();
+							this.reproduce(simulationArea, controlBar);
 						}
 					}
 				}
@@ -108,7 +109,12 @@ public class Ant implements Renderable {
 		}
 	}
 
-	protected void reproduce(SimulationArea simulationArea) {
+	protected void reproduce(SimulationArea simulationArea, ControlBar controlBar) {
+		if (controlBar.isHasReachedMaxPopulation()) {
+			// more than this is no longer safe
+			return;
+		}
+
 		if (this.broughtHomeCount % 10 == 0) {
 			// get some food to reproduce
 			simulationArea.addAnt(AntType.FIRE);
