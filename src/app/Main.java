@@ -1,5 +1,6 @@
 package app;
 
+import entity.base.Ant.AntType;
 import gui.ControlBar;
 import gui.SimulationArea;
 import javafx.application.Application;
@@ -33,7 +34,8 @@ public class Main extends Application {
 		isActive = true;
 		controlBar.getStartRestartButton().setText("Stop");
 		controlBar.getNumberOfAntsField().setDisable(true);
-		simulationArea.addAnts(numberOfAnts);
+		for (int count = 0; count < numberOfAnts; ++count)
+			simulationArea.addAnt(AntType.FIRE);
 	}
 
 	public static void stopSimulation() {
