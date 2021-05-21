@@ -8,7 +8,7 @@ import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import utils.math.Vector;
 
-public class Food {
+public class Food implements Renderable {
 
 	protected ImageView img;
 	protected Vector position;
@@ -30,6 +30,7 @@ public class Food {
 		this.img.setRotate(random.nextDouble() * 360);
 	}
 	
+	@Override
 	public void rerender() {
 		final SimulationArea simulationArea = Main.getSimulationArea();
 		Platform.runLater(() -> {

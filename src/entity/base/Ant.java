@@ -11,7 +11,7 @@ import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import utils.math.Vector;
 
-public class Ant {
+public class Ant implements Renderable {
 
 	public enum AntType {
 		FIRE, FLASH, MAX_TYPES
@@ -75,6 +75,9 @@ public class Ant {
 						this.hasReachedFood = true;
 						this.foundFood.setPosition(this.position);
 						this.headToHome();
+
+						if (this.foundFood instanceof Poisonable)
+							((Poisonable) this.foundFood).poison(this);
 
 						if (this.hasReachedHome()) {
 							final SimulationArea simulationArea = Main.getSimulationArea();
@@ -160,6 +163,7 @@ public class Ant {
 		for (final Food food : foods) {
 			if (food.isFound()) // this food currently belongs to another ant
 				continue;
+
 			final Vector foodPos = food.getPosition();
 			final Vector antToFood = new Vector(foodPos.getX() - this.position.getX(),
 					foodPos.getY() - this.position.getY(), 0d);
@@ -216,6 +220,7 @@ public class Ant {
 		this.bounceWallIfNecessary();
 	}
 
+	@Override
 	public void rerender() {
 		final SimulationArea simulationArea = Main.getSimulationArea();
 		Platform.runLater(() -> {
@@ -235,6 +240,16 @@ public class Ant {
 
 	public Thread getFindFoodThread() {
 		return findFoodThread;
+	}
+
+	@Override
+	public ImageView getImg() {
+		return this.img;
+	}
+
+	@Override
+	public void setImg(ImageView img) {
+		this.img = img;
 	}
 
 }
