@@ -1,6 +1,6 @@
 package entity.base;
 
-import gui.NoImageException;
+import exception.NoImageException;
 import javafx.scene.image.ImageView;
 
 /**

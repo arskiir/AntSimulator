@@ -1,4 +1,4 @@
-package gui;
+package exception;
 
 /**
  * The Class NoImageException. Used to throw when a method relating to

@@ -3,6 +3,7 @@ package gui;
 import app.Main;
 import entity.base.Renderable;
 import entity.base.Restartable;
+import exception.NoImageException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

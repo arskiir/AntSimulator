@@ -22,7 +22,11 @@ public class Ant implements Renderable, Restartable {
 	 * This enumerator tells the specific kind of the ant being created.
 	 */
 	public enum AntType {
-		FIRE, FLASH
+
+		/** Indicates a fire ant. */
+		FIRE,
+		/** Indicates a flash ant. */
+		FLASH
 	}
 
 	/** The vector representation of the ant's velocity. */
@@ -81,7 +85,7 @@ public class Ant implements Renderable, Restartable {
 
 	/**
 	 * After the ant bringing candy home, the player gets the amount of money of
-	 * moneyMultiplier * the cost of a piece of candy
+	 * moneyMultiplier * the cost of a piece of candy.
 	 */
 	protected double moneyMultiplier;
 
@@ -208,6 +212,8 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	/**
+	 * Checks for reached home.
+	 *
 	 * @return true, if the ant's position is within 2 pixel range from home, else
 	 *         false.
 	 */
@@ -237,6 +243,8 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	/**
+	 * Checks if is candy reachable.
+	 *
 	 * @return true, if the found candy is reachable, i.e. within 5 pixel range,
 	 *         else false.
 	 */
@@ -400,7 +408,7 @@ public class Ant implements Renderable, Restartable {
 	/**
 	 * Sets the ant's image.
 	 *
-	 * @param the image for the ant
+	 * @param img the new image
 	 */
 	@Override
 	public void setImg(ImageView img) {
