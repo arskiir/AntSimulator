@@ -158,7 +158,7 @@ public class Vector {
 	/**
 	 *  Computes and return the dot product between two vector.
 	 *
-	 * @param v the v
+	 * @param v the vector to be dotted with
 	 * @return the double
 	 */
 	public double dotProduct(Vector v) {
@@ -181,7 +181,7 @@ public class Vector {
 	/**
 	 *  Computes and returns the cross product of the two vector.
 	 *
-	 * @param v the vector to be computed with
+	 * @param v the vector to be crossed with
 	 * @return the vector from the cross product
 	 */
 	public Vector crossProduct(Vector v) {
