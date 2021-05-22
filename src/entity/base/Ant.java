@@ -101,7 +101,7 @@ public class Ant implements Renderable, Restartable {
 	 * Instantiates a new ant. Sets default states of the ant.
 	 */
 	public Ant() {
-		this.outroPlayer = Sound.getMediaPlayer("res/oof.wav", .5);
+		this.outroPlayer = Sound.getMediaPlayer("oof.wav", .5);
 		this.steps = 0;
 		this.broughtHomeCount = 0;
 		this.multipleReproduce = 10;
@@ -113,7 +113,7 @@ public class Ant implements Renderable, Restartable {
 		this.hasReachedCandy = false;
 		this.foundCandy = null;
 		this.position = new Vector(SimulationArea.origin);
-		this.img = new ImageView("ant.png");
+		this.img = new ImageView(ClassLoader.getSystemResource("ant.png").toExternalForm());
 		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
 		this.speed = 1d; // for normal ants
@@ -368,7 +368,8 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	/**
-	 * Updates the ant's position and re-render, and if it has found a candy, re-render the candy as well.
+	 * Updates the ant's position and re-render, and if it has found a candy,
+	 * re-render the candy as well.
 	 */
 	protected void move() {
 		update();

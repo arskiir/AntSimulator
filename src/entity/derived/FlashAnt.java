@@ -8,7 +8,8 @@ import utils.Sound;
 import utils.Vector;
 
 /**
- * The Class FlashAnt. A special type of ant that moves faster but gives less money.
+ * The Class FlashAnt. A special type of ant that moves faster but gives less
+ * money.
  */
 public final class FlashAnt extends Ant {
 
@@ -22,14 +23,14 @@ public final class FlashAnt extends Ant {
 		this.visionSpan = 15; // see less than fire ant
 		this.visionDepth = 40;
 		this.moneyMultiplier = 1.2;
-		this.img = new ImageView("flash-ant.png");
+		this.img = new ImageView(ClassLoader.getSystemResource("flash-ant.png").toExternalForm());
 		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
-		
-		this.introPlayer = Sound.getMediaPlayer("res/dejavu.wav", .5);
-		this.outroPlayer = Sound.getMediaPlayer("res/oof_loud.mp3", .05);
+
+		this.introPlayer = Sound.getMediaPlayer("dejavu.wav", .5);
+		this.outroPlayer = Sound.getMediaPlayer("oof_loud.mp3", .05);
 	}
-	
+
 	/**
 	 * Plays introduction sound.
 	 */
@@ -37,7 +38,7 @@ public final class FlashAnt extends Ant {
 	public void playIntroSound() {
 		introPlayer.play();
 	}
-	
+
 	/**
 	 * Plays dying sound.
 	 */
@@ -53,12 +54,12 @@ public final class FlashAnt extends Ant {
 	protected void randomizeDirection() {
 		// flash ant moves straight
 	}
-	
+
 	/**
 	 * Does nothing since flash ants cannot reproduce.
 	 *
 	 * @param simulationArea the simulation area
-	 * @param controlBar the control bar
+	 * @param controlBar     the control bar
 	 */
 	@Override
 	protected void reproduce(SimulationArea simulationArea, ControlBar controlBar) {

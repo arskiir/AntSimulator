@@ -7,10 +7,10 @@ public class Vector {
 
 	/** The x component. */
 	double x;
-	
+
 	/** The y component. */
 	double y;
-	
+
 	/** The z component. */
 	double z;
 
@@ -22,7 +22,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Constructor to create a vector with the given values of i,j and k.
+	 * Constructor to create a vector with the given values of i,j and k.
 	 *
 	 * @param x the x component
 	 * @param y the y component
@@ -35,7 +35,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Copy constructor.
+	 * Copy constructor.
 	 *
 	 * @param v the vector to be copied
 	 */
@@ -48,7 +48,7 @@ public class Vector {
 	/**
 	 * Constructor to create a 2D vector with the given angle in degree and length.
 	 *
-	 * @param angle the angle in degree
+	 * @param angle  the angle in degree
 	 * @param length the length of the vector
 	 * @return the vector
 	 */
@@ -78,7 +78,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Return the string notation of the Vector.
+	 * Return the string notation of the Vector.
 	 *
 	 * @return the complete string notation
 	 */
@@ -124,7 +124,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Gives the length of the vector.
+	 * Gives the length of the vector.
 	 *
 	 * @return the length of the vector
 	 */
@@ -133,7 +133,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Check if two vectors are parallel or not.
+	 * Check if two vectors are parallel or not.
 	 *
 	 * @param v the vector to be compared
 	 * @return true, if is parallel
@@ -146,7 +146,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Returns the unit vector in the direction of the Calling vector object.
+	 * Returns the unit vector in the direction of the Calling vector object.
 	 *
 	 * @return the unit vector
 	 */
@@ -156,7 +156,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Computes and return the dot product between two vector.
+	 * Computes and return the dot product between two vector.
 	 *
 	 * @param v the vector to be dotted with
 	 * @return the double
@@ -166,7 +166,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Compute and returns the angle between two vectors in radians.
+	 * Compute and returns the angle between two vectors in radians.
 	 *
 	 * @param v the vector to be compared with
 	 * @return the angle between two vectors in radians
@@ -179,7 +179,7 @@ public class Vector {
 	}
 
 	/**
-	 *  Computes and returns the cross product of the two vector.
+	 * Computes and returns the cross product of the two vector.
 	 *
 	 * @param v the vector to be crossed with
 	 * @return the vector from the cross product
@@ -246,7 +246,7 @@ public class Vector {
 	}
 
 	/**
-	 *  returns the angle in degree between x and y.
+	 * returns the angle in degree between x and y.
 	 *
 	 * @return the angle in degree
 	 */
@@ -254,7 +254,7 @@ public class Vector {
 		final double angle = Math.atan(this.y / this.x) * 180 / Math.PI;
 		if ((this.x < 0 && this.y > 0) || (this.x < 0 && this.y < 0)) {
 			// vector points in the 2nd or the 3rd quadrant
-			// NOTE: the returned angle of Math.atan is in the range -pi/2 through pi/2. 
+			// NOTE: the returned angle of Math.atan is in the range -pi/2 through pi/2.
 			return angle + 180;
 		}
 		return angle;

@@ -35,7 +35,7 @@ public class Candy implements Renderable {
 	 * @param position The vector position of the candy.
 	 */
 	public Candy(final String imgPath, Vector position) {
-		this.img = new ImageView(imgPath);
+		this.img = new ImageView(ClassLoader.getSystemResource(imgPath).toExternalForm());
 		this.position = position;
 		this.isFound = false;
 		this.img.setFitHeight(HEIGHT);
@@ -48,7 +48,7 @@ public class Candy implements Renderable {
 	}
 
 	/**
-	 * Renders the image on the pane to a new postion.
+	 * Renders the image on the pane to a new position.
 	 */
 	@Override
 	public void rerender() {

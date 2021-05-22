@@ -25,13 +25,13 @@ public class SimulationArea extends Pane {
 
 	/** The container for all living ants. */
 	private ArrayList<Ant> ants = new ArrayList<>();
-	
+
 	/** The container for all candies. */
 	private CopyOnWriteArrayList<Candy> candies = new CopyOnWriteArrayList<>();
-	
+
 	/** The house image. */
 	private ImageView houseImage = new ImageView("house.png");
-	
+
 	/** The paths for candy images. */
 	private ArrayList<String> candyImgPaths = new ArrayList<>() {
 		private static final long serialVersionUID = -3891700759148049065L;
@@ -41,28 +41,33 @@ public class SimulationArea extends Pane {
 			add("candy3.png");
 		}
 	};
-	
+
 	/** The created candy count. */
 	private int createdCandyCount = 0;
 
 	/** The maximum number of population. */
 	public static final int maxPopulation = 100;
-	
-	/** Tells if the current population size has reached the maxPopulation or not. */
+
+	/**
+	 * Tells if the current population size has reached the maxPopulation or not.
+	 */
 	private boolean hasReachedMaxPopulation = false;
 
-	/** The width of the house image. Note: the height is the same for this specific design */
+	/**
+	 * The width of the house image. Note: the height is the same for this specific
+	 * design
+	 */
 	private static final int houseImageWidth = 50;
-	
+
 	/** The height of the area, i.e. the pane */
 	public static final int height = 800;
-	
+
 	/** The vector to the center of the area. */
 	public static final Vector origin = new Vector((double) Global.WIDTH / 2, (double) -height / 2, 0);
 
 	/** Gets incremented on MouseDragged event */
 	private int dragCount = 0;
-	
+
 	/** Helps slow down the generation rate of candies. */
 	private static final int dragMultiple = 4;
 
@@ -182,7 +187,8 @@ public class SimulationArea extends Pane {
 		}
 
 		final int updatedPopulation = controlBar.getPopulation() + 1;
-		if (updatedPopulation >= maxPopulation && !this.hasReachedMaxPopulation) { // no longer add ants after this threshold
+		if (updatedPopulation >= maxPopulation && !this.hasReachedMaxPopulation) { // no longer add ants after this
+																					// threshold
 			this.hasReachedMaxPopulation = true;
 			controlBar.playOutroSound();
 		}

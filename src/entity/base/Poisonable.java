@@ -4,7 +4,7 @@ package entity.base;
  * The Interface Poisonable.
  */
 public interface Poisonable {
-	
+
 	/**
 	 * Poisons the ant that grabs this poisonous candy.
 	 *

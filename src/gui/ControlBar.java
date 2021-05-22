@@ -18,73 +18,83 @@ import javafx.scene.text.Text;
 import utils.Sound;
 
 /**
- * The Class ControlBar. The upper user interface part which controls the game active state and displays the game status.
+ * The Class ControlBar. The upper user interface part which controls the game
+ * active state and displays the game status.
  */
 public class ControlBar extends HBox implements Renderable, Restartable {
 
 	/** The money text. */
 	private Text moneyText;
-	
+
 	/** The population text. */
 	private Text populationText;
-	
+
 	/** The fire ants count text. */
 	private Text fireAntsCountText;
-	
+
 	/** The flash ants count text. */
 	private Text flashAntsCountText;
-	
+
 	/** The brought home candy count text. */
 	private Text broughtHomeCandyCountText;
-	
+
 	/** The dead count text. */
 	private Text deadCountText;
 
 	/** The money the player has. */
 	private double money;
-	
-	/** Tells if the player has reached the amount of money that makes the candy costs nothing. */
+
+	/**
+	 * Tells if the player has reached the amount of money that makes the candy
+	 * costs nothing.
+	 */
 	private boolean hasReachedMaxMoney;
-	
+
 	/** The candy cost. */
 	private int candyCost;
-	
+
 	/** The base candy cost. */
 	private int baseCandyCost;
-	
+
 	/** The base money. */
 	private int baseMoney;
 
 	/** The population count. */
 	private int population;
-	
+
 	/** The fire ants count. */
 	private int fireAntsCount;
-	
+
 	/** The flash ants count. */
 	private int flashAntsCount;
-	
+
 	/** The brought home candy count. */
 	private int broughtHomeCandyCount;
-	
+
 	/** The dead count. */
 	private int deadCount;
 
 	/** The start or stop button. */
 	private Button startStopButton;
-	
+
 	/** The button base style. */
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
 			+ "-fx-border-width: 3px; -fx-border-color: chocolate; -fx-background-radius: 8px;";
 
 	/** The media player that plays when the simulation starts. */
-	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/intro.wav", 0.2);
-	
-	/** The media player that plays when the population size first reaches a certain number. */
-	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("res/megalovania_intro.mp3", .2);
-	
-	/** The media player that plays when the amount of money first reaches a certain amout. */
-	private static final MediaPlayer maxMoneyPlayer = Sound.getMediaPlayer("res/money.wav", .2);
+	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("intro.wav", 0.2);
+
+	/**
+	 * The media player that plays when the population size first reaches a certain
+	 * number.
+	 */
+	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("megalovania_intro.mp3", .2);
+
+	/**
+	 * The media player that plays when the amount of money first reaches a certain
+	 * amount.
+	 */
+	private static final MediaPlayer maxMoneyPlayer = Sound.getMediaPlayer("money.wav", .2);
 
 	/**
 	 * Instantiates a new control bar.
@@ -101,8 +111,8 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.setupTexts(textFont);
 		this.setupButton(fontFamily);
 
-		this.getChildren().addAll(moneyText, populationText, fireAntsCountText, flashAntsCountText,
-				broughtHomeCandyCountText, deadCountText, startStopButton);
+		this.getChildren().addAll(moneyText, populationText, fireAntsCountText, flashAntsCountText, deadCountText,
+				broughtHomeCandyCountText, startStopButton);
 		this.rerender();
 	}
 
@@ -230,13 +240,13 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 			if (this.hasReachedMaxPopulation()) {
 				this.populationText.setText("Population: " + this.population + " (max)");
 			} else {
-				this.populationText.setText("Population: " + this.population);
+				this.populationText.setText("Population: " + this.population + "      "); // empty spaces for styling
 			}
 
 			this.fireAntsCountText.setText("Fire Ant: " + this.fireAntsCount);
 			this.flashAntsCountText.setText("Flash Ant: " + this.flashAntsCount);
 			this.broughtHomeCandyCountText.setText("Candy: " + this.broughtHomeCandyCount);
-			this.deadCountText.setText("Dead: " + this.deadCount);
+			this.deadCountText.setText("Dead: " + this.deadCount + "      "); // empty spaces for styling
 		});
 
 	}
