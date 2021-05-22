@@ -114,26 +114,31 @@ public class Ant implements Renderable, Restartable {
 	 * Instantiates a new ant. Sets default states of the ant.
 	 */
 	public Ant() {
-		this.isHeadingBackToLastSeenPosision = false;
-		this.isHeadingToHome = false;
-
+		this.revive();
 		this.outroPlayer = Sound.getMediaPlayer("oof.wav", .5);
 		this.steps = 0;
 		this.broughtHomeCount = 0;
 		this.multipleReproduce = 10;
 		this.visionSpan = 90d;
 		this.visionDepth = 100d;
-		this.lastSeenPosition = null;
 		this.moneyMultiplier = 1.5;
-		this.hasFoundCandy = false;
-		this.hasReachedCandy = false;
-		this.foundCandy = null;
 		this.position = new Vector(SimulationArea.origin);
 		this.speed = 1d; // for normal ants
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
 		this.settingOffJourneyThread = new Thread(() -> this.start());
-
 		this.setupImage("ant.png");
+	}
+
+	/**
+	 * Resets all states to the default values.
+	 */
+	private void revive() {
+		this.isHeadingBackToLastSeenPosision = false;
+		this.isHeadingToHome = false;
+		this.lastSeenPosition = null;
+		this.hasFoundCandy = false;
+		this.hasReachedCandy = false;
+		this.foundCandy = null;
 	}
 
 	/**
@@ -403,23 +408,32 @@ public class Ant implements Renderable, Restartable {
 
 	/**
 	 * Bounces the ant off the window screen.
+	 * 
+	 * @return true, if the ant bounces off the wall, else false
 	 */
-	protected void bounceWallIfNecessary() {
-		// changes velocity direction if necessary
+	protected boolean bounceWallIfNecessary() {
+		var hasBounced = false;
+
 		if (this.position.getX() < 0) {
 			this.velocity.reverseX();
 			this.position.setX(0);
+			hasBounced = true;
 		} else if (this.position.getX() > Global.WIDTH) {
 			this.velocity.reverseX();
 			this.position.setX(Global.WIDTH);
+			hasBounced = true;
 		}
 		if (this.position.getY() > 0) {
 			this.velocity.reverseY();
 			this.position.setY(0);
+			hasBounced = true;
 		} else if (this.position.getY() < -SimulationArea.height) {
 			this.velocity.reverseY();
 			this.position.setY(-SimulationArea.height);
+			hasBounced = true;
 		}
+
+		return hasBounced;
 	}
 
 	/**
@@ -428,7 +442,11 @@ public class Ant implements Renderable, Restartable {
 	public void update() {
 		this.updatePosition();
 		this.randomizeDirection();
-		this.bounceWallIfNecessary();
+		if (this.bounceWallIfNecessary())
+			// When the game lags, some of the ants no longer function, so we have to revive
+			// them. And when an ant hit a wall, it's very likely that it hasn't found a
+			// candy, so it's safe to do so.
+			this.revive();
 	}
 
 	/**
