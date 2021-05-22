@@ -35,6 +35,9 @@ public class Ant implements Renderable, Restartable {
 	/** The vector representation of the ant's position. */
 	protected Vector position;
 
+	/** The last seen position vector of a candy. */
+	protected Vector lastSeenPosition;
+
 	/** The magnitude of the ant's velocity. */
 	protected double speed;
 
@@ -95,6 +98,10 @@ public class Ant implements Renderable, Restartable {
 	/** A media player instance that plays when the ant is removed. */
 	protected MediaPlayer outroPlayer;
 
+	private boolean isHeadingBackToLastSeenPosision;
+
+	private boolean isHeadingToHome;
+
 	/**
 	 * This is used to generate random numbers, mainly in randomizing the velocity
 	 * vector direction.
@@ -105,24 +112,33 @@ public class Ant implements Renderable, Restartable {
 	 * Instantiates a new ant. Sets default states of the ant.
 	 */
 	public Ant() {
+		this.isHeadingBackToLastSeenPosision = false;
+		this.isHeadingToHome = false;
+
 		this.outroPlayer = Sound.getMediaPlayer("oof.wav", .5);
 		this.steps = 0;
 		this.broughtHomeCount = 0;
 		this.multipleReproduce = 10;
 		this.visionSpan = 90d;
 		this.visionDepth = 100d;
-		this.antHeight = 15;
+		this.lastSeenPosition = null;
 		this.moneyMultiplier = 1.5;
 		this.hasFoundCandy = false;
 		this.hasReachedCandy = false;
 		this.foundCandy = null;
 		this.position = new Vector(SimulationArea.origin);
-		this.img = new ImageView(ClassLoader.getSystemResource("ant.png").toExternalForm());
-		this.img.setFitHeight(this.antHeight);
-		this.img.setPreserveRatio(true);
 		this.speed = 1d; // for normal ants
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
 		this.settingOffJourneyThread = new Thread(() -> this.start());
+
+		this.setupImage("ant.png");
+	}
+
+	protected void setupImage(String imageName) {
+		this.img = new ImageView(ClassLoader.getSystemResource(imageName).toExternalForm());
+		this.antHeight = 15;
+		this.img.setFitHeight(this.antHeight);
+		this.img.setPreserveRatio(true);
 	}
 
 	/**
@@ -134,24 +150,36 @@ public class Ant implements Renderable, Restartable {
 			try {
 				Thread.sleep(10);
 				this.move();
+
 				if (!this.hasFoundCandy) {
-					final var foodOnSight = this.lookForCandy();
-					if (foodOnSight != null) {
-						this.foundCandy = foodOnSight;
+					final var candyOnSight = this.lookForCandy();
+					if (candyOnSight != null) {
+						this.isHeadingBackToLastSeenPosision = false;
+						this.foundCandy = candyOnSight;
 						this.hasFoundCandy = true;
 						this.headToCandy();
+						this.lastSeenPosition = new Vector(this.foundCandy.position); // will move back here again
+					}
+
+					if (this.lastSeenPosition != null && this.hasReachedLastSeenPosition()) {
+						this.isHeadingBackToLastSeenPosision = false;
 					}
 				} else {
 					if (this.isCandyReachable()) {
 						this.hasReachedCandy = true;
 						this.foundCandy.setPosition(this.position);
-						this.headToHome();
+						if (!this.isHeadingToHome)
+							// check this to avoid unnecessary vector re-creation
+							this.headToHome();
 
 						if (this.foundCandy instanceof Poisonable)
 							((Poisonable) this.foundCandy).poison(this);
 
-						if (this.hasReachedHome())
+						if (this.hasReachedHome()) {
 							this.deliverCandy();
+							this.isHeadingToHome = false;
+							this.headToLastSeenPosition();
+						}
 					}
 				}
 
@@ -161,6 +189,29 @@ public class Ant implements Renderable, Restartable {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Checks if the ant has reached the last seen position.
+	 *
+	 * @return true, if the ant is within a range of the last seen position, else
+	 *         false
+	 */
+	private boolean hasReachedLastSeenPosition() {
+		final double range = 2;
+		final double displacement = Math.sqrt(Math.pow(this.lastSeenPosition.getX() - this.position.getX(), 2)
+				+ Math.pow(this.lastSeenPosition.getY() - this.position.getY(), 2));
+		return displacement <= range;
+	}
+
+	/**
+	 * Changes the ant's velocity direction to point to the last seen position.
+	 */
+	private void headToLastSeenPosition() {
+		this.isHeadingBackToLastSeenPosision = true;
+		final var antToLastSeenPostion = new Vector(this.lastSeenPosition.getX() - this.position.getX(),
+				this.lastSeenPosition.getY() - this.position.getY(), 0);
+		this.velocity = Vector.createVector2FromAngle(antToLastSeenPostion.getAngle(), this.speed);
 	}
 
 	/**
@@ -218,7 +269,6 @@ public class Ant implements Renderable, Restartable {
 	 *         false.
 	 */
 	private boolean hasReachedHome() {
-		// return true if the ant with the food is about to reach home.
 		final double range = 2;
 		return this.getAntToHomeVector().modulus() < range;
 	}
@@ -324,6 +374,9 @@ public class Ant implements Renderable, Restartable {
 	 * Randomize the direction of the ant's velocity for the next step.
 	 */
 	protected void randomizeDirection() {
+		if (this.isHeadingBackToLastSeenPosision)
+			return;
+
 		if (!hasFoundCandy) {
 			final double span = 20;
 			final double angleOffset = random.nextDouble() * span - span / 2;
