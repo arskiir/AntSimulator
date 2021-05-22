@@ -30,7 +30,7 @@
   </interface>  
   <interface id="4" language="java" name="entity.base.Renderable" project="AntSimulation" 
     file="/AntSimulation/src/entity/base/Renderable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="683" y="-85"/>    
+    <position height="-1" width="-1" x="707" y="-132"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </interface>  
   <class id="5" language="java" name="entity.base.Candy" project="AntSimulation" 
     file="/AntSimulation/src/entity/base/Candy.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="292" y="10"/>    
+    <position height="-1" width="-1" x="278" y="-50"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <enumeration id="6" language="java" name="entity.base.Ant.AntType" project="AntSimulation" 
     file="/AntSimulation/src/entity/base/Ant.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="728" y="335"/>    
+    <position height="-1" width="-1" x="730" y="317"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="app.Main" project="AntSimulation" file="/AntSimulation/src/app/Main.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1308" y="553"/>    
+    <position height="-1" width="-1" x="1251" y="528"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="gui.Global" project="AntSimulation" file="/AntSimulation/src/gui/Global.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="871" y="725"/>    
+    <position height="-1" width="-1" x="851" y="830"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -120,7 +120,7 @@
   </class>  
   <class id="14" language="java" name="utils.Sound" project="AntSimulation" file="/AntSimulation/src/utils/Sound.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1058" y="724"/>    
+    <position height="-1" width="-1" x="1111" y="806"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -136,40 +136,40 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <realization id="16">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="2"/>  
-  </realization>  
-  <generalization id="17">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <nesting id="18">    
+  <nesting id="16">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="6"/>  
   </nesting>  
-  <realization id="19">    
-    <end type="SOURCE" refId="10"/>    
+  <realization id="17">    
+    <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="3"/>  
   </realization>  
-  <realization id="20">    
+  <realization id="18">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="4"/>  
   </realization>  
-  <realization id="21">    
+  <realization id="19">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="4"/>  
   </realization>  
-  <generalization id="22">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="5"/>  
-  </generalization>  
-  <realization id="23">    
+  <realization id="20">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="4"/>  
   </realization>  
+  <generalization id="21">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <realization id="22">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <generalization id="23">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
   <realization id="24">    
-    <end type="SOURCE" refId="1"/>    
+    <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="3"/>  
   </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
