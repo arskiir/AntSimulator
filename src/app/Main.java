@@ -41,7 +41,7 @@ public class Main extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.centerOnScreen();
 		primaryStage.setScene(scene);
-		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("candy1.png")));
+		primaryStage.getIcons().add(new Image(ClassLoader.getSystemResourceAsStream("candy1.png")));
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(
 				e -> simulationArea.getAnts().forEach(ant -> ant.getSettingOffJourneyThread().interrupt()));
