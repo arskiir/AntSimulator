@@ -98,8 +98,10 @@ public class Ant implements Renderable, Restartable {
 	/** A media player instance that plays when the ant is removed. */
 	protected MediaPlayer outroPlayer;
 
+	/** Tells if the ant is heading back to the last seen position or not. */
 	private boolean isHeadingBackToLastSeenPosision;
 
+	/** Tells if the ant is heading to home or not. */
 	private boolean isHeadingToHome;
 
 	/**
@@ -134,6 +136,11 @@ public class Ant implements Renderable, Restartable {
 		this.setupImage("ant.png");
 	}
 
+	/**
+	 * Sets the up image.
+	 *
+	 * @param imageName the image file name
+	 */
 	protected void setupImage(String imageName) {
 		this.img = new ImageView(ClassLoader.getSystemResource(imageName).toExternalForm());
 		this.antHeight = 15;
@@ -154,11 +161,7 @@ public class Ant implements Renderable, Restartable {
 				if (!this.hasFoundCandy) {
 					final var candyOnSight = this.lookForCandy();
 					if (candyOnSight != null) {
-						this.isHeadingBackToLastSeenPosision = false;
-						this.foundCandy = candyOnSight;
-						this.hasFoundCandy = true;
-						this.headToCandy();
-						this.lastSeenPosition = new Vector(this.foundCandy.position); // will move back here again
+						this.targetTheCandy(candyOnSight);
 					}
 
 					if (this.lastSeenPosition != null && this.hasReachedLastSeenPosition()) {
@@ -189,6 +192,20 @@ public class Ant implements Renderable, Restartable {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Targets the candy, heads to its position, and remember the area to come back
+	 * later.
+	 *
+	 * @param candyOnSight the candy on sight
+	 */
+	private void targetTheCandy(Candy candyOnSight) {
+		this.isHeadingBackToLastSeenPosision = false;
+		this.foundCandy = candyOnSight;
+		this.hasFoundCandy = true;
+		this.headToCandy();
+		this.lastSeenPosition = new Vector(this.foundCandy.position); // will move back here again
 	}
 
 	/**
