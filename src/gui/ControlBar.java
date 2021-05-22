@@ -42,7 +42,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
 			+ "-fx-border-width: 3px; -fx-border-color: chocolate; -fx-background-radius: 8px;";
 
-	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/game-intro.wav", 0.4);
+	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/intro.wav", 0.2);
 	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("res/megalovania_intro.mp3", .2);
 	private static final MediaPlayer maxMoneyPlayer = Sound.getMediaPlayer("res/money.wav", .2);
 
