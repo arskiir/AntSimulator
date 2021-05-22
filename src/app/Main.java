@@ -47,7 +47,7 @@ public class Main extends Application {
 	 */
 	public static void startSimulation() {
 		isActive = true;
-		controlBar.getStartRestartButton().setText("Stop");
+		controlBar.getStartStopButton().setText("Stop");
 		final var startingAntCount = 5;
 		for (var count = 0; count < startingAntCount; ++count)
 			simulationArea.addAnt(AntType.FIRE);
@@ -60,14 +60,14 @@ public class Main extends Application {
 	 */
 	public static void stopSimulation() {
 		isActive = false;
-		controlBar.getStartRestartButton().setText("Start");
+		controlBar.getStartStopButton().setText("Start");
 		controlBar.setPopulation(0);
 		controlBar.setFireAntsCount(0);
 		controlBar.setFlashAntsCount(0);
 		controlBar.setBroughtHomeCandyCount(0);
 		controlBar.setDeadCount(0);
 		controlBar.setHasReachedMaxMoney(false);
-		controlBar.setFoodCost(controlBar.getBaseFoodCost());
+		controlBar.setFoodCost(controlBar.getBaseCandyCost());
 		controlBar.setMoney(controlBar.getBasemoney());
 		controlBar.rerender();
 		simulationArea.reset();

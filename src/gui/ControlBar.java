@@ -17,35 +17,78 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import utils.Sound;
 
+/**
+ * The Class ControlBar. The upper user interface part which controls the game active state and displays the game status.
+ */
 public class ControlBar extends HBox implements Renderable, Restartable {
 
+	/** The money text. */
 	private Text moneyText;
+	
+	/** The population text. */
 	private Text populationText;
+	
+	/** The fire ants count text. */
 	private Text fireAntsCountText;
+	
+	/** The flash ants count text. */
 	private Text flashAntsCountText;
+	
+	/** The brought home candy count text. */
 	private Text broughtHomeCandyCountText;
+	
+	/** The dead count text. */
 	private Text deadCountText;
 
+	/** The money the player has. */
 	private double money;
+	
+	/** Tells if the player has reached the amount of money that makes the candy costs nothing. */
 	private boolean hasReachedMaxMoney;
-	private int foodCost;
-	private int baseFoodCost;
+	
+	/** The candy cost. */
+	private int candyCost;
+	
+	/** The base candy cost. */
+	private int baseCandyCost;
+	
+	/** The base money. */
 	private int baseMoney;
 
+	/** The population count. */
 	private int population;
+	
+	/** The fire ants count. */
 	private int fireAntsCount;
+	
+	/** The flash ants count. */
 	private int flashAntsCount;
+	
+	/** The brought home candy count. */
 	private int broughtHomeCandyCount;
+	
+	/** The dead count. */
 	private int deadCount;
 
-	private Button startRestartButton;
+	/** The start or stop button. */
+	private Button startStopButton;
+	
+	/** The button base style. */
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
 			+ "-fx-border-width: 3px; -fx-border-color: chocolate; -fx-background-radius: 8px;";
 
+	/** The media player that plays when the simulation starts. */
 	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/intro.wav", 0.2);
+	
+	/** The media player that plays when the population size first reaches a certain number. */
 	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("res/megalovania_intro.mp3", .2);
+	
+	/** The media player that plays when the amount of money first reaches a certain amout. */
 	private static final MediaPlayer maxMoneyPlayer = Sound.getMediaPlayer("res/money.wav", .2);
 
+	/**
+	 * Instantiates a new control bar.
+	 */
 	public ControlBar() {
 		super();
 
@@ -53,20 +96,23 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.setupNumericVariables();
 		this.setupLayout();
 
-		final String fontFamily = "Consolas";
-		final Font textFont = new Font(fontFamily, 18);
+		final var fontFamily = "Consolas";
+		final var textFont = new Font(fontFamily, 18);
 		this.setupTexts(textFont);
 		this.setupButton(fontFamily);
 
 		this.getChildren().addAll(moneyText, populationText, fireAntsCountText, flashAntsCountText,
-				broughtHomeCandyCountText, deadCountText, startRestartButton);
+				broughtHomeCandyCountText, deadCountText, startStopButton);
 		this.rerender();
 	}
 
+	/**
+	 * Setup numeric variables.
+	 */
 	private void setupNumericVariables() {
-		this.baseFoodCost = 100;
-		this.foodCost = baseFoodCost;
-		this.baseMoney = foodCost * 200;
+		this.baseCandyCost = 100;
+		this.candyCost = baseCandyCost;
+		this.baseMoney = candyCost * 200;
 		this.money = baseMoney;
 
 		this.population = 0;
@@ -76,6 +122,9 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.deadCount = 0;
 	}
 
+	/**
+	 * Setup layout.
+	 */
 	private void setupLayout() {
 		this.setPrefWidth(Global.WIDTH);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
@@ -84,13 +133,18 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.setPadding(new Insets(10, 0, 10, 0));
 	}
 
+	/**
+	 * Sets the up button.
+	 *
+	 * @param fontFamily the font family for the button text
+	 */
 	private void setupButton(String fontFamily) {
-		this.startRestartButton = new Button("Start");
-		this.startRestartButton.setFont(new Font(fontFamily, 16));
-		this.startRestartButton.setPrefWidth(100);
-		this.startRestartButton.setStyle(buttonBaseStyle);
+		this.startStopButton = new Button("Start");
+		this.startStopButton.setFont(new Font(fontFamily, 16));
+		this.startStopButton.setPrefWidth(100);
+		this.startStopButton.setStyle(buttonBaseStyle);
 
-		this.startRestartButton.setOnMouseClicked(e -> {
+		this.startStopButton.setOnMouseClicked(e -> {
 			if (Main.isActive()) {
 				Main.stopSimulation();
 				return;
@@ -98,11 +152,16 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 
 			Main.startSimulation();
 		});
-		this.startRestartButton.setOnMouseEntered(e -> this.startRestartButton.setStyle(
+		this.startStopButton.setOnMouseEntered(e -> this.startStopButton.setStyle(
 				buttonBaseStyle + "-fx-background-color: darkorange;" + " -fx-color: white; -fx-text-fill: white;"));
-		this.startRestartButton.setOnMouseExited(e -> this.startRestartButton.setStyle(buttonBaseStyle));
+		this.startStopButton.setOnMouseExited(e -> this.startStopButton.setStyle(buttonBaseStyle));
 	}
 
+	/**
+	 * Sets the up all texts.
+	 *
+	 * @param textFont the font instance for all texts
+	 */
 	private void setupTexts(Font textFont) {
 		this.moneyText = new Text();
 		this.moneyText.setFill(Color.LIGHTPINK);
@@ -124,27 +183,46 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.deadCountText.setFill(Color.LIGHTGRAY);
 	}
 
+	/**
+	 * Gets the dead count.
+	 *
+	 * @return the dead count
+	 */
 	public int getDeadCount() {
 		return deadCount;
 	}
 
+	/**
+	 * Sets the dead count.
+	 *
+	 * @param deadCount the new dead count
+	 */
 	public void setDeadCount(int deadCount) {
 		this.deadCount = deadCount;
 	}
 
-	public int getBaseFoodCost() {
-		return baseFoodCost;
+	/**
+	 * Gets the base candy cost.
+	 *
+	 * @return the base candy cost
+	 */
+	public int getBaseCandyCost() {
+		return baseCandyCost;
 	}
 
+	/**
+	 * Renders all texts with updated values.
+	 */
 	@Override
 	public void rerender() {
+		final var maxMoney = 100_000;
 		Platform.runLater(() -> {
-			if (this.money > 100_000) {
+			if (this.money > maxMoney) {
 				if (!this.hasReachedMaxMoney)
 					Sound.play(maxMoneyPlayer);
 				this.hasReachedMaxMoney = true;
 				this.moneyText.setText("Money: WHO CARES");
-				foodCost = 0;
+				candyCost = 0;
 			} else {
 				this.moneyText.setText("Money: " + (int) this.money);
 			}
@@ -163,87 +241,182 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 
 	}
 
+	/**
+	 * Checks if the current population size exceeds the max population size.
+	 *
+	 * @return true, if population size >= max population size, else false
+	 */
 	public boolean hasReachedMaxPopulation() {
 		return this.population >= SimulationArea.maxPopulation;
 	}
 
-	public Button getStartRestartButton() {
-		return startRestartButton;
+	/**
+	 * Gets the start or stop button.
+	 *
+	 * @return the start or stop button
+	 */
+	public Button getStartStopButton() {
+		return startStopButton;
 	}
 
+	/**
+	 * Gets the base money.
+	 *
+	 * @return the base money
+	 */
 	public int getBasemoney() {
 		return baseMoney;
 	}
 
+	/**
+	 * Gets the population size.
+	 *
+	 * @return the population size
+	 */
 	public int getPopulation() {
 		return population;
 	}
 
+	/**
+	 * Sets the population.
+	 *
+	 * @param population the new population
+	 */
 	public void setPopulation(int population) {
 		this.population = population;
 	}
 
+	/**
+	 * Gets the fire ants count.
+	 *
+	 * @return the fire ants count
+	 */
 	public int getFireAntsCount() {
 		return fireAntsCount;
 	}
 
+	/**
+	 * Sets the fire ants count.
+	 *
+	 * @param fireAntsCount the new fire ants count
+	 */
 	public void setFireAntsCount(int fireAntsCount) {
 		this.fireAntsCount = fireAntsCount;
 	}
 
+	/**
+	 * Gets the flash ants count.
+	 *
+	 * @return the flash ants count
+	 */
 	public int getFlashAntsCount() {
 		return flashAntsCount;
 	}
 
+	/**
+	 * Sets the flash ants count.
+	 *
+	 * @param flashAntsCount the new flash ants count
+	 */
 	public void setFlashAntsCount(int flashAntsCount) {
 		this.flashAntsCount = flashAntsCount;
 	}
 
+	/**
+	 * Gets the money.
+	 *
+	 * @return the money
+	 */
 	public double getMoney() {
 		return money;
 	}
 
-	public void setMoney(double d) {
-		this.money = d;
+	/**
+	 * Sets the money.
+	 *
+	 * @param money the new money
+	 */
+	public void setMoney(double money) {
+		this.money = money;
 	}
 
+	/**
+	 * Gets the brought home candy count.
+	 *
+	 * @return the brought home candy count
+	 */
 	public int getBroughtHomeCandyCount() {
 		return broughtHomeCandyCount;
 	}
 
+	/**
+	 * Sets the brought home candy count.
+	 *
+	 * @param broughtHomeCandyCount the new brought home candy count
+	 */
 	public void setBroughtHomeCandyCount(int broughtHomeCandyCount) {
 		this.broughtHomeCandyCount = broughtHomeCandyCount;
 	}
 
+	/**
+	 * Gets the food cost.
+	 *
+	 * @return the food cost
+	 */
 	public int getFoodCost() {
-		return foodCost;
+		return candyCost;
 	}
 
+	/**
+	 * Sets the food cost.
+	 *
+	 * @param foodCost the new food cost
+	 */
 	public void setFoodCost(int foodCost) {
-		this.foodCost = foodCost;
+		this.candyCost = foodCost;
 	}
 
+	/**
+	 * Throw exception when called since there's no image for this.
+	 *
+	 * @throws NoImageException the no image exception
+	 */
 	@Override
 	public ImageView getImg() throws NoImageException {
 		throw new NoImageException("There is no image on ControlBar. 🤣");
 	}
 
+	/**
+	 * Throw exception when called since there's no image for this.
+	 *
+	 * @throws NoImageException the no image exception
+	 */
 	@Override
 	public void setImg(ImageView img) throws NoImageException {
 		throw new NoImageException("There is no image on ControlBar. 🤣");
 	}
 
+	/**
+	 * Plays a sound indicating the start of the simulation.
+	 */
 	@Override
 	public void playIntroSound() {
 		Sound.play(introPlayer);
 	}
 
+	/**
+	 * Plays a sound when the max number of population is reached.
+	 */
 	@Override
 	public void playOutroSound() {
-		// play this when the max number of population is reached.
 		Sound.play(outroPlayer);
 	}
 
+	/**
+	 * Sets the hasReachedMaxMoney field.
+	 *
+	 * @param hasReachedMaxMoney the new boolean value
+	 */
 	public void setHasReachedMaxMoney(boolean hasReachedMaxMoney) {
 		this.hasReachedMaxMoney = hasReachedMaxMoney;
 	}
