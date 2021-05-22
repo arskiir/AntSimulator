@@ -21,7 +21,7 @@ public class Main extends Application {
 
 		Scene scene = new Scene(root);
 
-		primaryStage.setTitle("Ant Simulator!");
+		primaryStage.setTitle("Ant Simulator");
 		primaryStage.setResizable(false);
 		primaryStage.centerOnScreen();
 		primaryStage.setScene(scene);
