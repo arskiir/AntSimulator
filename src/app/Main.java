@@ -31,7 +31,7 @@ public class Main extends Application {
 	public static void startSimulation() {
 		isActive = true;
 		controlBar.getStartRestartButton().setText("Stop");
-		final int startingAntCount = 99;
+		final int startingAntCount = 5;
 		for (int count = 0; count < startingAntCount; ++count)
 			simulationArea.addAnt(AntType.FIRE);
 		controlBar.rerender();
