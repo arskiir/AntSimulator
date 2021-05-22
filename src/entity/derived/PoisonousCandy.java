@@ -2,16 +2,16 @@ package entity.derived;
 
 import app.Main;
 import entity.base.Ant;
-import entity.base.Food;
+import entity.base.Candy;
 import entity.base.Poisonable;
 import gui.ControlBar;
 import gui.SimulationArea;
 import javafx.application.Platform;
 import utils.Vector;
 
-public final class PoisonFood extends Food implements Poisonable {
+public final class PoisonousCandy extends Candy implements Poisonable {
 
-	public PoisonFood(String imgPath, Vector position) {
+	public PoisonousCandy(String imgPath, Vector position) {
 		super(imgPath, position);
 	}
 

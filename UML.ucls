@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="entity.base.Food" project="AntSimulation" 
-    file="/AntSimulation/src/entity/base/Food.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="entity.base.Candy" project="AntSimulation" 
+    file="/AntSimulation/src/entity/base/Candy.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="284" y="3"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -64,8 +64,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="entity.derived.PoisonFood" project="AntSimulation" 
-    file="/AntSimulation/src/entity/derived/PoisonFood.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="entity.derived.PoisonousCandy" project="AntSimulation" 
+    file="/AntSimulation/src/entity/derived/PoisonousCandy.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="110" y="84"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

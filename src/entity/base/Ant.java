@@ -26,7 +26,7 @@ public class Ant implements Renderable, Restartable {
 	protected int steps;
 	protected boolean hasFoundFood;
 	protected boolean hasReachedFood;
-	protected Food foundFood;
+	protected Candy foundFood;
 	protected int broughtHomeCount;
 	protected int multipleReproduce;
 	protected double antHeight;
@@ -68,7 +68,7 @@ public class Ant implements Renderable, Restartable {
 				Thread.sleep(10);
 				this.move();
 				if (!this.hasFoundFood) {
-					final Food foodOnSight = this.lookForFood();
+					final Candy foodOnSight = this.lookForFood();
 					if (foodOnSight != null) {
 						this.foundFood = foodOnSight;
 						this.hasFoundFood = true;
@@ -166,7 +166,7 @@ public class Ant implements Renderable, Restartable {
 		return new Vector(foodPos.getX() - this.position.getX(), foodPos.getY() - this.position.getY(), 0d);
 	}
 
-	protected Food lookForFood() {
+	protected Candy lookForFood() {
 		// return the first food in the array that is on sight
 		// return null if there's no food on sight
 
@@ -174,8 +174,8 @@ public class Ant implements Renderable, Restartable {
 				this.visionDepth);
 		final Vector upper = Vector.createVector2FromAngle(lower.getAngle() + this.visionSpan, this.visionDepth);
 
-		final CopyOnWriteArrayList<Food> foods = (CopyOnWriteArrayList<Food>) Main.getSimulationArea().getFoods();
-		for (final Food food : foods) {
+		final CopyOnWriteArrayList<Candy> foods = (CopyOnWriteArrayList<Candy>) Main.getSimulationArea().getFoods();
+		for (final Candy food : foods) {
 			if (food.isFound()) // this food currently belongs to another ant
 				continue;
 
@@ -203,8 +203,7 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	protected void randomizeDirection() {
-		// random next velocity direction after some steps if hasn't found food
-		if (!hasFoundFood) { // + 1 in case nextInt returns 0
+		if (!hasFoundFood) {
 			final double span = 20d;
 			final double angleOffset = random.nextDouble() * span - span / 2;
 			this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle() + angleOffset, this.speed);

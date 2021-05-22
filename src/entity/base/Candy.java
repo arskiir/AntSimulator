@@ -8,7 +8,7 @@ import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import utils.Vector;
 
-public class Food implements Renderable {
+public class Candy implements Renderable {
 
 	protected ImageView img;
 	protected Vector position;
@@ -17,7 +17,7 @@ public class Food implements Renderable {
 	protected static final int HEIGHT = 25;
 	protected static final Random random = new Random();
 
-	public Food(final String imgPath, Vector position) {
+	public Candy(final String imgPath, Vector position) {
 		this.img = new ImageView(imgPath);
 		this.position = position;
 		this.isFound = false;

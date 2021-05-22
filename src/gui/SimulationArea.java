@@ -9,8 +9,8 @@ import app.Main;
 import entity.base.Ant;
 import entity.base.Ant.AntType;
 import entity.derived.FlashAnt;
-import entity.derived.PoisonFood;
-import entity.base.Food;
+import entity.derived.PoisonousCandy;
+import entity.base.Candy;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -21,7 +21,7 @@ import utils.Vector;
 public class SimulationArea extends Pane {
 
 	private ArrayList<Ant> ants = new ArrayList<>();
-	private CopyOnWriteArrayList<Food> foods = new CopyOnWriteArrayList<>();
+	private CopyOnWriteArrayList<Candy> foods = new CopyOnWriteArrayList<>();
 	
 	private ImageView houseImage = new ImageView("house.png");
 	private ArrayList<String> foodImgPaths = new ArrayList<>() {
@@ -99,15 +99,15 @@ public class SimulationArea extends Pane {
 		// also show it in the area
 
 		this.createdFoodCount++;
-		Food food;
+		Candy food;
 		if (random.nextDouble() < 0.01) {
 			// poison food
-			food = new PoisonFood("poop.png", position);
+			food = new PoisonousCandy("poop.png", position);
 		} else {
 			// normal food
 			// food path changes depending on createdFoodCount
 			final String foodPath = this.foodImgPaths.get(this.createdFoodCount % this.foodImgPaths.size());
-			food = new Food(foodPath, position);
+			food = new Candy(foodPath, position);
 		}
 
 		final ImageView foodImage = food.getImg();
@@ -171,12 +171,12 @@ public class SimulationArea extends Pane {
 		return this.ants;
 	}
 
-	public List<Food> getFoods() {
+	public List<Candy> getFoods() {
 		return foods;
 	}
 
-	public void setFoods(List<Food> foods) {
-		this.foods = (CopyOnWriteArrayList<Food>) foods;
+	public void setFoods(List<Candy> foods) {
+		this.foods = (CopyOnWriteArrayList<Candy>) foods;
 	}
 
 }
