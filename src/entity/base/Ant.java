@@ -99,7 +99,9 @@ public class Ant implements Renderable, Restartable {
 	private void deliverFood() {
 		final SimulationArea simulationArea = Main.getSimulationArea();
 		Platform.runLater(() -> {
-			simulationArea.removeImage(this.foundFood.getImg());
+			final ImageView foundFoodImage = this.foundFood.getImg();
+			foundFoodImage.setVisible(false);
+			simulationArea.removeImage(foundFoodImage);
 			simulationArea.getFoods().remove(this.foundFood);
 			this.hasFoundFood = false;
 			this.hasReachedFood = false;
