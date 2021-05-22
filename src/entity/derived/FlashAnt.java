@@ -3,7 +3,6 @@ package entity.derived;
 import entity.base.Ant;
 import gui.ControlBar;
 import gui.SimulationArea;
-import javafx.scene.image.ImageView;
 import utils.Sound;
 import utils.Vector;
 
@@ -23,9 +22,7 @@ public final class FlashAnt extends Ant {
 		this.visionSpan = 15; // see less than fire ant
 		this.visionDepth = 40;
 		this.moneyMultiplier = 1.2;
-		this.img = new ImageView(ClassLoader.getSystemResource("flash-ant.png").toExternalForm());
-		this.img.setFitHeight(this.antHeight);
-		this.img.setPreserveRatio(true);
+		this.setupImage("flash-ant.png");
 
 		this.introPlayer = Sound.getMediaPlayer("dejavu.wav", .5);
 		this.outroPlayer = Sound.getMediaPlayer("oof_loud.mp3", .05);
