@@ -138,7 +138,7 @@ public class SimulationArea extends Pane {
 		controlBar.rerender();
 
 		ants.add(ant);
-		ant.getFindFoodThread().start();
+		ant.getSettingOffJourneyThread().start();
 	}
 
 	public void resetFoods() {
@@ -147,7 +147,7 @@ public class SimulationArea extends Pane {
 	}
 
 	private void resetAnts() {
-		this.ants.forEach(ant -> ant.getFindFoodThread().interrupt());
+		this.ants.forEach(ant -> ant.getSettingOffJourneyThread().interrupt());
 		this.ants.clear();
 	}
 

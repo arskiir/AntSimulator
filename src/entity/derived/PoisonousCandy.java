@@ -25,7 +25,7 @@ public final class PoisonousCandy extends Candy implements Poisonable {
 	
 	private void removeAnt(Ant ant) {
 		ant.playOutroSound();
-		ant.getFindFoodThread().interrupt();
+		ant.getSettingOffJourneyThread().interrupt();
 		Main.getSimulationArea().getAnts().remove(ant);
 	}
 

@@ -13,34 +13,93 @@ import javafx.scene.media.MediaPlayer;
 import utils.Sound;
 import utils.Vector;
 
+/**
+ * The Class Ant. An ant can exist, move, make money, and die.
+ */
 public class Ant implements Renderable, Restartable {
 
+	/**
+	 * This enumerator tells the specific kind of the ant being created.
+	 */
 	public enum AntType {
-		FIRE, FLASH, MAX_TYPES
+		FIRE, FLASH
 	}
 
+	/** The vector representation of the ant's velocity. */
 	protected Vector velocity;
-	protected Vector position;
-	protected double speed;
-	protected ImageView img;
-	protected int steps;
-	protected boolean hasFoundFood;
-	protected boolean hasReachedFood;
-	protected Candy foundFood;
-	protected int broughtHomeCount;
-	protected int multipleReproduce;
-	protected double antHeight;
-	protected double visionSpan;
-	protected double visionDepth;
-	protected double moneyMultiplier; // after bringing food home, add the value of food cost * this field to money
-	protected Thread findFoodThread;
 
+	/** The vector representation of the ant's position. */
+	protected Vector position;
+
+	/** The magnitude of the ant's velocity. */
+	protected double speed;
+
+	/** The image representation of the ant. */
+	protected ImageView img;
+
+	/** The find food thread. */
+	protected Thread settingOffJourneyThread;
+
+	/**
+	 * The steps that the ant has moved, i.e. the number of iterations that the
+	 * ant's findFoodThread
+	 */
+	protected int steps;
+
+	/** This tells if a piece of candy is within the ant's sight or not. */
+	protected boolean hasFoundCandy;
+
+	/** This tells if the food is within the ant's reach. */
+	protected boolean hasReachedCandy;
+
+	/** The candy that the ant's going to grab or currently bringing home. */
+	protected Candy foundCandy;
+
+	/** The number of candies that the ant has brought home so far. */
+	protected int broughtHomeCount;
+
+	/**
+	 * A fire ant reproduces if broughtHomeCount is a multiple of this value, i.e.
+	 * broughtHomeCount % multipleReproduce = 0
+	 */
+	protected int multipleReproduce;
+
+	/** The height of the image representation of the ant. */
+	protected double antHeight;
+
+	/**
+	 * The angle in degree that the ant can see across. The higher of this value,
+	 * the wider the ant can see.
+	 */
+	protected double visionSpan;
+
+	/**
+	 * The depth in pixel that the ant can see. The higher of this value, the longer
+	 * distance the ant can see.
+	 */
+	protected double visionDepth;
+
+	/**
+	 * After the ant bringing candy home, the player gets the amount of money of
+	 * moneyMultiplier * the cost of a piece of candy
+	 */
+	protected double moneyMultiplier;
+
+	/** A media player instance that plays when the ant is created. */
 	protected MediaPlayer introPlayer;
+
+	/** A media player instance that plays when the ant is removed. */
 	protected MediaPlayer outroPlayer;
 
-	// shared/static fields
+	/**
+	 * This is used to generate random numbers, mainly in randomizing the velocity
+	 * vector direction.
+	 */
 	protected static final Random random = new Random();
 
+	/**
+	 * Instantiates a new ant. Sets default states of the ant.
+	 */
 	public Ant() {
 		this.outroPlayer = Sound.getMediaPlayer("res/oof.wav", .5);
 		this.steps = 0;
@@ -50,65 +109,73 @@ public class Ant implements Renderable, Restartable {
 		this.visionDepth = 100d;
 		this.antHeight = 15;
 		this.moneyMultiplier = 1.5;
-		this.hasFoundFood = false;
-		this.hasReachedFood = false;
-		this.foundFood = null;
+		this.hasFoundCandy = false;
+		this.hasReachedCandy = false;
+		this.foundCandy = null;
 		this.position = new Vector(SimulationArea.origin);
 		this.img = new ImageView("ant.png");
 		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
 		this.speed = 1d; // for normal ants
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
-		this.findFoodThread = new Thread(() -> this.start());
+		this.settingOffJourneyThread = new Thread(() -> this.start());
 	}
 
+	/**
+	 * Starts the ant's life long journey consisting of moving, looking for candy,
+	 * bringing it home, repeat, or eating a poisonous candy and die.
+	 */
 	protected void start() {
 		while (true) {
 			try {
 				Thread.sleep(10);
 				this.move();
-				if (!this.hasFoundFood) {
-					final Candy foodOnSight = this.lookForFood();
+				if (!this.hasFoundCandy) {
+					final Candy foodOnSight = this.lookForCandy();
 					if (foodOnSight != null) {
-						this.foundFood = foodOnSight;
-						this.hasFoundFood = true;
-						this.headToFood();
+						this.foundCandy = foodOnSight;
+						this.hasFoundCandy = true;
+						this.headToCandy();
 					}
 				} else {
-					if (this.isFoodReachable()) {
-						this.hasReachedFood = true;
-						this.foundFood.setPosition(this.position);
+					if (this.isCandyReachable()) {
+						this.hasReachedCandy = true;
+						this.foundCandy.setPosition(this.position);
 						this.headToHome();
 
-						if (this.foundFood instanceof Poisonable)
-							((Poisonable) this.foundFood).poison(this);
+						if (this.foundCandy instanceof Poisonable)
+							((Poisonable) this.foundCandy).poison(this);
 
 						if (this.hasReachedHome())
-							this.deliverFood();
+							this.deliverCandy();
 					}
 				}
 
 			} catch (InterruptedException e) {
-				final SimulationArea simulationArea = Main.getSimulationArea();
+				final var simulationArea = Main.getSimulationArea();
 				Platform.runLater(() -> simulationArea.removeImage(this.img));
 				break;
 			}
 		}
 	}
 
-	private void deliverFood() {
-		final SimulationArea simulationArea = Main.getSimulationArea();
+	/**
+	 * Delivers candy. This removes the existence of a recently brought candy and
+	 * update status values.
+	 */
+	private void deliverCandy() {
+		final var simulationArea = Main.getSimulationArea();
 		Platform.runLater(() -> {
-			final ImageView foundFoodImage = this.foundFood.getImg();
+			final ImageView foundFoodImage = this.foundCandy.getImg();
 			foundFoodImage.setVisible(false);
 			simulationArea.removeImage(foundFoodImage);
-			simulationArea.getFoods().remove(this.foundFood);
-			this.hasFoundFood = false;
-			this.hasReachedFood = false;
+			simulationArea.getFoods().remove(this.foundCandy);
+			this.hasFoundCandy = false;
+			this.hasReachedCandy = false;
 		});
 
 		++this.broughtHomeCount;
-		final ControlBar controlBar = Main.getControlBar();
+		final var controlBar = Main.getControlBar();
 		controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
 		controlBar.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * this.moneyMultiplier);
 		controlBar.rerender();
@@ -116,6 +183,13 @@ public class Ant implements Renderable, Restartable {
 		this.reproduce(simulationArea, controlBar);
 	}
 
+	/**
+	 * When a fire ant is ready, it gives birth to a new fire ant and has a 30%
+	 * chance of giving birth to a flash ant.
+	 *
+	 * @param simulationArea the simulation area
+	 * @param controlBar     the control bar
+	 */
 	protected void reproduce(SimulationArea simulationArea, ControlBar controlBar) {
 		if (controlBar.hasReachedMaxPopulation()) {
 			// more than this is no longer safe
@@ -133,46 +207,79 @@ public class Ant implements Renderable, Restartable {
 		}
 	}
 
+	/**
+	 * @return true, if the ant's position is within 2 pixel range from home, else
+	 *         false.
+	 */
 	private boolean hasReachedHome() {
 		// return true if the ant with the food is about to reach home.
 		final double range = 2;
-		return this.getAntToHomeVector().modulus() <= range;
+		return this.getAntToHomeVector().modulus() < range;
 	}
 
+	/**
+	 * Replaces the ant's velocity with a new velocity whose only difference is the
+	 * direction that now points to home.
+	 */
 	protected void headToHome() {
-		final Vector antToHome = this.getAntToHomeVector();
+		final var antToHome = this.getAntToHomeVector();
 		this.velocity = Vector.createVector2FromAngle(antToHome.getAngle(), this.speed);
 	}
 
+	/**
+	 * Returns the vector starting from the ant and ending at home.
+	 *
+	 * @return the ant-to-home vector
+	 */
 	protected Vector getAntToHomeVector() {
 		return new Vector(SimulationArea.origin.getX() - this.position.getX(),
 				SimulationArea.origin.getY() - this.position.getY(), 0d);
 	}
 
-	protected boolean isFoodReachable() {
+	/**
+	 * @return true, if the found candy is reachable, i.e. within 5 pixel range,
+	 *         else false.
+	 */
+	protected boolean isCandyReachable() {
 		// return true if the food is now within a small range from the ant
 		final double range = 5;
-		return this.getAntToFoodVector().modulus() <= range;
+		return this.getAntToCandyVector().modulus() <= range;
 	}
 
-	protected void headToFood() {
+	/**
+	 * Replaces the ant's velocity with a new velocity whose only difference is the
+	 * direction that now points to the found candy.
+	 */
+	protected void headToCandy() {
 		// make the velocity point to the food position
-		final Vector antToFood = this.getAntToFoodVector();
+		final var antToFood = this.getAntToCandyVector();
 		this.velocity = Vector.createVector2FromAngle(antToFood.getAngle(), this.speed);
 	}
 
-	protected Vector getAntToFoodVector() {
-		final Vector foodPos = this.foundFood.getPosition();
+	/**
+	 * Returns the vector starting from the ant and the found candy.
+	 *
+	 * @return the ant to food vector
+	 */
+	protected Vector getAntToCandyVector() {
+		final Vector foodPos = this.foundCandy.getPosition();
 		return new Vector(foodPos.getX() - this.position.getX(), foodPos.getY() - this.position.getY(), 0d);
 	}
 
-	protected Candy lookForFood() {
+	/**
+	 * Returns the candy in the candy array that is first met the conditions that
+	 * are the candy is within the ant's vision depth and within the ant's vision
+	 * span.
+	 *
+	 * @return the found candy, if the conditions are met, else null.
+	 */
+	protected Candy lookForCandy() {
 		// return the first food in the array that is on sight
 		// return null if there's no food on sight
 
-		final Vector lower = Vector.createVector2FromAngle(this.velocity.getAngle() - this.visionSpan / 2,
+		final var lower = Vector.createVector2FromAngle(this.velocity.getAngle() - this.visionSpan / 2,
 				this.visionDepth);
-		final Vector upper = Vector.createVector2FromAngle(lower.getAngle() + this.visionSpan, this.visionDepth);
+		final var upper = Vector.createVector2FromAngle(lower.getAngle() + this.visionSpan, this.visionDepth);
 
 		final CopyOnWriteArrayList<Candy> foods = (CopyOnWriteArrayList<Candy>) Main.getSimulationArea().getFoods();
 		for (final Candy food : foods) {
@@ -180,7 +287,7 @@ public class Ant implements Renderable, Restartable {
 				continue;
 
 			final Vector foodPos = food.getPosition();
-			final Vector antToFood = new Vector(foodPos.getX() - this.position.getX(),
+			final var antToFood = new Vector(foodPos.getX() - this.position.getX(),
 					foodPos.getY() - this.position.getY(), 0d);
 
 			final boolean isWithinRange = antToFood.modulus() <= upper.modulus();
@@ -195,21 +302,30 @@ public class Ant implements Renderable, Restartable {
 		return null;
 	}
 
-	protected void updateSteps() {
+	/**
+	 * Updates the ant's position vector and the number of steps.
+	 */
+	protected void updatePosition() {
 		// changes position
 		this.position.setX(this.position.getX() + this.velocity.getX());
 		this.position.setY(this.position.getY() + this.velocity.getY());
 		this.steps++;
 	}
 
+	/**
+	 * Randomize the direction of the ant's velocity for the next step.
+	 */
 	protected void randomizeDirection() {
-		if (!hasFoundFood) {
-			final double span = 20d;
+		if (!hasFoundCandy) {
+			final double span = 20;
 			final double angleOffset = random.nextDouble() * span - span / 2;
 			this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle() + angleOffset, this.speed);
 		}
 	}
 
+	/**
+	 * Bounces the ant off the window screen.
+	 */
 	protected void bounceWallIfNecessary() {
 		// changes velocity direction if necessary
 		if (this.position.getX() < 0) {
@@ -228,15 +344,21 @@ public class Ant implements Renderable, Restartable {
 		}
 	}
 
+	/**
+	 * Updates the ant's overall movement.
+	 */
 	public void update() {
-		this.updateSteps();
+		this.updatePosition();
 		this.randomizeDirection();
 		this.bounceWallIfNecessary();
 	}
 
+	/**
+	 * Renders the ant on the pane with updated position.
+	 */
 	@Override
 	public void rerender() {
-		final SimulationArea simulationArea = Main.getSimulationArea();
+		final var simulationArea = Main.getSimulationArea();
 		Platform.runLater(() -> {
 			simulationArea.removeImage(this.img);
 			this.img.relocate(this.position.getX(), -this.position.getY()); // window position
@@ -245,32 +367,56 @@ public class Ant implements Renderable, Restartable {
 		});
 	}
 
+	/**
+	 * Updates the ant's position and re-render, and if it has found a candy, re-render the candy as well.
+	 */
 	protected void move() {
 		update();
 		rerender();
-		if (this.hasReachedFood)
-			this.foundFood.rerender();
+		if (this.hasReachedCandy)
+			this.foundCandy.rerender();
 	}
 
-	public Thread getFindFoodThread() {
-		return findFoodThread;
+	/**
+	 * Gets the ant's journey thread.
+	 *
+	 * @return the find food thread
+	 */
+	public Thread getSettingOffJourneyThread() {
+		return settingOffJourneyThread;
 	}
 
+	/**
+	 * Gets the image of the ant.
+	 *
+	 * @return the ant's image
+	 */
 	@Override
 	public ImageView getImg() {
 		return this.img;
 	}
 
+	/**
+	 * Sets the ant's image.
+	 *
+	 * @param the image for the ant
+	 */
 	@Override
 	public void setImg(ImageView img) {
 		this.img = img;
 	}
 
+	/**
+	 * Does nothing because there's no introduction sound for normal ant.
+	 */
 	@Override
 	public void playIntroSound() {
 		// no introduction sound for normal ant
 	}
 
+	/**
+	 * Plays a sound when the ant dies.
+	 */
 	@Override
 	public void playOutroSound() {
 		// play when it dies, just ate poison food
