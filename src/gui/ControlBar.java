@@ -383,7 +383,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	 */
 	@Override
 	public ImageView getImg() throws NoImageException {
-		throw new NoImageException("There is no image on ControlBar. 🤣");
+		throw new NoImageException("There is no image on ControlBar.");
 	}
 
 	/**
@@ -393,7 +393,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	 */
 	@Override
 	public void setImg(ImageView img) throws NoImageException {
-		throw new NoImageException("There is no image on ControlBar. 🤣");
+		throw new NoImageException("There is no image on ControlBar.");
 	}
 
 	/**
