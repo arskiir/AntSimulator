@@ -131,7 +131,7 @@ public class Ant implements Renderable, Restartable {
 				Thread.sleep(10);
 				this.move();
 				if (!this.hasFoundCandy) {
-					final Candy foodOnSight = this.lookForCandy();
+					final var foodOnSight = this.lookForCandy();
 					if (foodOnSight != null) {
 						this.foundCandy = foodOnSight;
 						this.hasFoundCandy = true;
@@ -269,7 +269,7 @@ public class Ant implements Renderable, Restartable {
 	/**
 	 * Returns the candy in the candy array that is first met the conditions that
 	 * are the candy is within the ant's vision depth and within the ant's vision
-	 * span.
+	 * span ant the candy hasn't been found by another ant.
 	 *
 	 * @return the found candy, if the conditions are met, else null.
 	 */
