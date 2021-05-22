@@ -34,7 +34,7 @@ public class Ant implements Renderable, Restartable {
 	protected double visionDepth;
 	protected double moneyMultiplier; // after bringing food home, add the value of food cost * this field to money
 	protected Thread findFoodThread;
-	
+
 	protected MediaPlayer introPlayer;
 	protected MediaPlayer outroPlayer;
 
@@ -83,23 +83,8 @@ public class Ant implements Renderable, Restartable {
 						if (this.foundFood instanceof Poisonable)
 							((Poisonable) this.foundFood).poison(this);
 
-						if (this.hasReachedHome()) {
-							final SimulationArea simulationArea = Main.getSimulationArea();
-							Platform.runLater(() -> {
-								simulationArea.removeImage(this.foundFood.getImg());
-								simulationArea.getFoods().remove(this.foundFood);
-								this.hasFoundFood = false;
-								this.hasReachedFood = false;
-							});
-
-							++this.broughtHomeCount;
-							final ControlBar controlBar = Main.getControlBar();
-							controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
-							controlBar
-									.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * this.moneyMultiplier);
-							controlBar.rerender();
-							this.reproduce(simulationArea, controlBar);
-						}
+						if (this.hasReachedHome())
+							this.deliverFood();
 					}
 				}
 
@@ -109,6 +94,24 @@ public class Ant implements Renderable, Restartable {
 				break;
 			}
 		}
+	}
+
+	private void deliverFood() {
+		final SimulationArea simulationArea = Main.getSimulationArea();
+		Platform.runLater(() -> {
+			simulationArea.removeImage(this.foundFood.getImg());
+			simulationArea.getFoods().remove(this.foundFood);
+			this.hasFoundFood = false;
+			this.hasReachedFood = false;
+		});
+
+		++this.broughtHomeCount;
+		final ControlBar controlBar = Main.getControlBar();
+		controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
+		controlBar.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * this.moneyMultiplier);
+		controlBar.rerender();
+
+		this.reproduce(simulationArea, controlBar);
 	}
 
 	protected void reproduce(SimulationArea simulationArea, ControlBar controlBar) {
@@ -140,7 +143,8 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	protected Vector getAntToHomeVector() {
-		return new Vector(SimulationArea.origin.getX() - this.position.getX(), SimulationArea.origin.getY() - this.position.getY(), 0d);
+		return new Vector(SimulationArea.origin.getX() - this.position.getX(),
+				SimulationArea.origin.getY() - this.position.getY(), 0d);
 	}
 
 	protected boolean isFoodReachable() {

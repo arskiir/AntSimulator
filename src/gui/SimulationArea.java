@@ -163,7 +163,7 @@ public class SimulationArea extends Pane {
 		setup();
 	}
 
-	public Iterable<Ant> getAnts() {
+	public List<Ant> getAnts() {
 		return this.ants;
 	}
 
