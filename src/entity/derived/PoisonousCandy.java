@@ -4,8 +4,6 @@ import app.Main;
 import entity.base.Ant;
 import entity.base.Candy;
 import entity.base.Poisonable;
-import gui.ControlBar;
-import gui.SimulationArea;
 import javafx.application.Platform;
 import utils.Vector;
 
