@@ -7,7 +7,7 @@ import entity.base.Poisonable;
 import gui.ControlBar;
 import gui.SimulationArea;
 import javafx.application.Platform;
-import utils.math.Vector;
+import utils.Vector;
 
 public final class PoisonFood extends Food implements Poisonable {
 
@@ -18,6 +18,7 @@ public final class PoisonFood extends Food implements Poisonable {
 	@Override
 	public void poison(Ant ant) {
 		// kill the ant
+		ant.playOutroSound();
 		ant.getFindFoodThread().interrupt();
 		// remove this food from the area
 		final SimulationArea simulationArea = Main.getSimulationArea();

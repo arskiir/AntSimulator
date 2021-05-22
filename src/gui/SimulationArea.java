@@ -16,7 +16,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import utils.math.Vector;
+import utils.Vector;
 
 public class SimulationArea extends Pane {
 
@@ -32,6 +32,8 @@ public class SimulationArea extends Pane {
 		}
 	};
 	private int createdFoodCount = 0;
+	
+	public static final int maxPopulation = 100;
 
 	private static final int houseImageWidth = 50;
 	private static final int width = Global.WIDTH;
@@ -112,13 +114,14 @@ public class SimulationArea extends Pane {
 			controlBar.setFireAntsCount(controlBar.getFireAntsCount() + 1);
 		} else {
 			ant = new FlashAnt(origin);
+			ant.playIntroSound();
 			controlBar.setFlashAntsCount(controlBar.getFlashAntsCount() + 1);
 		}
 
 		final int updatedPopulation = controlBar.getPopulation() + 1;
-		final int maxPopulation = 100;
-		if (updatedPopulation >= maxPopulation) // no longer add ants after this threshold
-			controlBar.setHasReachedMaxPopulation(true);
+		if (updatedPopulation >= maxPopulation) { // no longer add ants after this threshold
+			controlBar.playOutroSound();
+		}
 		controlBar.setPopulation(updatedPopulation);
 		controlBar.rerender();
 

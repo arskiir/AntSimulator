@@ -4,7 +4,8 @@ import entity.base.Ant;
 import gui.ControlBar;
 import gui.SimulationArea;
 import javafx.scene.image.ImageView;
-import utils.math.Vector;
+import utils.Sound;
+import utils.Vector;
 
 public final class FlashAnt extends Ant {
 
@@ -18,6 +19,20 @@ public final class FlashAnt extends Ant {
 		this.img = new ImageView("flash-ant.png");
 		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
+		
+		this.introPlayer = Sound.getMediaPlayer("res/dejavu.wav", .5);
+		this.outroPlayer = Sound.getMediaPlayer("res/oof_loud.mp3", .05);
+	}
+	
+	@Override
+	public void playIntroSound() {
+		introPlayer.play();
+	}
+	
+	@Override
+	public void playOutroSound() {
+		// more dramatic death
+		outroPlayer.play();
 	}
 
 	@Override

@@ -9,9 +9,11 @@ import gui.Global;
 import gui.SimulationArea;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
-import utils.math.Vector;
+import javafx.scene.media.MediaPlayer;
+import utils.Sound;
+import utils.Vector;
 
-public class Ant implements Renderable {
+public class Ant implements Renderable, Restartable {
 
 	public enum AntType {
 		FIRE, FLASH, MAX_TYPES
@@ -32,17 +34,19 @@ public class Ant implements Renderable {
 	protected double visionSpan;
 	protected double visionDepth;
 	protected double moneyMultiplier; // after bringing food home, add the value of food cost * this field to money
-
 	protected Thread findFoodThread;
+	
+	protected MediaPlayer introPlayer;
+	protected MediaPlayer outroPlayer;
 
-	protected int id;
-
+	// shared/static fields
 	protected static int antCount = 0;
-
 	protected static final Random random = new Random();
 
 	public Ant(Vector home) {
-		this.id = ++antCount;
+		this.outroPlayer = Sound.getMediaPlayer("res/oof.wav", .5);
+
+		++antCount;
 		this.steps = 0;
 		this.broughtHomeCount = 0;
 		this.multipleReproduce = 10;
@@ -61,6 +65,10 @@ public class Ant implements Renderable {
 		this.speed = 1d; // for normal ants
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
 		this.findFoodThread = new Thread(() -> this.start());
+	}
+
+	public static int getAntCount() {
+		return antCount;
 	}
 
 	protected void start() {
@@ -113,7 +121,7 @@ public class Ant implements Renderable {
 	}
 
 	protected void reproduce(SimulationArea simulationArea, ControlBar controlBar) {
-		if (controlBar.isHasReachedMaxPopulation()) {
+		if (controlBar.hasReachedMaxPopulation()) {
 			// more than this is no longer safe
 			return;
 		}
@@ -262,4 +270,14 @@ public class Ant implements Renderable {
 		this.img = img;
 	}
 
+	@Override
+	public void playIntroSound() {
+		// no introduction sound for normal ant
+	}
+
+	@Override
+	public void playOutroSound() {
+		// play when it dies, just ate poison food
+		outroPlayer.play();
+	}
 }

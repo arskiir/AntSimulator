@@ -6,9 +6,9 @@ import app.Main;
 import gui.SimulationArea;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
-import utils.math.Vector;
+import utils.Vector;
 
-public class Food implements Renderable {
+public class Food implements Renderable, Restartable {
 
 	protected ImageView img;
 	protected Vector position;
@@ -62,6 +62,18 @@ public class Food implements Renderable {
 
 	public void setFound(boolean isFound) {
 		this.isFound = isFound;
+	}
+
+	@Override
+	public void playIntroSound() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playOutroSound() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

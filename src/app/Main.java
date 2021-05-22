@@ -37,6 +37,7 @@ public class Main extends Application {
 		for (int count = 0; count < startingAntCount; ++count)
 			simulationArea.addAnt(AntType.FIRE);
 		controlBar.rerender();
+		controlBar.playIntroSound();
 	}
 
 	public static void stopSimulation() {
@@ -48,7 +49,6 @@ public class Main extends Application {
 		controlBar.setBroughtHomeCandyCount(0);
 		controlBar.setFoodCost(controlBar.getBaseFoodCost());
 		controlBar.setMoney(controlBar.getBasemoney());
-		controlBar.setHasReachedMaxPopulation(false);
 		controlBar.rerender();
 		simulationArea.reset();
 	}

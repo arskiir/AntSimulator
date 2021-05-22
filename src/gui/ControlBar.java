@@ -2,6 +2,7 @@ package gui;
 
 import app.Main;
 import entity.base.Renderable;
+import entity.base.Restartable;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,11 +11,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import utils.Sound;
 
-public class ControlBar extends HBox implements Renderable {
+public class ControlBar extends HBox implements Renderable, Restartable {
 
 	private Text moneyText;
 	private Text populationText;
@@ -39,7 +42,9 @@ public class ControlBar extends HBox implements Renderable {
 			+ "-fx-border-width: 3px; -fx-border-color: chocolate; -fx-background-radius: 8px;";
 
 	private String font = "Consolas";
-	private boolean hasReachedMaxPopulation;
+	
+	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/game-intro.wav", 0.4);
+	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("res/victory.wav", 1);
 
 	public ControlBar() {
 		super();
@@ -48,7 +53,6 @@ public class ControlBar extends HBox implements Renderable {
 		this.foodCost = baseFoodCost;
 		this.baseMoney = foodCost * 200;
 		this.money = baseMoney;
-		this.hasReachedMaxPopulation = false;
 
 		this.population = 0;
 		this.fireAntsCount = 0;
@@ -139,7 +143,7 @@ public class ControlBar extends HBox implements Renderable {
 				this.moneyText.setText("Money: " + (int) this.money);
 			}
 
-			if (hasReachedMaxPopulation) {
+			if (this.hasReachedMaxPopulation()) {
 				this.populationText.setText("Population: " + this.population + " (max)");
 			} else {
 				this.populationText.setText("Population: " + this.population);
@@ -153,16 +157,12 @@ public class ControlBar extends HBox implements Renderable {
 
 	}
 
+	public boolean hasReachedMaxPopulation() {
+		return this.population >= SimulationArea.maxPopulation;
+	}
+
 	public Button getStartRestartButton() {
 		return startRestartButton;
-	}
-
-	public boolean isHasReachedMaxPopulation() {
-		return hasReachedMaxPopulation;
-	}
-
-	public void setHasReachedMaxPopulation(boolean hasReachedMaxPopulation) {
-		this.hasReachedMaxPopulation = hasReachedMaxPopulation;
 	}
 
 	public void setStartRestartButton(Button startRestartButton) {
@@ -273,10 +273,6 @@ public class ControlBar extends HBox implements Renderable {
 		return foodCost;
 	}
 
-	public int getBaseMoney() {
-		return baseMoney;
-	}
-
 	public void setBaseMoney(int baseMoney) {
 		this.baseMoney = baseMoney;
 	}
@@ -293,6 +289,17 @@ public class ControlBar extends HBox implements Renderable {
 	@Override
 	public void setImg(ImageView img) throws NoImageException {
 		throw new NoImageException("There is no image on ControlBar. 🤣");
+	}
+
+	@Override
+	public void playIntroSound() {
+		Sound.play(introPlayer);
+	}
+
+	@Override
+	public void playOutroSound() {
+		// play this when the max number of population is reached.
+		Sound.play(outroPlayer);
 	}
 
 }
