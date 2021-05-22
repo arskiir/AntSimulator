@@ -46,6 +46,7 @@ public class Main extends Application {
 		controlBar.setFlashAntsCount(0);
 		controlBar.setBroughtHomeCandyCount(0);
 		controlBar.setDeadCount(0);
+		controlBar.setHasReachedMaxMoney(false);
 		controlBar.setFoodCost(controlBar.getBaseFoodCost());
 		controlBar.setMoney(controlBar.getBasemoney());
 		controlBar.rerender();

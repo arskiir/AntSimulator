@@ -27,6 +27,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	private Text deadCountText;
 
 	private double money;
+	private boolean hasReachedMaxMoney;
 	private int foodCost;
 	private int baseFoodCost;
 	private int baseMoney;
@@ -43,10 +44,12 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 
 	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/game-intro.wav", 0.4);
 	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("res/megalovania_intro.mp3", .2);
+	private static final MediaPlayer maxMoneyPlayer = Sound.getMediaPlayer("res/money.wav", .2);
 
 	public ControlBar() {
 		super();
 
+		this.setHasReachedMaxMoney(false);
 		this.setupNumericVariables();
 		this.setupLayout();
 
@@ -65,7 +68,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.foodCost = baseFoodCost;
 		this.baseMoney = foodCost * 200;
 		this.money = baseMoney;
-		
+
 		this.population = 0;
 		this.fireAntsCount = 0;
 		this.flashAntsCount = 0;
@@ -136,7 +139,10 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	@Override
 	public void rerender() {
 		Platform.runLater(() -> {
-			if (this.money > 100000) {
+			if (this.money > 100_000) {
+				if (!this.hasReachedMaxMoney)
+					Sound.play(maxMoneyPlayer);
+				this.hasReachedMaxMoney = true;
 				this.moneyText.setText("Money: WHO CARES");
 				foodCost = 0;
 			} else {
@@ -236,6 +242,10 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	public void playOutroSound() {
 		// play this when the max number of population is reached.
 		Sound.play(outroPlayer);
+	}
+
+	public void setHasReachedMaxMoney(boolean hasReachedMaxMoney) {
+		this.hasReachedMaxMoney = hasReachedMaxMoney;
 	}
 
 }
