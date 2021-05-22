@@ -32,14 +32,13 @@ public class SimulationArea extends Pane {
 		}
 	};
 	private int createdFoodCount = 0;
-	
+
 	public static final int maxPopulation = 100;
 	private boolean hasWon = false;
 
 	private static final int houseImageWidth = 50;
 	public static final int height = 800;
-	public static final Vector origin = new Vector((double) Global.WIDTH / 2, (double) -height / 2, 0); // in conventional x-y
-																									// plane
+	public static final Vector origin = new Vector((double) Global.WIDTH / 2, (double) -height / 2, 0);
 
 	private int dragCount = 0; // if this is a multiple of a number, then add the food, to slow down
 	private static final int dragMultiple = 4;
@@ -48,21 +47,11 @@ public class SimulationArea extends Pane {
 
 	public SimulationArea() {
 		super();
-		setup();
+		this.setupUI();
+		this.setupCreateFoodEventListeners();
 	}
 
-	private void setup() {
-		this.setMinHeight(height);
-		this.setPrefWidth(Global.WIDTH);
-		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-
-		this.getChildren().add(houseImage);
-		this.houseImage.setFitHeight(houseImageWidth);
-		this.houseImage.setFitWidth(houseImageWidth);
-		this.houseImage.relocate((double) Global.WIDTH / 2 - (double) houseImageWidth / 2,
-				(double) height / 2 - (double) houseImageWidth / 2);
-
-		// click or drag to generate food
+	private void setupCreateFoodEventListeners() {
 		this.setOnMouseDragged(e -> {
 			this.dragCount++;
 			ControlBar controlBar = Main.getControlBar();
@@ -81,6 +70,19 @@ public class SimulationArea extends Pane {
 				controlBar.rerender();
 			}
 		});
+	}
+
+	private void setupUI() {
+		this.setMinHeight(height);
+		this.setPrefWidth(Global.WIDTH);
+		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+
+		this.getChildren().add(houseImage);
+		this.houseImage.setFitHeight(houseImageWidth);
+		this.houseImage.setFitWidth(houseImageWidth);
+		this.houseImage.relocate((double) Global.WIDTH / 2 - (double) houseImageWidth / 2,
+				(double) height / 2 - (double) houseImageWidth / 2);
+
 	}
 
 	public boolean isHasWon() {
@@ -160,7 +162,7 @@ public class SimulationArea extends Pane {
 		resetAnts();
 		this.hasWon = false;
 		this.getChildren().clear();
-		setup();
+		setupUI();
 	}
 
 	public List<Ant> getAnts() {
