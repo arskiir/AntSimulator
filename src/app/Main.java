@@ -13,17 +13,18 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-	/**  indicates if the simulation is running or not. */
+	/** indicates if the simulation is running or not. */
 	private static boolean isActive = false;
-	
+
 	/** Instance of ControlBar */
 	private static ControlBar controlBar = new ControlBar();
-	
+
 	/** Instance of SimulationArea */
 	private static SimulationArea simulationArea = new SimulationArea();
 
 	/**
-	 * Entry point of the application when run
+	 * Puts each user interface component on the stage and shows. This also setups a
+	 * handler to interrupt all ants' threads on window close request.
 	 * 
 	 * @param primaryStage the primary stage
 	 * @throws Exception the exception
@@ -40,6 +41,8 @@ public class Main extends Application {
 		primaryStage.centerOnScreen();
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setOnCloseRequest(
+				e -> simulationArea.getAnts().forEach(ant -> ant.getSettingOffJourneyThread().interrupt()));
 	}
 
 	/**
