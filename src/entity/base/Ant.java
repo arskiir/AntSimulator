@@ -49,7 +49,7 @@ public class Ant implements Renderable, Restartable {
 		this.visionSpan = 90d;
 		this.visionDepth = 100d;
 		this.antHeight = 15;
-		this.moneyMultiplier = 1.2;
+		this.moneyMultiplier = 1.5;
 		this.hasFoundFood = false;
 		this.hasReachedFood = false;
 		this.foundFood = null;
