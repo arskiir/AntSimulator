@@ -10,23 +10,23 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Main JavaFX Application class for Ant Simulator
+ * Main JavaFX Application class for Ant Simulator.
  */
 public class Main extends Application {
 
 	/** indicates if the simulation is running or not. */
 	private static boolean isActive = false;
 
-	/** Instance of ControlBar */
+	/** Instance of ControlBar. */
 	private static ControlBar controlBar = new ControlBar();
 
-	/** Instance of SimulationArea */
+	/** Instance of SimulationArea. */
 	private static SimulationArea simulationArea = new SimulationArea();
 
 	/**
 	 * Puts each user interface component on the stage and shows. This also setups a
 	 * handler to interrupt all ants' threads on window close request.
-	 * 
+	 *
 	 * @param primaryStage the primary stage
 	 * @throws Exception the exception
 	 */
@@ -48,7 +48,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * starts the simulation
+	 * starts the simulation.
 	 */
 	public static void startSimulation() {
 		isActive = true;
@@ -61,7 +61,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * stops the simulation
+	 * stops the simulation.
 	 */
 	public static void stopSimulation() {
 		isActive = false;
