@@ -204,8 +204,8 @@ public class Ant implements Renderable, Restartable {
 
 	protected void randomizeDirection() {
 		// random next velocity direction after some steps if hasn't found food
-		if (!hasFoundFood && this.steps % (random.nextInt(200) + 20) == 0) {
-			final double span = 180d;
+		if (!hasFoundFood) { // + 1 in case nextInt returns 0
+			final double span = 20d;
 			final double angleOffset = random.nextDouble() * span - span / 2;
 			this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle() + angleOffset, this.speed);
 		}
