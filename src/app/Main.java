@@ -8,18 +8,32 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Main JavaFX Application class for Ant Simulator
+ */
 public class Main extends Application {
 
+	/**  indicates if the simulation is running or not. */
 	private static boolean isActive = false;
+	
+	/** Instance of ControlBar */
 	private static ControlBar controlBar = new ControlBar();
+	
+	/** Instance of SimulationArea */
 	private static SimulationArea simulationArea = new SimulationArea();
 
+	/**
+	 * Entry point of the application when run
+	 * 
+	 * @param primaryStage the primary stage
+	 * @throws Exception the exception
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		VBox root = new VBox();
+		var root = new VBox();
 		root.getChildren().addAll(controlBar, simulationArea);
 
-		Scene scene = new Scene(root);
+		var scene = new Scene(root);
 
 		primaryStage.setTitle("Ant Simulator");
 		primaryStage.setResizable(false);
@@ -28,16 +42,22 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
+	/**
+	 * starts the simulation
+	 */
 	public static void startSimulation() {
 		isActive = true;
 		controlBar.getStartRestartButton().setText("Stop");
-		final int startingAntCount = 5;
-		for (int count = 0; count < startingAntCount; ++count)
+		final var startingAntCount = 5;
+		for (var count = 0; count < startingAntCount; ++count)
 			simulationArea.addAnt(AntType.FIRE);
 		controlBar.rerender();
 		controlBar.playIntroSound();
 	}
 
+	/**
+	 * stops the simulation
+	 */
 	public static void stopSimulation() {
 		isActive = false;
 		controlBar.getStartRestartButton().setText("Start");
@@ -53,32 +73,40 @@ public class Main extends Application {
 		simulationArea.reset();
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Checks if the simulation is running or not.
+	 * 
+	 * @return true, if is isActive == true, else false
+	 */
 	public static boolean isActive() {
 		return isActive;
 	}
 
+	/**
+	 * Gets the control bar.
+	 *
+	 * @return the control bar
+	 */
 	public static ControlBar getControlBar() {
 		return controlBar;
 	}
 
-	public static void setControlBar(ControlBar controlBar) {
-		Main.controlBar = controlBar;
-	}
-
+	/**
+	 * Gets the simulation area.
+	 *
+	 * @return the simulation area
+	 */
 	public static SimulationArea getSimulationArea() {
 		return simulationArea;
-	}
-
-	public static void setSimulationArea(SimulationArea simulationArea) {
-		Main.simulationArea = simulationArea;
-	}
-
-	public static void setActive(boolean isActive) {
-		Main.isActive = isActive;
 	}
 
 }
