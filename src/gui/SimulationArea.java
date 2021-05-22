@@ -34,6 +34,7 @@ public class SimulationArea extends Pane {
 	private int createdFoodCount = 0;
 	
 	public static final int maxPopulation = 100;
+	private boolean hasWon = false;
 
 	private static final int houseImageWidth = 50;
 	public static final int height = 800;
@@ -82,6 +83,14 @@ public class SimulationArea extends Pane {
 		});
 	}
 
+	public boolean isHasWon() {
+		return hasWon;
+	}
+
+	public void setHasWon(boolean hasWon) {
+		this.hasWon = hasWon;
+	}
+
 	public void createFood(Vector position) {
 		// create new Food object and add to container to keep track
 		// also show it in the area
@@ -118,7 +127,8 @@ public class SimulationArea extends Pane {
 		}
 
 		final int updatedPopulation = controlBar.getPopulation() + 1;
-		if (updatedPopulation >= maxPopulation) { // no longer add ants after this threshold
+		if (updatedPopulation >= maxPopulation && !this.hasWon) { // no longer add ants after this threshold
+			this.hasWon = true;
 			controlBar.playOutroSound();
 		}
 		controlBar.setPopulation(updatedPopulation);
@@ -148,6 +158,7 @@ public class SimulationArea extends Pane {
 	public void reset() {
 		resetFoods();
 		resetAnts();
+		this.hasWon = false;
 		this.getChildren().clear();
 		setup();
 	}
