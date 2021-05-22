@@ -41,32 +41,66 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
 			+ "-fx-border-width: 3px; -fx-border-color: chocolate; -fx-background-radius: 8px;";
 
-	private String fontFamily = "Consolas";
-	
 	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/game-intro.wav", 0.4);
 	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("res/victory.wav", 1);
 
 	public ControlBar() {
 		super();
 
+		this.setupNumericVariables();
+		this.setupLayout();
+
+		final String fontFamily = "Consolas";
+		final Font textFont = new Font(fontFamily, 18);
+		this.setupTexts(textFont);
+		this.setupButton(fontFamily);
+
+		this.getChildren().addAll(moneyText, populationText, fireAntsCountText, flashAntsCountText,
+				broughtHomeCandyCountText, deadCountText, startRestartButton);
+		this.rerender();
+	}
+
+	private void setupNumericVariables() {
 		this.baseFoodCost = 100;
 		this.foodCost = baseFoodCost;
 		this.baseMoney = foodCost * 200;
 		this.money = baseMoney;
-
+		
 		this.population = 0;
 		this.fireAntsCount = 0;
 		this.flashAntsCount = 0;
 		this.broughtHomeCandyCount = 0;
 		this.deadCount = 0;
+	}
 
+	private void setupLayout() {
 		this.setPrefWidth(Global.WIDTH);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		this.setAlignment(Pos.CENTER);
 		this.setSpacing(40);
 		this.setPadding(new Insets(10, 0, 10, 0));
+	}
 
-		final Font textFont = new Font(fontFamily, 18);
+	private void setupButton(String fontFamily) {
+		this.startRestartButton = new Button("Start");
+		this.startRestartButton.setFont(new Font(fontFamily, 16));
+		this.startRestartButton.setPrefWidth(100);
+		this.startRestartButton.setStyle(buttonBaseStyle);
+
+		this.startRestartButton.setOnMouseClicked(e -> {
+			if (Main.isActive()) {
+				Main.stopSimulation();
+				return;
+			}
+
+			Main.startSimulation();
+		});
+		this.startRestartButton.setOnMouseEntered(e -> this.startRestartButton.setStyle(
+				buttonBaseStyle + "-fx-background-color: darkorange;" + " -fx-color: white; -fx-text-fill: white;"));
+		this.startRestartButton.setOnMouseExited(e -> this.startRestartButton.setStyle(buttonBaseStyle));
+	}
+
+	private void setupTexts(Font textFont) {
 		this.moneyText = new Text();
 		this.moneyText.setFill(Color.LIGHTPINK);
 		this.moneyText.setFont(textFont);
@@ -85,28 +119,6 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.deadCountText = new Text();
 		this.deadCountText.setFont(textFont);
 		this.deadCountText.setFill(Color.LIGHTGRAY);
-		
-		this.rerender();
-
-		this.startRestartButton = new Button("Start");
-		this.startRestartButton.setFont(new Font(fontFamily, 16));
-		this.startRestartButton.setPrefWidth(100);
-		this.startRestartButton.setStyle(buttonBaseStyle);
-
-		this.getChildren().addAll(moneyText, populationText, fireAntsCountText, flashAntsCountText,
-				broughtHomeCandyCountText, deadCountText, startRestartButton);
-
-		this.startRestartButton.setOnMouseClicked(e -> {
-			if (Main.isActive()) {
-				Main.stopSimulation();
-				return;
-			}
-
-			Main.startSimulation();
-		});
-		this.startRestartButton.setOnMouseEntered(e -> this.startRestartButton.setStyle(
-				buttonBaseStyle + "-fx-background-color: darkorange;" + " -fx-color: white; -fx-text-fill: white;"));
-		this.startRestartButton.setOnMouseExited(e -> this.startRestartButton.setStyle(buttonBaseStyle));
 	}
 
 	public int getDeadCount() {
