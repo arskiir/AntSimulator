@@ -112,7 +112,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	private void setupNumericVariables() {
 		this.baseCandyCost = 100;
 		this.candyCost = baseCandyCost;
-		this.baseMoney = candyCost * 200;
+		this.baseMoney = candyCost * 50;
 		this.money = baseMoney;
 
 		this.population = 0;
