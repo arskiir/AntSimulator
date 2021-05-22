@@ -41,7 +41,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	private String buttonBaseStyle = "-fx-border-radius: 8px; -fx-background-color: white; -fx-border-style: solid; "
 			+ "-fx-border-width: 3px; -fx-border-color: chocolate; -fx-background-radius: 8px;";
 
-	private String font = "Consolas";
+	private String fontFamily = "Consolas";
 	
 	private static final MediaPlayer introPlayer = Sound.getMediaPlayer("res/game-intro.wav", 0.4);
 	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("res/victory.wav", 1);
@@ -66,7 +66,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.setSpacing(40);
 		this.setPadding(new Insets(10, 0, 10, 0));
 
-		final Font textFont = new Font(font, 18);
+		final Font textFont = new Font(fontFamily, 18);
 		this.moneyText = new Text();
 		this.moneyText.setFill(Color.LIGHTPINK);
 		this.moneyText.setFont(textFont);
@@ -89,7 +89,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.rerender();
 
 		this.startRestartButton = new Button("Start");
-		this.startRestartButton.setFont(new Font(font, 16));
+		this.startRestartButton.setFont(new Font(fontFamily, 16));
 		this.startRestartButton.setPrefWidth(100);
 		this.startRestartButton.setStyle(buttonBaseStyle);
 
@@ -109,14 +109,6 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.startRestartButton.setOnMouseExited(e -> this.startRestartButton.setStyle(buttonBaseStyle));
 	}
 
-	public Text getDeadCountText() {
-		return deadCountText;
-	}
-
-	public void setDeadCountText(Text deadCountText) {
-		this.deadCountText = deadCountText;
-	}
-
 	public int getDeadCount() {
 		return deadCount;
 	}
@@ -127,10 +119,6 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 
 	public int getBaseFoodCost() {
 		return baseFoodCost;
-	}
-
-	public void setBaseFoodCost(int baseFoodCost) {
-		this.baseFoodCost = baseFoodCost;
 	}
 
 	@Override
@@ -165,36 +153,8 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		return startRestartButton;
 	}
 
-	public void setStartRestartButton(Button startRestartButton) {
-		this.startRestartButton = startRestartButton;
-	}
-
 	public int getBasemoney() {
 		return baseMoney;
-	}
-
-	public Text getPopulationText() {
-		return populationText;
-	}
-
-	public void setPopulationText(Text populationText) {
-		this.populationText = populationText;
-	}
-
-	public Text getFireAntsCountText() {
-		return fireAntsCountText;
-	}
-
-	public void setFireAntsCountText(Text fireAntsCountText) {
-		this.fireAntsCountText = fireAntsCountText;
-	}
-
-	public Text getFlashAntsCountText() {
-		return flashAntsCountText;
-	}
-
-	public void setFlashAntsCountText(Text flashAntsCountText) {
-		this.flashAntsCountText = flashAntsCountText;
 	}
 
 	public int getPopulation() {
@@ -221,28 +181,12 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.flashAntsCount = flashAntsCount;
 	}
 
-	public Text getBroughtHomeCandyCountText() {
-		return broughtHomeCandyCountText;
-	}
-
-	public Text getMoneyText() {
-		return moneyText;
-	}
-
-	public void setMoneyText(Text moneyText) {
-		this.moneyText = moneyText;
-	}
-
 	public double getMoney() {
 		return money;
 	}
 
 	public void setMoney(double d) {
 		this.money = d;
-	}
-
-	public void setBroughtHomeCandyCountText(Text broughtHomeCandyCountText) {
-		this.broughtHomeCandyCountText = broughtHomeCandyCountText;
 	}
 
 	public int getBroughtHomeCandyCount() {
@@ -253,28 +197,8 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 		this.broughtHomeCandyCount = broughtHomeCandyCount;
 	}
 
-	public String getButtonBaseStyle() {
-		return buttonBaseStyle;
-	}
-
-	public void setButtonBaseStyle(String buttonBaseStyle) {
-		this.buttonBaseStyle = buttonBaseStyle;
-	}
-
-	public String getFont() {
-		return font;
-	}
-
-	public void setFont(String font) {
-		this.font = font;
-	}
-
 	public int getFoodCost() {
 		return foodCost;
-	}
-
-	public void setBaseMoney(int baseMoney) {
-		this.baseMoney = baseMoney;
 	}
 
 	public void setFoodCost(int foodCost) {

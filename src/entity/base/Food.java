@@ -8,28 +8,28 @@ import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import utils.Vector;
 
-public class Food implements Renderable, Restartable {
+public class Food implements Renderable {
 
 	protected ImageView img;
 	protected Vector position;
 	protected boolean isFound;
 
 	protected static final int HEIGHT = 25;
-
 	protected static final Random random = new Random();
 
 	public Food(final String imgPath, Vector position) {
 		this.img = new ImageView(imgPath);
 		this.position = position;
 		this.isFound = false;
-
-		this.img.relocate(-this.position.getX() - this.img.getFitWidth() / 2,
-				-this.position.getY() - this.img.getFitHeight() / 2);
 		this.img.setFitHeight(HEIGHT);
 		this.img.setPreserveRatio(true);
 		this.img.setRotate(random.nextDouble() * 360);
+
+		// to centralize the image to the click event location
+		this.img.relocate(-this.position.getX() - this.img.getFitWidth() / 2,
+				-this.position.getY() - this.img.getFitHeight() / 2);
 	}
-	
+
 	@Override
 	public void rerender() {
 		final SimulationArea simulationArea = Main.getSimulationArea();
@@ -62,18 +62,6 @@ public class Food implements Renderable, Restartable {
 
 	public void setFound(boolean isFound) {
 		this.isFound = isFound;
-	}
-
-	@Override
-	public void playIntroSound() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void playOutroSound() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

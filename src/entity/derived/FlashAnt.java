@@ -9,8 +9,8 @@ import utils.Vector;
 
 public final class FlashAnt extends Ant {
 
-	public FlashAnt(Vector home) {
-		super(home);
+	public FlashAnt() {
+		super();
 		this.speed *= 5;
 		this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle(), this.speed);
 		this.visionSpan = 15; // see less than fire ant
@@ -31,7 +31,6 @@ public final class FlashAnt extends Ant {
 	
 	@Override
 	public void playOutroSound() {
-		// more dramatic death
 		outroPlayer.play();
 	}
 

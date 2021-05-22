@@ -20,7 +20,6 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	protected Vector velocity;
-	protected Vector origin;
 	protected Vector position;
 	protected double speed;
 	protected ImageView img;
@@ -40,13 +39,10 @@ public class Ant implements Renderable, Restartable {
 	protected MediaPlayer outroPlayer;
 
 	// shared/static fields
-	protected static int antCount = 0;
 	protected static final Random random = new Random();
 
-	public Ant(Vector home) {
+	public Ant() {
 		this.outroPlayer = Sound.getMediaPlayer("res/oof.wav", .5);
-
-		++antCount;
 		this.steps = 0;
 		this.broughtHomeCount = 0;
 		this.multipleReproduce = 10;
@@ -57,18 +53,13 @@ public class Ant implements Renderable, Restartable {
 		this.hasFoundFood = false;
 		this.hasReachedFood = false;
 		this.foundFood = null;
-		this.origin = home; // 4th quadrant
-		this.position = new Vector(home); // NOTE: home is passed in by reference D:
+		this.position = new Vector(SimulationArea.origin);
 		this.img = new ImageView("ant.png");
 		this.img.setFitHeight(this.antHeight);
 		this.img.setPreserveRatio(true);
 		this.speed = 1d; // for normal ants
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
 		this.findFoodThread = new Thread(() -> this.start());
-	}
-
-	public static int getAntCount() {
-		return antCount;
 	}
 
 	protected void start() {
@@ -149,7 +140,7 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	protected Vector getAntToHomeVector() {
-		return new Vector(this.origin.getX() - this.position.getX(), this.origin.getY() - this.position.getY(), 0d);
+		return new Vector(SimulationArea.origin.getX() - this.position.getX(), SimulationArea.origin.getY() - this.position.getY(), 0d);
 	}
 
 	protected boolean isFoodReachable() {

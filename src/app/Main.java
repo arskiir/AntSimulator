@@ -11,13 +11,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	private static boolean isActive = false;
-
 	private static ControlBar controlBar = new ControlBar();
 	private static SimulationArea simulationArea = new SimulationArea();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		VBox root = new VBox();
 		root.getChildren().addAll(controlBar, simulationArea);
 

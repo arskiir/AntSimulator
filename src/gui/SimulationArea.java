@@ -36,9 +36,8 @@ public class SimulationArea extends Pane {
 	public static final int maxPopulation = 100;
 
 	private static final int houseImageWidth = 50;
-	private static final int width = Global.WIDTH;
 	public static final int height = 800;
-	private static final Vector origin = new Vector((double) width / 2, (double) -height / 2, 0); // in conventional x-y
+	public static final Vector origin = new Vector((double) Global.WIDTH / 2, (double) -height / 2, 0); // in conventional x-y
 																									// plane
 
 	private int dragCount = 0; // if this is a multiple of a number, then add the food, to slow down
@@ -53,13 +52,13 @@ public class SimulationArea extends Pane {
 
 	private void setup() {
 		this.setMinHeight(height);
-		this.setPrefWidth(width);
+		this.setPrefWidth(Global.WIDTH);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 
 		this.getChildren().add(houseImage);
 		this.houseImage.setFitHeight(houseImageWidth);
 		this.houseImage.setFitWidth(houseImageWidth);
-		this.houseImage.relocate((double) width / 2 - (double) houseImageWidth / 2,
+		this.houseImage.relocate((double) Global.WIDTH / 2 - (double) houseImageWidth / 2,
 				(double) height / 2 - (double) houseImageWidth / 2);
 
 		// click or drag to generate food
@@ -110,10 +109,10 @@ public class SimulationArea extends Pane {
 
 		Ant ant = null;
 		if (type == AntType.FIRE) {
-			ant = new Ant(origin);
+			ant = new Ant();
 			controlBar.setFireAntsCount(controlBar.getFireAntsCount() + 1);
 		} else {
-			ant = new FlashAnt(origin);
+			ant = new FlashAnt();
 			ant.playIntroSound();
 			controlBar.setFlashAntsCount(controlBar.getFlashAntsCount() + 1);
 		}
