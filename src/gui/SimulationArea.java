@@ -20,9 +20,10 @@ import utils.Vector;
 
 public class SimulationArea extends Pane {
 
-	private ImageView houseImage = new ImageView("house.png");
 	private ArrayList<Ant> ants = new ArrayList<>();
 	private CopyOnWriteArrayList<Food> foods = new CopyOnWriteArrayList<>();
+	
+	private ImageView houseImage = new ImageView("house.png");
 	private ArrayList<String> foodImgPaths = new ArrayList<>() {
 		private static final long serialVersionUID = -3891700759148049065L;
 		{
@@ -141,6 +142,7 @@ public class SimulationArea extends Pane {
 	}
 
 	public void resetFoods() {
+		this.foods.forEach(food -> food.getImg().setVisible(false));
 		this.foods.clear();
 	}
 
@@ -158,10 +160,10 @@ public class SimulationArea extends Pane {
 	}
 
 	public void reset() {
+		this.getChildren().clear();
 		resetFoods();
 		resetAnts();
 		this.hasWon = false;
-		this.getChildren().clear();
 		setupUI();
 	}
 
