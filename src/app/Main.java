@@ -5,6 +5,7 @@ import gui.ControlBar;
 import gui.SimulationArea;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -40,6 +41,7 @@ public class Main extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.centerOnScreen();
 		primaryStage.setScene(scene);
+		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("candy1.png")));
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(
 				e -> simulationArea.getAnts().forEach(ant -> ant.getSettingOffJourneyThread().interrupt()));
