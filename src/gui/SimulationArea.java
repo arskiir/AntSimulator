@@ -23,50 +23,50 @@ import utils.Vector;
  */
 public class SimulationArea extends Pane {
 
-	/** The ants. */
+	/** The container for all living ants. */
 	private ArrayList<Ant> ants = new ArrayList<>();
 	
-	/** The foods. */
-	private CopyOnWriteArrayList<Candy> foods = new CopyOnWriteArrayList<>();
+	/** The container for all candies. */
+	private CopyOnWriteArrayList<Candy> candies = new CopyOnWriteArrayList<>();
 	
 	/** The house image. */
 	private ImageView houseImage = new ImageView("house.png");
 	
-	/** The food img paths. */
-	private ArrayList<String> foodImgPaths = new ArrayList<>() {
+	/** The paths for candy images. */
+	private ArrayList<String> candyImgPaths = new ArrayList<>() {
 		private static final long serialVersionUID = -3891700759148049065L;
 		{
-			add("food1.png");
-			add("food2.png");
-			add("food3.png");
+			add("candy1.png");
+			add("candy2.png");
+			add("candy3.png");
 		}
 	};
 	
-	/** The created food count. */
-	private int createdFoodCount = 0;
+	/** The created candy count. */
+	private int createdCandyCount = 0;
 
-	/** The Constant maxPopulation. */
+	/** The maximum number of population. */
 	public static final int maxPopulation = 100;
 	
-	/** The has won. */
-	private boolean hasWon = false;
+	/** Tells if the current population size has reached the maxPopulation or not. */
+	private boolean hasReachedMaxPopulation = false;
 
-	/** The Constant houseImageWidth. */
+	/** The width of the house image. Note: the height is the same for this specific design */
 	private static final int houseImageWidth = 50;
 	
-	/** The Constant height. */
+	/** The height of the area, i.e. the pane */
 	public static final int height = 800;
 	
-	/** The Constant origin. */
+	/** The vector to the center of the area. */
 	public static final Vector origin = new Vector((double) Global.WIDTH / 2, (double) -height / 2, 0);
 
-	/** The drag count. */
-	private int dragCount = 0; // if this is a multiple of a number, then add the food, to slow down
+	/** Gets incremented on MouseDragged event */
+	private int dragCount = 0;
 	
-	/** The Constant dragMultiple. */
+	/** Helps slow down the generation rate of candies. */
 	private static final int dragMultiple = 4;
 
-	/** The Constant random. */
+	/** Used to random numbers */
 	public static final Random random = new Random();
 
 	/**
@@ -75,27 +75,27 @@ public class SimulationArea extends Pane {
 	public SimulationArea() {
 		super();
 		this.setupUI();
-		this.setupCreateFoodEventListeners();
+		this.setupCreateCandyEventListeners();
 	}
 
 	/**
-	 * Setup create food event listeners.
+	 * Setups create candy event listeners.
 	 */
-	private void setupCreateFoodEventListeners() {
+	private void setupCreateCandyEventListeners() {
 		this.setOnMouseDragged(e -> {
 			this.dragCount++;
-			ControlBar controlBar = Main.getControlBar();
+			var controlBar = Main.getControlBar();
 			if (this.dragCount % SimulationArea.dragMultiple == 0 && Main.isActive()
 					&& controlBar.getMoney() >= controlBar.getFoodCost()) {
-				this.createFood(new Vector(e.getX(), -e.getY(), 0));
+				this.createCandy(new Vector(e.getX(), -e.getY(), 0));
 				controlBar.setMoney(controlBar.getMoney() - controlBar.getFoodCost());
 				controlBar.rerender();
 			}
 		});
 		this.setOnMousePressed(e -> {
-			ControlBar controlBar = Main.getControlBar();
+			var controlBar = Main.getControlBar();
 			if (Main.isActive() && controlBar.getMoney() >= controlBar.getFoodCost()) {
-				this.createFood(new Vector(e.getX(), -e.getY(), 0));
+				this.createCandy(new Vector(e.getX(), -e.getY(), 0));
 				controlBar.setMoney(controlBar.getMoney() - controlBar.getFoodCost());
 				controlBar.rerender();
 			}
@@ -103,7 +103,7 @@ public class SimulationArea extends Pane {
 	}
 
 	/**
-	 * Setup UI.
+	 * Setups UI.
 	 */
 	private void setupUI() {
 		this.setMinHeight(height);
@@ -119,33 +119,33 @@ public class SimulationArea extends Pane {
 	}
 
 	/**
-	 * Checks if is checks for won.
+	 * Checks if hasReachedMaxPopulation
 	 *
-	 * @return true, if is checks for won
+	 * @return true, if hasReachedMaxPopulation == true, else false
 	 */
-	public boolean isHasWon() {
-		return hasWon;
+	public boolean getHasReachedMaxPopulation() {
+		return hasReachedMaxPopulation;
 	}
 
 	/**
-	 * Sets the checks for won.
+	 * Sets hasReachedMaxPopulation.
 	 *
-	 * @param hasWon the new checks for won
+	 * @param hasReachedMaxPopulation the new boolean value
 	 */
-	public void setHasWon(boolean hasWon) {
-		this.hasWon = hasWon;
+	public void setHasReachedMaxPopulation(boolean hasReachedMaxPopulation) {
+		this.hasReachedMaxPopulation = hasReachedMaxPopulation;
 	}
 
 	/**
-	 * Creates the food.
+	 * Creates a piece of candy, adds to the container, and shows it on the area.
 	 *
-	 * @param position the position
+	 * @param position the position vector
 	 */
-	public void createFood(Vector position) {
+	public void createCandy(Vector position) {
 		// create new Food object and add to container to keep track
 		// also show it in the area
 
-		this.createdFoodCount++;
+		this.createdCandyCount++;
 		Candy food;
 		if (random.nextDouble() < 0.01) {
 			// poison food
@@ -153,23 +153,23 @@ public class SimulationArea extends Pane {
 		} else {
 			// normal food
 			// food path changes depending on createdFoodCount
-			final String foodPath = this.foodImgPaths.get(this.createdFoodCount % this.foodImgPaths.size());
+			final String foodPath = this.candyImgPaths.get(this.createdCandyCount % this.candyImgPaths.size());
 			food = new Candy(foodPath, position);
 		}
 
 		final ImageView foodImage = food.getImg();
 		foodImage.relocate(food.getPosition().getX(), -food.getPosition().getY());
-		this.foods.add(food);
+		this.candies.add(food);
 		this.addImage(foodImage);
 	}
 
 	/**
-	 * Adds the ant.
+	 * Creates a new ant, adds to the container, and starts it journey thread.
 	 *
-	 * @param type the type
+	 * @param type the ant type
 	 */
 	public void addAnt(final AntType type) {
-		final ControlBar controlBar = Main.getControlBar();
+		final var controlBar = Main.getControlBar();
 
 		Ant ant = null;
 		if (type == AntType.FIRE) {
@@ -182,8 +182,8 @@ public class SimulationArea extends Pane {
 		}
 
 		final int updatedPopulation = controlBar.getPopulation() + 1;
-		if (updatedPopulation >= maxPopulation && !this.hasWon) { // no longer add ants after this threshold
-			this.hasWon = true;
+		if (updatedPopulation >= maxPopulation && !this.hasReachedMaxPopulation) { // no longer add ants after this threshold
+			this.hasReachedMaxPopulation = true;
 			controlBar.playOutroSound();
 		}
 		controlBar.setPopulation(updatedPopulation);
@@ -194,15 +194,15 @@ public class SimulationArea extends Pane {
 	}
 
 	/**
-	 * Reset foods.
+	 * Hides and deletes all candies from the area.
 	 */
-	public void resetFoods() {
-		this.foods.forEach(food -> food.getImg().setVisible(false));
-		this.foods.clear();
+	public void resetCandies() {
+		this.candies.forEach(food -> food.getImg().setVisible(false));
+		this.candies.clear();
 	}
 
 	/**
-	 * Reset ants.
+	 * Ends all ants' journeys and delete them.
 	 */
 	private void resetAnts() {
 		this.ants.forEach(ant -> ant.getSettingOffJourneyThread().interrupt());
@@ -210,59 +210,59 @@ public class SimulationArea extends Pane {
 	}
 
 	/**
-	 * Removes the image.
+	 * Removes an image from the area.
 	 *
-	 * @param img the img
+	 * @param img the image to be removed
 	 */
 	public void removeImage(ImageView img) {
 		this.getChildren().remove(img);
 	}
 
 	/**
-	 * Adds the image.
+	 * Shows the image on the area.
 	 *
-	 * @param img the img
+	 * @param img the image to be shown
 	 */
 	public void addImage(ImageView img) {
 		this.getChildren().add(img);
 	}
 
 	/**
-	 * Reset.
+	 * Resets every field to its default values.
 	 */
 	public void reset() {
 		this.getChildren().clear();
-		resetFoods();
+		resetCandies();
 		resetAnts();
-		this.hasWon = false;
+		this.hasReachedMaxPopulation = false;
 		setupUI();
 	}
 
 	/**
 	 * Gets the ants.
 	 *
-	 * @return the ants
+	 * @return the list of ants
 	 */
 	public List<Ant> getAnts() {
 		return this.ants;
 	}
 
 	/**
-	 * Gets the foods.
+	 * Gets the candies.
 	 *
-	 * @return the foods
+	 * @return the candies
 	 */
-	public List<Candy> getFoods() {
-		return foods;
+	public List<Candy> getCandies() {
+		return candies;
 	}
 
 	/**
-	 * Sets the foods.
+	 * Sets the candies.
 	 *
-	 * @param foods the new foods
+	 * @param candies the new list of candies
 	 */
-	public void setFoods(List<Candy> foods) {
-		this.foods = (CopyOnWriteArrayList<Candy>) foods;
+	public void setCandies(List<Candy> candies) {
+		this.candies = (CopyOnWriteArrayList<Candy>) candies;
 	}
 
 }

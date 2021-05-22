@@ -169,7 +169,7 @@ public class Ant implements Renderable, Restartable {
 			final ImageView foundFoodImage = this.foundCandy.getImg();
 			foundFoodImage.setVisible(false);
 			simulationArea.removeImage(foundFoodImage);
-			simulationArea.getFoods().remove(this.foundCandy);
+			simulationArea.getCandies().remove(this.foundCandy);
 			this.hasFoundCandy = false;
 			this.hasReachedCandy = false;
 		});
@@ -281,7 +281,7 @@ public class Ant implements Renderable, Restartable {
 				this.visionDepth);
 		final var upper = Vector.createVector2FromAngle(lower.getAngle() + this.visionSpan, this.visionDepth);
 
-		final CopyOnWriteArrayList<Candy> foods = (CopyOnWriteArrayList<Candy>) Main.getSimulationArea().getFoods();
+		final CopyOnWriteArrayList<Candy> foods = (CopyOnWriteArrayList<Candy>) Main.getSimulationArea().getCandies();
 		for (final Candy food : foods) {
 			if (food.isFound()) // this food currently belongs to another ant
 				continue;

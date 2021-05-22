@@ -55,7 +55,7 @@ public final class PoisonousCandy extends Candy implements Poisonable {
 		// remove this food from the area
 		final var simulationArea = Main.getSimulationArea();
 		Platform.runLater(() -> simulationArea.getChildren().remove(this.img));
-		simulationArea.getFoods().remove(this);
+		simulationArea.getCandies().remove(this);
 	}
 
 	/**
