@@ -28,14 +28,6 @@ public final class FlashAnt extends Ant {
 	}
 
 	/**
-	 * Plays dying sound.
-	 */
-	@Override
-	public void playOutroSound() {
-		outroPlayer.play();
-	}
-
-	/**
 	 * Does nothing since flash ants move straight.
 	 */
 	@Override

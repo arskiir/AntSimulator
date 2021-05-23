@@ -30,64 +30,58 @@ public class Ant implements Renderable, Restartable {
 	}
 
 	/** The vector representation of the ant's velocity. */
-	protected Vector velocity;
+	private Vector velocity;
 
 	/** The vector representation of the ant's position. */
-	protected Vector position;
+	private Vector position;
 
 	/** The last seen position vector of a candy. */
-	protected Vector lastSeenPosition;
+	private Vector lastSeenPosition;
 
 	/** The magnitude of the ant's velocity. */
-	protected double speed;
+	private double speed;
 
 	/** The image representation of the ant. */
-	protected ImageView img;
+	private ImageView img;
 
 	/** The find food thread. */
-	protected Thread settingOffJourneyThread;
-
-	/**
-	 * The steps that the ant has moved, i.e. the number of iterations that the
-	 * ant's findFoodThread
-	 */
-	protected int steps;
+	private Thread settingOffJourneyThread;
 
 	/** This tells if a piece of candy is within the ant's sight or not. */
-	protected boolean hasFoundCandy;
+	private boolean hasFoundCandy;
 
 	/** This tells if the food is within the ant's reach. */
-	protected boolean hasReachedCandy;
+	private boolean hasReachedCandy;
 
 	/** The candy that the ant's going to grab or currently bringing home. */
-	protected Candy foundCandy;
+	private Candy foundCandy;
 
 	/** The number of candies that the ant has brought home so far. */
-	protected int broughtHomeCount;
+	private int broughtHomeCount;
 
 	/**
 	 * A fire ant reproduces if broughtHomeCount is a multiple of this value, i.e.
 	 * broughtHomeCount % multipleReproduce = 0
 	 */
-	protected int multipleReproduce;
+	private int multipleReproduce;
 
 	/**
 	 * The angle in degree that the ant can see across. The higher of this value,
 	 * the wider the ant can see.
 	 */
-	protected double visionSpan;
+	private double visionSpan;
 
 	/**
 	 * The depth in pixel that the ant can see. The higher of this value, the longer
 	 * distance the ant can see.
 	 */
-	protected double visionDepth;
+	private double visionDepth;
 
 	/**
 	 * After the ant bringing candy home, the player gets the amount of money of
 	 * moneyMultiplier * the cost of a piece of candy.
 	 */
-	protected double moneyMultiplier;
+	private double moneyMultiplier;
 
 	/** A media player instance that plays when the ant is created. */
 	protected MediaPlayer introPlayer;
@@ -105,7 +99,7 @@ public class Ant implements Renderable, Restartable {
 	 * This is used to generate random numbers, mainly in randomizing the velocity
 	 * vector direction.
 	 */
-	protected static final Random random = new Random();
+	private static final Random random = new Random();
 
 	/** Instantiates a new default ant. */
 	public Ant() {
@@ -135,7 +129,6 @@ public class Ant implements Renderable, Restartable {
 	 */
 	private void setupCommon(double speedMultiplier) {
 		this.revive();
-		this.steps = 0;
 		this.broughtHomeCount = 0;
 		this.multipleReproduce = 10;
 		this.position = new Vector(SimulationArea.origin);
@@ -405,7 +398,6 @@ public class Ant implements Renderable, Restartable {
 		// changes position
 		this.position.setX(this.position.getX() + this.velocity.getX());
 		this.position.setY(this.position.getY() + this.velocity.getY());
-		this.steps++;
 	}
 
 	/**
