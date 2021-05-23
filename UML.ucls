@@ -21,7 +21,7 @@
   </interface>  
   <interface id="3" language="java" name="entity.base.Restartable" project="AntSimulation" 
     file="/AntSimulation/src/entity/base/Restartable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="719" y="128"/>    
+    <position height="-1" width="-1" x="724" y="122"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

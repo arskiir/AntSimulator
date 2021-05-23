@@ -193,7 +193,10 @@ public class Ant implements Renderable, Restartable {
 							((Poisonable) this.foundCandy).poison(this);
 
 						if (this.hasReachedHome()) {
-							this.deliverCandy();
+							final var simulationArea = Main.getSimulationArea();
+							final var controlBar = Main.getControlBar();
+							this.deliverCandy(simulationArea, controlBar);
+							this.reproduce(simulationArea, controlBar);
 							this.isHeadingToHome = false;
 							this.headToLastSeenPosition();
 						}
@@ -248,9 +251,11 @@ public class Ant implements Renderable, Restartable {
 	/**
 	 * Delivers candy. This removes the existence of a recently brought candy and
 	 * update status values.
+	 * 
+	 * @param simulationArea the simulation area
+	 * @param controlBar     the control bar
 	 */
-	private void deliverCandy() {
-		final var simulationArea = Main.getSimulationArea();
+	private void deliverCandy(SimulationArea simulationArea, ControlBar controlBar) {
 		Platform.runLater(() -> {
 			final ImageView foundFoodImage = this.foundCandy.getImg();
 			foundFoodImage.setVisible(false);
@@ -261,12 +266,9 @@ public class Ant implements Renderable, Restartable {
 		});
 
 		++this.broughtHomeCount;
-		final var controlBar = Main.getControlBar();
 		controlBar.setBroughtHomeCandyCount(controlBar.getBroughtHomeCandyCount() + 1);
 		controlBar.setMoney(controlBar.getMoney() + controlBar.getFoodCost() * this.moneyMultiplier);
 		controlBar.rerender();
-
-		this.reproduce(simulationArea, controlBar);
 	}
 
 	/**
