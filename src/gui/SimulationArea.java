@@ -12,6 +12,7 @@ import entity.derived.FlashAnt;
 import entity.derived.PoisonousCandy;
 import entity.base.Candy;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -88,6 +89,9 @@ public class SimulationArea extends Pane {
 	 */
 	private void setupCreateCandyEventListeners() {
 		this.setOnMouseDragged(e -> {
+			if (isMouseOverTheTopBorder(e))
+				return;
+
 			this.dragCount++;
 			var controlBar = Main.getControlBar();
 			if (this.dragCount % SimulationArea.dragMultiple == 0 && Main.isActive()
@@ -105,6 +109,17 @@ public class SimulationArea extends Pane {
 				controlBar.rerender();
 			}
 		});
+	}
+
+	/**
+	 * Checks if the mouse event position is about to go over the top edge of the pane
+	 *
+	 * @param e the mouse event
+	 * @return true, if the mouse event y is about to become negative, i.e. over the
+	 *         top edge of the pane, else false.
+	 */
+	private boolean isMouseOverTheTopBorder(MouseEvent e) {
+		return e.getY() < 1;
 	}
 
 	/**
