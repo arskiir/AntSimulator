@@ -173,7 +173,7 @@ public class Ant implements Renderable, Restartable {
 	 * Starts the ant's life long journey consisting of moving, looking for candy,
 	 * bringing it home, repeat, or eating a poisonous candy and die.
 	 */
-	protected void start() {
+	private void start() {
 		while (true) {
 			try {
 				Thread.sleep(10);
@@ -315,7 +315,7 @@ public class Ant implements Renderable, Restartable {
 	 * Replaces the ant's velocity with a new velocity whose only difference is the
 	 * direction that now points to home.
 	 */
-	protected void headToHome() {
+	private void headToHome() {
 		final var antToHome = this.getAntToHomeVector();
 		this.velocity = Vector.createVector2FromAngle(antToHome.getAngle(), this.speed);
 	}
@@ -325,7 +325,7 @@ public class Ant implements Renderable, Restartable {
 	 *
 	 * @return the ant-to-home vector
 	 */
-	protected Vector getAntToHomeVector() {
+	private Vector getAntToHomeVector() {
 		return new Vector(SimulationArea.origin.getX() - this.position.getX(),
 				SimulationArea.origin.getY() - this.position.getY(), 0d);
 	}
@@ -336,7 +336,7 @@ public class Ant implements Renderable, Restartable {
 	 * @return true, if the found candy is reachable, i.e. within 5 pixel range,
 	 *         else false.
 	 */
-	protected boolean isCandyReachable() {
+	private boolean isCandyReachable() {
 		// return true if the food is now within a small range from the ant
 		final double range = 5;
 		return this.getAntToCandyVector().modulus() <= range;
@@ -346,7 +346,7 @@ public class Ant implements Renderable, Restartable {
 	 * Replaces the ant's velocity with a new velocity whose only difference is the
 	 * direction that now points to the found candy.
 	 */
-	protected void headToCandy() {
+	private void headToCandy() {
 		// make the velocity point to the food position
 		final var antToFood = this.getAntToCandyVector();
 		this.velocity = Vector.createVector2FromAngle(antToFood.getAngle(), this.speed);
@@ -357,7 +357,7 @@ public class Ant implements Renderable, Restartable {
 	 *
 	 * @return the ant to food vector
 	 */
-	protected Vector getAntToCandyVector() {
+	private Vector getAntToCandyVector() {
 		final Vector foodPos = this.foundCandy.getPosition();
 		return new Vector(foodPos.getX() - this.position.getX(), foodPos.getY() - this.position.getY(), 0d);
 	}
@@ -369,7 +369,7 @@ public class Ant implements Renderable, Restartable {
 	 *
 	 * @return the found candy, if the conditions are met, else null.
 	 */
-	protected Candy lookForCandy() {
+	private Candy lookForCandy() {
 		// return the first food in the array that is on sight
 		// return null if there's no food on sight
 
@@ -401,7 +401,7 @@ public class Ant implements Renderable, Restartable {
 	/**
 	 * Updates the ant's position vector and the number of steps.
 	 */
-	protected void updatePosition() {
+	private void updatePosition() {
 		// changes position
 		this.position.setX(this.position.getX() + this.velocity.getX());
 		this.position.setY(this.position.getY() + this.velocity.getY());
@@ -427,7 +427,7 @@ public class Ant implements Renderable, Restartable {
 	 * 
 	 * @return true, if the ant bounces off the wall, else false
 	 */
-	protected boolean bounceWallIfNecessary() {
+	private boolean bounceWallIfNecessary() {
 		var hasBounced = false;
 
 		if (this.position.getX() < 0) {
@@ -455,7 +455,7 @@ public class Ant implements Renderable, Restartable {
 	/**
 	 * Updates the ant's overall movement.
 	 */
-	public void update() {
+	private void update() {
 		this.updatePosition();
 		this.randomizeDirection();
 		if (this.bounceWallIfNecessary())
@@ -483,7 +483,7 @@ public class Ant implements Renderable, Restartable {
 	 * Updates the ant's position and re-render, and if it has found a candy,
 	 * re-render the candy as well.
 	 */
-	protected void move() {
+	private void move() {
 		update();
 		rerender();
 		if (this.hasReachedCandy)

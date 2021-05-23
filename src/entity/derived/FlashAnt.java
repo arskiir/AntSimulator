@@ -4,7 +4,6 @@ import entity.base.Ant;
 import gui.ControlBar;
 import gui.SimulationArea;
 import utils.Sound;
-import utils.Vector;
 
 /**
  * The Class FlashAnt. A special type of ant that moves faster but gives less
