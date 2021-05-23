@@ -16,16 +16,8 @@ public final class FlashAnt extends Ant {
 	 * Instantiates a new flash ant.
 	 */
 	public FlashAnt() {
-		super();
-		this.speed *= 5;
-		this.velocity = Vector.createVector2FromAngle(this.velocity.getAngle(), this.speed);
-		this.visionSpan = 15; // see less than fire ant
-		this.visionDepth = 40;
-		this.moneyMultiplier = 1.2;
-		this.setupImage("flash-ant.png");
-
+		super(5, 15, 40, 1.2, "flash-ant.png", "oof_loud.mp3", .05);
 		this.introPlayer = Sound.getMediaPlayer("dejavu.wav", .5);
-		this.outroPlayer = Sound.getMediaPlayer("oof_loud.mp3", .05);
 	}
 
 	/**

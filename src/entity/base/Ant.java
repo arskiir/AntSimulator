@@ -71,9 +71,6 @@ public class Ant implements Renderable, Restartable {
 	 */
 	protected int multipleReproduce;
 
-	/** The height of the image representation of the ant. */
-	protected double antHeight;
-
 	/**
 	 * The angle in degree that the ant can see across. The higher of this value,
 	 * the wider the ant can see.
@@ -110,23 +107,42 @@ public class Ant implements Renderable, Restartable {
 	 */
 	protected static final Random random = new Random();
 
-	/**
-	 * Instantiates a new ant. Sets default states of the ant.
-	 */
+	/** Instantiates a new default ant. */
 	public Ant() {
-		this.revive();
-		this.outroPlayer = Sound.getMediaPlayer("oof.wav", .5);
-		this.steps = 0;
-		this.broughtHomeCount = 0;
-		this.multipleReproduce = 10;
+		this.setupCommon(1d);
 		this.visionSpan = 90d;
 		this.visionDepth = 100d;
 		this.moneyMultiplier = 1.5;
+		this.setupImage("ant.png");
+		this.outroPlayer = Sound.getMediaPlayer("oof.wav", .5);
+	}
+
+	/**
+	 * Constructor for flash ant to call as super( ... ).
+	 */
+	public Ant(int speedMultiplier, int visionSpan, int visionDepth, double moneyMultiplier, String imageName,
+			String dyingSoundFileNameString, double dyingSoundVolume) {
+		this.setupCommon(speedMultiplier);
+		this.visionSpan = visionSpan;
+		this.visionDepth = visionDepth;
+		this.moneyMultiplier = moneyMultiplier;
+		this.setupImage(imageName);
+		this.outroPlayer = Sound.getMediaPlayer(dyingSoundFileNameString, dyingSoundVolume);
+	}
+
+	/**
+	 * Sets up common values between different kinds of ants.
+	 */
+	private void setupCommon(double speedMultiplier) {
+		this.revive();
+		this.steps = 0;
+		this.broughtHomeCount = 0;
+		this.multipleReproduce = 10;
 		this.position = new Vector(SimulationArea.origin);
-		this.speed = 1d; // for normal ants
+		this.speed = 1d;
+		this.speed *= speedMultiplier;
 		this.velocity = Vector.createVector2FromAngle(random.nextDouble() * 360, this.speed);
 		this.settingOffJourneyThread = new Thread(() -> this.start());
-		this.setupImage("ant.png");
 	}
 
 	/**
@@ -148,8 +164,8 @@ public class Ant implements Renderable, Restartable {
 	 */
 	protected void setupImage(String imageName) {
 		this.img = new ImageView(ClassLoader.getSystemResource(imageName).toExternalForm());
-		this.antHeight = 15;
-		this.img.setFitHeight(this.antHeight);
+		final var antHeight = 15;
+		this.img.setFitHeight(antHeight);
 		this.img.setPreserveRatio(true);
 	}
 
