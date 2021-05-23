@@ -89,7 +89,7 @@ public class ControlBar extends HBox implements Renderable, Restartable {
 	 * The media player that plays when the population size first reaches a certain
 	 * number.
 	 */
-	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("megalovania_intro.mp3", .2);
+	private static final MediaPlayer outroPlayer = Sound.getMediaPlayer("megalovania_intro.mp3", .4);
 
 	/**
 	 * The media player that plays when the amount of money first reaches a certain
