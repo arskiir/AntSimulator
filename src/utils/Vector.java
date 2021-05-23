@@ -50,28 +50,28 @@ public class Vector {
 	 *
 	 * @param angle  the angle in degree
 	 * @param length the length of the vector
-	 * @return the vector
+	 * @return the vector with the angle and the length
 	 */
 	public static Vector createVector2FromAngle(double angle, double length) {
 		return new Vector(Math.cos(angle * Math.PI / 180) * length, Math.sin(angle * Math.PI / 180) * length, 0);
 	}
 
 	/**
-	 * Reverse Y.
+	 * y component *= -1.
 	 */
 	public void reverseY() {
 		this.y = this.y * -1;
 	}
 
 	/**
-	 * Reverse X.
+	 * x component *= -1.
 	 */
 	public void reverseX() {
 		this.x = this.x * -1;
 	}
 
 	/**
-	 * Reverse Z.
+	 * z component *= -1.
 	 */
 	public void reverseZ() {
 		this.z = this.z * -1;
@@ -246,7 +246,7 @@ public class Vector {
 	}
 
 	/**
-	 * returns the angle in degree between x and y.
+	 * returns the angle in x-y plane in degree.
 	 *
 	 * @return the angle in degree
 	 */
