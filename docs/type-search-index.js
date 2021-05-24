@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"exception","l":"NoImageException"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"entity.base","l":"Ant"},{"p":"entity.base","l":"Ant.AntType"},{"p":"entity.base","l":"Candy"},{"p":"entity.base","l":"Poisonable"},{"p":"entity.base","l":"Renderable"},{"p":"entity.base","l":"Restartable"}];updateSearchResults();
