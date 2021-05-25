@@ -368,7 +368,8 @@ public class Ant implements Renderable, Restartable {
 		// return the first food in the array that is on sight
 		// return null if there's no food on sight
 
-		final var lower = Vector.createVector2FromAngle(this.velocity.getAngle() - this.visionSpan / 2,
+		final var vAngle = this.velocity.getAngle();
+		final var lower = Vector.createVector2FromAngle(vAngle - this.visionSpan / 2,
 				this.visionDepth);
 		final var upper = Vector.createVector2FromAngle(lower.getAngle() + this.visionSpan, this.visionDepth);
 
@@ -382,8 +383,8 @@ public class Ant implements Renderable, Restartable {
 					foodPos.getY() - this.position.getY(), 0d);
 
 			final boolean isWithinRange = antToFood.modulus() <= upper.modulus();
-			final boolean isWithinSpan = upper.getAngle() >= this.velocity.getAngle()
-					&& this.velocity.getAngle() >= lower.getAngle();
+			final boolean isWithinSpan = upper.getAngle() >= vAngle
+					&& vAngle >= lower.getAngle();
 
 			if (isWithinRange && isWithinSpan) {
 				food.setFound(true); // to tell other ants not to mess with this food
